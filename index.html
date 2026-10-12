@@ -5,205 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>EuroScan</title>
 <style>
-:root {
-  --bleu: #003399;
-  --bleu-fonce: #001f5c;
-  --or: #FFD700;
-}
+:root { --bleu:#003399; --bleu-fonce:#001f5c; --or:#FFD700; --vert:#22c55e; --rouge:#ef4444; --orange:#f59e0b; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #000;
-  color: #fff;
-  overflow: hidden;
-}
-#camera {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-.cadre-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cadre {
-  position: relative;
-  width: 85%;
-  max-width: 400px;
-  height: 40vh;
-  border: 2px dashed #fff;
-  border-radius: 16px;
-  box-shadow: 0 0 0 100vmax rgba(0,0,0,0.55);
-}
-.ligne-scan {
-  position: absolute;
-  left: 0; right: 0;
-  height: 3px;
-  background: var(--or);
-  box-shadow: 0 0 12px var(--or);
-  animation: scan 2.5s ease-in-out infinite;
-}
-@keyframes scan {
-  0% { top: 0; }
-  50% { top: calc(100% - 3px); }
-  100% { top: 0; }
-}
-.coin {
-  position: absolute;
-  width: 30px; height: 30px;
-  border: 5px solid var(--or);
-}
-.coin-hg { top: -4px; left: -4px; border-right: none; border-bottom: none; border-top-left-radius: 16px; }
-.coin-hd { top: -4px; right: -4px; border-left: none; border-bottom: none; border-top-right-radius: 16px; }
-.coin-bg { bottom: -4px; left: -4px; border-right: none; border-top: none; border-bottom-left-radius: 16px; }
-.coin-bd { bottom: -4px; right: -4px; border-left: none; border-top: none; border-bottom-right-radius: 16px; }
-
-.entete {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0));
-  z-index: 10;
-}
-.logo { display: flex; align-items: center; gap: 8px; font-weight: 700; }
-.logo-rond {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  background: var(--bleu);
-  border: 2px solid var(--or);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-entete {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-}
-.controles {
-  position: fixed;
-  bottom: 24px;
-  left: 0; right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 28px;
-  z-index: 10;
-}
-.btn-scan {
-  width: 74px; height: 74px;
-  border-radius: 50%;
-  background: var(--or);
-  border: 4px solid #fff;
-  font-size: 28px;
-  cursor: pointer;
-}
-.btn-scan:active { transform: scale(0.92); }
-.btn-scan:disabled { opacity: 0.5; }
-.btn-cote {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  font-size: 18px;
-}
-
-.ecran {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: var(--bleu-fonce);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-  text-align: center;
-  z-index: 100;
-}
-.ecran.cache { display: none; }
-.ecran h1 { color: var(--or); font-size: 24px; margin-bottom: 12px; }
-.ecran p { opacity: 0.85; margin-bottom: 24px; line-height: 1.5; font-size: 15px; }
-.ecran button {
-  background: var(--or);
-  color: var(--bleu-fonce);
-  border: none;
-  padding: 14px 32px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: 700;
-}
-.erreur { color: #ff8080; font-size: 13px; margin-top: 16px; }
-
-.apercu {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 50;
-  background: #000;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
-}
-.apercu.visible { display: flex; }
-.apercu img {
-  max-width: 90%;
-  max-height: 35vh;
-  border-radius: 12px;
-  border: 3px solid var(--or);
-}
-.bloc-resultat {
-  margin-top: 20px;
-  background: rgba(0,31,92,0.95);
-  border: 2px solid var(--or);
-  border-radius: 18px;
-  padding: 16px 24px;
-  text-align: center;
-  min-width: 240px;
-}
-.bloc-resultat .drapeau { font-size: 36px; }
-.bloc-resultat .devise { font-size: 14px; opacity: 0.85; margin-bottom: 4px; }
-.bloc-resultat .valeur { font-size: 36px; font-weight: 800; color: var(--or); }
-.bloc-resultat .info { font-size: 11px; opacity: 0.6; margin-top: 8px; }
-.apercu .btn-fermer {
-  margin-top: 18px;
-  background: var(--or);
-  color: var(--bleu-fonce);
-  border: none;
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: 700;
-}
-.chargement { display: none; flex-direction: column; align-items: center; margin-top: 20px; }
-.chargement.visible { display: flex; }
-.spinner {
-  width: 40px; height: 40px;
-  border: 4px solid rgba(255,215,0,0.3);
-  border-top-color: var(--or);
-  border-radius: 50%;
-  animation: rotation 0.8s linear infinite;
-}
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #000; color: #fff; overflow: hidden; }
+#camera { position: fixed; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index: 1; }
+.cadre-overlay { position: fixed; top:0; left:0; width:100%; height:100%; z-index: 2; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+.cadre { position: relative; width: 88%; max-width: 420px; height: 42vh; border: 2px dashed #fff; border-radius: 16px; box-shadow: 0 0 0 100vmax rgba(0,0,0,0.55); }
+.ligne-scan { position: absolute; left:0; right:0; height:3px; background: var(--or); box-shadow: 0 0 12px var(--or); animation: scan 2.5s ease-in-out infinite; }
+@keyframes scan { 0%{top:0} 50%{top:calc(100% - 3px)} 100%{top:0} }
+.coin { position: absolute; width:30px; height:30px; border:5px solid var(--or); }
+.coin-hg { top:-4px; left:-4px; border-right:none; border-bottom:none; border-top-left-radius:16px; }
+.coin-hd { top:-4px; right:-4px; border-left:none; border-bottom:none; border-top-right-radius:16px; }
+.coin-bg { bottom:-4px; left:-4px; border-right:none; border-top:none; border-bottom-left-radius:16px; }
+.coin-bd { bottom:-4px; right:-4px; border-left:none; border-top:none; border-bottom-right-radius:16px; }
+.entete { position: fixed; top:0; left:0; right:0; height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0)); z-index:10; }
+.logo { display:flex; align-items:center; gap:8px; font-weight:700; }
+.logo-rond { width:30px; height:30px; border-radius:50%; background: var(--bleu); border:2px solid var(--or); display:flex; align-items:center; justify-content:center; }
+.btn-entete { background: rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:6px 12px; border-radius:20px; font-size:13px; }
+.controles { position: fixed; bottom:24px; left:0; right:0; display:flexec; justify-content:center; align-items:center; gapran:28px; z-index:10; button }
+.btn-scan { width:74px; height:74px; border-radius:50%; background: var(--or); border:4px solid #fff; font-size:28px; cursor:pointer; }
+.btn-scan:active { transform: { scale(0.92); }
+.btn-scan:disabled background { opacity:0.5; }
+:.btn-cote { width:48px; height:48px; border-radius:50%; background: rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:18px; }
+.ecran { position: fixed; top:0; left:0; right:0; bottom:0; background: var(--bleu-fonce); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px; text-align:center; z-index:100; }
+.ecran.cache { display:none; }
+.ecran h1 { color: var(--or); font-size:24px; margin-bottom:12px; }
+.ecran p { opacity:0.85; margin-bottom:24px; line-height:1.5; font-size:15px; }
+. var(--or); color: var(--bleu-fonce); border:none; padding:14px 32px; border-radius:30px; font-size:16px; font-weight:700; }
+.erreur { color:#ff8080; font-size:13px; margin-top:16px; }
+.apercu { position: fixed; top:0; left:0; right:0; bottom:0; z-index:50; background:#000; display:none; flex-direction:column; align-items:center; justify-content:flex-start; padding:20px; overflow-y:auto; }
+.apercu.visible { display:flex; }
+.apercu img { max-width:90%; max-height:30vh; border-radius:12px; border:3px solid var(--or); margin-top:10px; }
+.bloc-resultat { margin-top:16px; background: rgba(0,31,92,0.95); border:2px solid var(--or); border-radius:18px; padding:16px 24px; text-align:center; min-width:260px; max-width:90%; }
+.bloc-resultat .drapeau { font-size:36px; }
+.bloc-resultat .devise { font-size:14px; opacity:0.85; margin-bottom:4px; }
+.bloc-resultat .valeur { font-size:36px; font-weight:800; color: var(--or); }
+.badge { display:inline-block; padding:6px 14px; border-radius:20px; font-size:13px; font-weight:700; margin-top:12px; }
+.badge-ok { background: rgba(34,197,94,0.2); color: var(--vert); border:1px solid var(--vert); }
+.badge-warn { background: rgba(245,158,11,0.2); color: var(--orange); border:1px solid var(--orange); }
+.badge-danger { background: rgba(239,68,68,0.2); color: var(--rouge); border:1px solid var(--rouge); }
+.details { font-size:12px; opacity:0.75; margin-top:12px; line-height:1.4; text-align:left; }
+.apercu .btn-fermer { margin-top:18px; margin-bottom:20px; background: var(--or); color: var(--bleu-fonce); border:none; padding:12px 28px; border-radius:30px; font-size:15px; font-weight:700; }
+.chargement { display:none; flex-direction:column; align-items:center; margin-top:16px; }
+.chargement.visible { display:flex; }
+.spinner { width:40px; height:40px; border:4px solid rgba(255,215,0,0.3); border-top-color: var(--or); border-radius:50%; animation: rotation 0.8s linear infinite; }
 @keyframes rotation { to { transform: rotate(360deg); } }
-.chargement p { margin-top: 12px; font-size: 14px; color: var(--or); }
+.chargement p { margin-top:12px; font-size:14px; color: var(--or); }
 </style>
 </head>
 <body>
@@ -211,16 +58,13 @@ html, body {
 <div class="ecran" id="ecran-demarrage">
   <div style="font-size:56px; margin-bottom:16px;">💶</div>
   <h1>EuroScan</h1>
-  <p>Autorisez la caméra pour identifier les billets<br>EUR, CHF, USD et GBP.</p>
+  <p>Lecteur et détecteur de billets<br>EUR · CHF · USD · GBP</p>
   <button id="btn-demarrer">Activer la caméra</button>
   <div class="erreur" id="message-erreur"></div>
 </div>
 
 <div class="entete">
-  <div class="logo">
-    <div class="logo-rond">€</div>
-    <span>EuroScan</span>
-  </div>
+  <div class="logo"><div class="logo-rond">€</div><span>EuroScan</span></div>
   <button class="btn-entete" id="btn-flash-haut">⚡ Flash</button>
 </div>
 
@@ -229,10 +73,8 @@ html, body {
 <div class="cadre-overlay">
   <div class="cadre">
     <div class="ligne-scan"></div>
-    <div class="coin coin-hg"></div>
-    <div class="coin coin-hd"></div>
-    <div class="coin coin-bg"></div>
-    <div class="coin coin-bd"></div>
+    <div class="coin coin-hg"></div><div class="coin coin-hd"></div>
+    <div class="coin coin-bg"></div><div class="coin coin-bd"></div>
   </div>
 </div>
 
@@ -240,13 +82,14 @@ html, body {
   <img id="photo" alt="Photo du billet">
   <div class="chargement" id="chargement">
     <div class="spinner"></div>
-    <p id="texte-chargement">Analyse par l'IA en cours...</p>
+    <p id="texte-chargement">Analyse du billet en cours...</p>
   </div>
   <div class="bloc-resultat" id="bloc-resultat" style="display:none;">
     <div class="drapeau" id="drapeau">🇪🇺</div>
     <div class="devise" id="devise">—</div>
     <div class="valeur" id="valeur">—</div>
-    <div class="info" id="info">—</div>
+    <div id="badge-container"></div>
+    <div class="details" id="details"></div>
   </div>
   <button class="btn-fermer" id="btn-fermer">Nouveau scan</button>
 </div>
@@ -258,7 +101,7 @@ html, body {
 </div>
 
 <script>
-// ⚠️ COLLE TA CLÉ AGNES ICI entre les guillemets :
+// ⚠️ COLLE TA CLÉ AGNES ICI
 var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
 
 (function() {
@@ -271,9 +114,7 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
   function $(id) { return document.getElementById(id); }
 
   function demarrerCamera() {
-    if (stream) {
-      stream.getTracks().forEach(function(t) { t.stop(); });
-    }
+    if (stream) stream.getTracks().forEach(function(t){ t.stop(); });
     navigator.mediaDevices.getUserMedia({
       video: { facingMode: facing, width: { ideal: 1920 }, height: { ideal: 1080 } },
       audio: false
@@ -297,7 +138,6 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
   }
 
   $('btn-demarrer').addEventListener('click', demarrerCamera);
-
   $('btn-switch').addEventListener('click', function() {
     facing = (facing === 'environment') ? 'user' : 'environment';
     demarrerCamera();
@@ -309,7 +149,7 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
     var caps = track.getCapabilities ? track.getCapabilities() : {};
     if (!caps.torch) { alert('Flash non disponible sur cet appareil.'); return; }
     flashAllume = !flashAllume;
-    track.applyConstraints({ advanced: [{ torch: flashAllume }] }).catch(function() {});
+    track.applyConstraints({ advanced: [{ torch: flashAllume }] }).catch(function(){});
   }
   $('btn-flash-haut').addEventListener('click', basculerFlash);
   $('btn-flash-bas').addEventListener('click', basculerFlash);
@@ -317,14 +157,12 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
   btnScan.addEventListener('click', function() {
     if (!stream) { alert('Activez d\'abord la caméra.'); return; }
 
-    // Effet flash blanc
     var flash = document.createElement('div');
     flash.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:40;opacity:0.8;transition:opacity 0.3s;pointer-events:none;';
     document.body.appendChild(flash);
-    setTimeout(function() { flash.style.opacity = '0'; }, 50);
-    setTimeout(function() { flash.remove(); }, 400);
+    setTimeout(function(){ flash.style.opacity = '0'; }, 50);
+    setTimeout(function(){ flash.remove(); }, 400);
 
-    // Capture photo
     var canvas = document.createElement('canvas');
     canvas.width = video.videoWidth || 1080;
     canvas.height = video.videoHeight || 1920;
@@ -333,33 +171,48 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
     var dataURL = canvas.toDataURL('image/jpeg', 0.85);
     $('photo').src = dataURL;
 
-    // Afficher aperçu
     $('apercu').classList.add('visible');
     $('chargement').classList.add('visible');
-    $('texte-chargement').textContent = 'Analyse par Agnes AI...';
+    $('texte-chargement').textContent = 'Analyse du billet en cours...';
     $('bloc-resultat').style.display = 'none';
+    $('badge-container').innerHTML = '';
+    $('details').textContent = '';
     btnScan.disabled = true;
 
-    analyserPhoto(dataURL, btnScan);
+    analyserBillet(dataURL, btnScan);
   });
 
   $('btn-fermer').addEventListener('click', function() {
     $('apercu').classList.remove('visible');
   });
 
-  function analyserPhoto(dataURL, btn) {
+  function analyserBillet(dataURL, btn) {
     if (!AGNES_API_KEY || AGNES_API_KEY.indexOf('REMPLACE') !== -1) {
       $('chargement').classList.remove('visible');
       $('bloc-resultat').style.display = 'block';
       $('valeur').textContent = 'Clé manquante';
       $('devise').textContent = 'Ajoute ta clé Agnes dans le code';
       $('drapeau').textContent = '🔑';
-      $('info').textContent = 'Ligne AGNES_API_KEY';
+      $('details').textContent = 'Cherche AGNES_API_KEY dans le code';
       btn.disabled = false;
       return;
     }
 
-    var prompt = 'Quelle est la valeur et la devise de ce billet de banque ? Réponds UNIQUEMENT par la valeur numérique suivie du symbole (exemples : 5€, 10€, 20€, 50€, 100€, 200€, 500€, 10CHF, 20CHF, 50CHF, 100CHF, 1$, 5$, 10$, 20$, 50$, 100$, 5£, 10£, 20£, 50£). Rien d\'autre.';
+    var prompt = 'Tu es un expert en vérification de billets de banque. Analyse ce billet.\n\n' +
+      'Réponds EXACTEMENT dans ce format JSON (rien d\'autre autour) :\n' +
+      '{\n' +
+      '  "valeur": "50",\n' +
+      '  "symbole": "€",\n' +
+      '  "authentique": "oui" ou "douteux" ou "suspect",\n' +
+      '  "confiance": 0 à 100,\n' +
+      '  "raison": "courte explication en français (max 100 caractères)"\n' +
+      '}\n\n' +
+      'Règles :\n' +
+      '- valeur : nombre uniquement (ex: "5", "10", "20", "50", "100", "200", "500")\n' +
+      '- symbole : "€", "CHF", "$" ou "£"\n' +
+      '- authentique : "oui" si le billet semble authentique, "douteux" si impossible à dire, "suspect" si signes de contrefaçon visibles\n' +
+      '- confiance : ta certitude en pourcentage\n' +
+      '- raison : éléments visuels observés (filigrane, hologramme, impression, couleur)';
 
     fetch('https://apihub.agnes-ai.com/v1/chat/completions', {
       method: 'POST',
@@ -370,60 +223,82 @@ var AGNES_API_KEY = "sk-REMPLACE-MOI-PAR-TA-CLE";
       body: JSON.stringify({
         model: 'agnes-3.0-flash',
         messages: [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: prompt },
-              { type: 'image_url', image_url: { url: dataURL } }
-            ]
-          }
+          { role: 'user', content: [
+            { type: 'text', text: prompt },
+            { type: 'image_url', image_url: { url: dataURL } }
+          ]}
         ],
-        max_tokens: 50
+        max_tokens: 300
       })
     })
     .then(function(res) {
-      if (!res.ok) {
-        return res.text().then(function(t) {
-          throw new Error('HTTP ' + res.status + ' : ' + t.substring(0, 100));
-        });
-      }
+      if (!res.ok) return res.text().then(function(t){ throw new Error('HTTP ' + res.status + ' : ' + t.substring(0,100)); });
       return res.json();
     })
     .then(function(data) {
-      var resultat = '';
+      var texte = '';
       if (data && data.choices && data.choices[0] && data.choices[0].message) {
-        resultat = data.choices[0].message.content || '';
+        texte = data.choices[0].message.content || '';
       }
-      resultat = String(resultat).trim();
-      var match = resultat.match(/(\d+)\s*(€|CHF|\$|£)/);
+      texte = String(texte).trim();
 
-      if (match) {
-        var valeur = match[1];
-        var symbole = match[2];
-        var configs = {
-          '€':   { nom: 'Euro',           drapeau: '🇪🇺' },
-          'CHF': { nom: 'Franc suisse',   drapeau: '🇨🇭' },
-          '$':   { nom: 'Dollar US',      drapeau: '🇺🇸' },
-          '£':   { nom: 'Livre sterling', drapeau: '🇬🇧' }
-        };
-        var c = configs[symbole] || { nom: 'Inconnu', drapeau: '🏳️' };
-        $('valeur').textContent = valeur + ' ' + symbole;
-        $('devise').textContent = c.nom;
-        $('drapeau').textContent = c.drapeau;
-        $('info').textContent = 'Analysé par Agnes AI';
-      } else {
-        $('valeur').textContent = resultat.substring(0, 30);
-        $('devise').textContent = 'Réponse non reconnue';
-        $('drapeau').textContent = '🔍';
-        $('info').textContent = resultat.substring(0, 80);
+      // Extraire le JSON
+      var jsonMatch = texte.match(/\{[\s\S]*\}/);
+      var infos = null;
+      if (jsonMatch) {
+        try { infos = JSON.parse(jsonMatch[0]); } catch(e) { infos = null; }
       }
+
+      if (!infos) {
+        // Fallback : regex simple
+        var valMatch = texte.match(/(\d+)\s*(€|CHF|\$|£)/);
+        if (valMatch) {
+          infos = { valeur: valMatch[1], symbole: valMatch[2], authentique: 'douteux', confiance: 50, raison: texte.substring(0, 100) };
+        } else {
+          $('valeur').textContent = '—';
+          $('devise').textContent = 'Non reconnu';
+          $('drapeau').textContent = '🔍';
+          $('details').textContent = texte.substring(0, 150);
+          return;
+        }
+      }
+
+      var configs = {
+        '€':   { nom: 'Euro',           drapeau: '🇪🇺' },
+        'CHF': { nom: 'Franc suisse',   drapeau: '🇨🇭' },
+        '$':   { nom: 'Dollar US',      drapeau: '🇺🇸' },
+        '£':   { nom: 'Livre sterling', drapeau: '🇬🇧' }
+      };
+      var c = configs[infos.symbole] || { nom: 'Devise inconnue', drapeau: '🏳️' };
+
+      $('valeur').textContent = infos.valeur + ' ' + infos.symbole;
+      $('devise').textContent = c.nom;
+      $('drapeau').textContent = c.drapeau;
+
+      // Badge d'authenticité
+      var badge = '';
+      var statut = (infos.authentique || '').toLowerCase();
+      if (statut === 'oui') {
+        badge = '<div class="badge badge-ok">✅ Billet probablement authentique</div>';
+      } else if (statut === 'suspect') {
+        badge = '<div class="badge badge-danger">⚠️ Signes suspects détectés</div>';
+      } else {
+        badge = '<div class="badge badge-warn">❓ Analyse incertaine</div>';
+      }
+      $('badge-container').innerHTML = badge;
+
+      var details = '';
+      if (infos.raison) details += '👁 ' + infos.raison;
+      if (infos.confiance) details += '\n📊 Confiance : ' + infos.confiance + '%';
+      details += '\n\n⚠️ Analyse visuelle uniquement. Ne remplace pas un détecteur professionnel UV/IR.';
+      $('details').textContent = details;
     })
     .catch(function(error) {
-      console.error('Erreur Agnes:', error);
+      console.error('Erreur:', error);
       $('valeur').textContent = 'Erreur';
       $('devise').textContent = 'Analyse impossible';
       $('drapeau').textContent = '⚠️';
-      $('info').textContent = (error && error.message) ? error.message.substring(0, 100) : 'Réessayez';
+      $('details').textContent = (error && error.message) ? error.message.substring(0, 120) : 'Réessayez';
     })
     .then(function() {
       $('chargement').classList.remove('visible');
