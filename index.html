@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>EuroScan</title>
-<!-- Importation de la bibliothèque Puter.js -->
-<script src="https://js.puter.com/v2/"></script>
 <style>
   :root { --eu-blue:#003399; --eu-blue-dark:#001f5c; --eu-gold:#FFD700; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #000; color: #fff; overflow: hidden; }
+
   #camera { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+
   .overlay { position: fixed; inset: 0; z-index: 2; pointer-events: none; display: flex; align-items: center; justify-content: center; }
   .frame { position: relative; width: 85%; max-width: 420px; aspect-ratio: 2.2 / 1; border-radius: 16px; box-shadow: 0 0 0 100vmax rgba(0,0,0,0.55); border: 2px dashed rgba(255,255,255,0.9); overflow: hidden; }
   .scan-line { position: absolute; left: 0; right: 0; height: 3px; background: var(--eu-gold); box-shadow: 0 0 12px var(--eu-gold); animation: scanMove 2.2s ease-in-out infinite; }
@@ -20,15 +20,18 @@
   .corner.tr { top:-2px; right:-2px; border-left:none; border-bottom:none; border-top-right-radius:16px; }
   .corner.bl { bottom:-2px; left:-2px; border-right:none; border-top:none; border-bottom-left-radius:16px; }
   .corner.br { bottom:-2px; right:-2px; border-left:none; border-top:none; border-bottom-right-radius:16px; }
+
   .header { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0)); z-index: 10; }
   .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; }
   .logo-circle { width: 30px; height: 30px; border-radius: 50%; background: var(--eu-blue); border: 2px solid var(--eu-gold); display: flex; align-items: center; justify-content: center; }
   .header-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; }
+
   .controls { position: fixed; bottom: 24px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 28px; z-index: 10; }
   .btn-scan { width: 74px; height: 74px; border-radius: 50%; background: var(--eu-gold); border: 4px solid #fff; font-size: 28px; cursor: pointer; transition: transform 0.1s; }
   .btn-scan:active { transform: scale(0.92); }
-  .btn-scan:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-scan:disabled { opacity: 0.5; }
   .btn-side { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; }
+
   .preview { position: fixed; inset: 0; z-index: 50; background: #000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
   .preview.show { display: flex; }
   .preview img { max-width: 90%; max-height: 40%; border-radius: 12px; border: 3px solid var(--eu-gold); }
@@ -38,11 +41,13 @@
   .result-box .flag { font-size: 36px; }
   .result-box .conf { font-size: 11px; opacity: 0.6; margin-top: 8px; }
   .preview button { margin-top: 18px; background: var(--eu-gold); color: #001f5c; border: none; padding: 12px 28px; border-radius: 30px; font-size: 15px; font-weight: 700; }
+
   .loading { display: none; flex-direction: column; align-items: center; margin-top: 20px; }
   .loading.show { display: flex; }
   .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,215,0,0.3); border-top-color: var(--eu-gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading p { margin-top: 12px; font-size: 14px; color: var(--eu-gold); }
+
   .screen { position: fixed; inset: 0; background: var(--eu-blue-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; z-index: 100; }
   .screen.hidden { display: none; }
   .screen h1 { color: var(--eu-gold); font-size: 22px; margin-bottom: 10px; }
@@ -78,21 +83,16 @@
 
   <div class="preview" id="preview">
     <img id="capturedImg" alt="Photo du billet" />
-    
-    <!-- Section de chargement -->
     <div class="loading" id="loading">
       <div class="spinner"></div>
       <p>Analyse par l'IA en cours...</p>
     </div>
-
-    <!-- Section de résultat -->
     <div class="result-box" id="resultBox" style="display:none;">
       <div class="flag" id="flag">🇪🇺</div>
       <div class="devise" id="devise">—</div>
       <div class="valeur" id="valeur">—</div>
       <div class="conf" id="conf">—</div>
     </div>
-    
     <button id="btn-close-preview">Nouveau scan</button>
   </div>
 
@@ -102,139 +102,149 @@
     <button class="btn-side" id="btn-flash2">⚡</button>
   </div>
 
-<script>
-  const video = document.getElementById("camera");
-  const btnScan = document.getElementById("btn-scan");
-  let stream = null;
-  let facing = "environment";
-  let flashOn = false;
+  <!-- 1. Chargement de Puter.js -->
+  <script src="https://js.puter.com/v2/" defer></script>
 
-  // ---------- DÉMARRAGE DE LA CAMÉRA ----------
-  async function startCamera() {
-    try {
-      if (stream) stream.getTracks().forEach(t => t.stop());
-      stream = await navigator.mediaDevices.getUserMedia({
+  <!-- 2. Script principal après le chargement du DOM -->
+  <script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var video = document.getElementById('camera');
+    var btnScan = document.getElementById('btn-scan');
+    var stream = null;
+    var facing = 'environment';
+    var flashOn = false;
+
+    function $(id) { return document.getElementById(id); }
+
+    function startCamera() {
+      if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+      navigator.mediaDevices.getUserMedia({
         video: { facingMode: facing, width: { ideal: 1920 }, height: { ideal: 1080 } },
         audio: false
+      })
+      .then(function (s) {
+        stream = s;
+        video.srcObject = s;
+        return video.play();
+      })
+      .then(function () {
+        $('permission').classList.add('hidden');
+        $('err').textContent = '';
+      })
+      .catch(function (e) {
+        if (e.name === 'NotAllowedError') {
+          $('err').textContent = '❌ Permission refusée. Réglages → Safari → Caméra.';
+        } else {
+          $('err').textContent = '❌ ' + e.name + ' : ' + e.message;
+        }
       });
-      video.srcObject = stream;
-      await video.play();
-      document.getElementById("permission").classList.add("hidden");
-      document.getElementById("err").textContent = "";
-    } catch (e) {
-      const errEl = document.getElementById("err");
-      if (e.name === "NotAllowedError") {
-        errEl.textContent = "❌ Permission refusée. Autorisez la caméra dans Réglages → Safari → Caméra.";
-      } else {
-        errEl.textContent = "❌ " + e.name + " : " + e.message;
-      }
     }
-  }
 
-  document.getElementById("btn-start").addEventListener("click", startCamera);
+    $('btn-start').addEventListener('click', startCamera);
 
-  document.getElementById("btn-switch").addEventListener("click", () => {
-    facing = facing === "environment" ? "user" : "environment";
-    startCamera();
-  });
+    $('btn-switch').addEventListener('click', function () {
+      facing = (facing === 'environment') ? 'user' : 'environment';
+      startCamera();
+    });
 
-  async function toggleFlash() {
-    if (!stream) return;
-    const track = stream.getVideoTracks()[0];
-    const caps = track.getCapabilities ? track.getCapabilities() : {};
-    if (!caps.torch) { alert("Flash non disponible sur cet appareil."); return; }
-    flashOn = !flashOn;
-    try { await track.applyConstraints({ advanced: [{ torch: flashOn }] }); }
-    catch (e) { console.error(e); }
-  }
-  document.getElementById("btn-flash").addEventListener("click", toggleFlash);
-  document.getElementById("btn-flash2").addEventListener("click", toggleFlash);
+    function toggleFlash() {
+      if (!stream) return;
+      var track = stream.getVideoTracks()[0];
+      var caps = track.getCapabilities ? track.getCapabilities() : {};
+      if (!caps.torch) { alert('Flash non disponible.'); return; }
+      flashOn = !flashOn;
+      track.applyConstraints({ advanced: [{ torch: flashOn }] }).catch(function () {});
+    }
+    $('btn-flash').addEventListener('click', toggleFlash);
+    $('btn-flash2').addEventListener('click', toggleFlash);
 
-  // ---------- LOGIQUE DE SCAN ----------
-  btnScan.addEventListener("click", async () => {
-    if (!stream) { alert("Activez d'abord la caméra."); return; }
-    if (navigator.vibrate) navigator.vibrate(60);
+    $('btn-scan').addEventListener('click', function () {
+      if (!stream) { alert('Activez d\'abord la caméra.'); return; }
+      if (navigator.vibrate) navigator.vibrate(60);
 
-    // 1. Effet visuel de flash
-    const flashDiv = document.createElement("div");
-    flashDiv.style.cssText = "position:fixed;inset:0;background:white;z-index:40;opacity:0.8;transition:opacity 0.3s;";
-    document.body.appendChild(flashDiv);
-    setTimeout(() => { flashDiv.style.opacity = "0"; }, 50);
-    setTimeout(() => { flashDiv.remove(); }, 400);
+      var flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;inset:0;background:white;z-index:40;opacity:0.8;transition:opacity 0.3s;';
+      document.body.appendChild(flash);
+      setTimeout(function () { flash.style.opacity = '0'; }, 50);
+      setTimeout(function () { flash.remove(); }, 400);
 
-    // 2. Capturer l'image
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth || 1080;
-    canvas.height = video.videoHeight || 1920;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const dataURL = canvas.toDataURL("image/jpeg", 0.85);
-    document.getElementById("capturedImg").src = dataURL;
+      var canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || 1080;
+      canvas.height = video.videoHeight || 1920;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var dataURL = canvas.toDataURL('image/jpeg', 0.85);
+      $('capturedImg').src = dataURL;
 
-    // 3. Afficher l'interface de prévisualisation
-    document.getElementById("preview").classList.add("show");
-    document.getElementById("loading").classList.add("show");
-    document.getElementById("resultBox").style.display = "none";
-    btnScan.disabled = true;
+      $('preview').classList.add('show');
+      $('loading').classList.add('show');
+      $('resultBox').style.display = 'none';
+      btnScan.disabled = true;
 
-    // 4. Analyser l'image avec Puter.js
-    try {
-      const prompt = "Quel est la valeur et la devise de ce billet de banque ? Réponds UNIQUEMENT par la valeur numérique suivie du symbole de la devise, par exemple: 50€, 20CHF, 100$, 10£. Rien d'autre.";
-      
-      const reponse = await puter.ai.chat(prompt, dataURL, {
-        model: "google/gemini-3.8-flash"
-      });
-
-      // Nettoyer la réponse (au cas où l'IA ajoute du texte)
-      const resultat = reponse.trim();
-      
-      // Extraire la valeur et la devise (ex: "50€" -> "50" et "€")
-      const match = resultat.match(/^(\d+)\s*(€|CHF|\$|£)/);
-      
-      if (match) {
-        const valeur = match[1];
-        const symbole = match[2];
-        
-        // Configuration des drapeaux
-        const deviseConfig = {
-          '€': { nom: 'Euro', flag: '🇪🇺' },
-          'CHF': { nom: 'Franc suisse', flag: '🇨🇭' },
-          '$': { nom: 'Dollar US', flag: '🇺🇸' },
-          '£': { nom: 'Livre sterling', flag: '🇬🇧' }
-        };
-
-        const config = deviseConfig[symbole] || { nom: 'Inconnu', flag: '🏳️' };
-
-        document.getElementById("valeur").textContent = valeur + ' ' + symbole;
-        document.getElementById("devise").textContent = config.nom;
-        document.getElementById("flag").textContent = config.flag;
-        document.getElementById("conf").textContent = "Analysé par IA";
-      } else {
-        // Si le format n'est pas reconnu, afficher le texte brut
-        document.getElementById("valeur").textContent = resultat;
-        document.getElementById("devise").textContent = "";
-        document.getElementById("flag").textContent = "🔍";
-        document.getElementById("conf").textContent = "Réponse de l'IA";
+      if (typeof puter === 'undefined' || !puter.ai) {
+        $('loading').classList.remove('show');
+        $('resultBox').style.display = 'block';
+        $('valeur').textContent = 'Indisponible';
+        $('devise').textContent = "L'IA n'a pas pu se charger";
+        $('flag').textContent = '⚠️';
+        $('conf').textContent = 'Rechargez la page';
+        btnScan.disabled = false;
+        return;
       }
 
-    } catch (error) {
-      console.error("Erreur Puter.js:", error);
-      document.getElementById("valeur").textContent = "Erreur";
-      document.getElementById("devise").textContent = "Analyse impossible";
-      document.getElementById("flag").textContent = "⚠️";
-      document.getElementById("conf").textContent = error.message || "Réessayez";
-    } finally {
-      // Masquer le chargement et afficher le résultat
-      document.getElementById("loading").classList.remove("show");
-      document.getElementById("resultBox").style.display = "block";
-      btnScan.disabled = false;
-    }
-  });
+      var prompt = 'Quel est la valeur et la devise de ce billet de banque ? Réponds UNIQUEMENT par la valeur numérique suivie du symbole (ex: 50€, 20CHF, 100$, 10£). Rien d\'autre.';
 
-  document.getElementById("btn-close-preview").addEventListener("click", () => {
-    document.getElementById("preview").classList.remove("show");
+      puter.ai.chat(prompt, dataURL, { model: 'google/gemini-2.0-flash' })
+        .then(function (reponse) {
+          var resultat = '';
+          if (typeof reponse === 'string') resultat = reponse;
+          else if (reponse && reponse.text) resultat = reponse.text;
+          else if (reponse && reponse.message && reponse.message.content) resultat = reponse.message.content;
+          else resultat = JSON.stringify(reponse);
+
+          resultat = resultat.trim();
+          var match = resultat.match(/(\d+)\s*(€|CHF|\$|£)/);
+
+          if (match) {
+            var valeur = match[1];
+            var symbole = match[2];
+            var configs = {
+              '€':   { nom: 'Euro',           flag: '🇪🇺' },
+              'CHF': { nom: 'Franc suisse',   flag: '🇨🇭' },
+              '$':   { nom: 'Dollar US',      flag: '🇺🇸' },
+              '£':   { nom: 'Livre sterling', flag: '🇬🇧' }
+            };
+            var c = configs[symbole] || { nom: 'Inconnu', flag: '🏳️' };
+            $('valeur').textContent = valeur + ' ' + symbole;
+            $('devise').textContent = c.nom;
+            $('flag').textContent = c.flag;
+            $('conf').textContent = 'Analysé par IA';
+          } else {
+            $('valeur').textContent = resultat.substring(0, 40);
+            $('devise').textContent = 'Réponse non reconnue';
+            $('flag').textContent = '🔍';
+            $('conf').textContent = resultat.substring(0, 60);
+          }
+        })
+        .catch(function (error) {
+          console.error('Erreur IA:', error);
+          $('valeur').textContent = 'Erreur';
+          $('devise').textContent = 'Analyse impossible';
+          $('flag').textContent = '⚠️';
+          $('conf').textContent = (error && error.message) ? error.message.substring(0, 60) : 'Réessayez';
+        })
+        .then(function () {
+          $('loading').classList.remove('show');
+          $('resultBox').style.display = 'block';
+          btnScan.disabled = false;
+        });
+    });
+
+    $('btn-close-preview').addEventListener('click', function () {
+      $('preview').classList.remove('show');
+    });
   });
-</script>
+  </script>
 
 </body>
 </html>
