@@ -4,23 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>K.S.I — Sécurité Privée & Solutions de Sûreté</title>
-<meta name="description" content="K.S.I, société de sécurité privée : gardiennage, surveillance, planning des agents, pointage QR et rapports de terrain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#0a1a2f; --navy2:#102a45; --navy3:#1b3a5c;
-  --gold:#e0a13a; --gold2:#f5c063;
-  --ink:#0f1720; --muted:#64748b; --line:#e4eaf1;
-  --bg:#f6f8fb; --white:#fff;
-  --ok:#16a34a; --danger:#e11d48; --info:#2563eb; --warn:#d97706;
-  --radius:14px;
-  --shadow:0 10px 30px rgba(10,26,47,.08);
-  --shadow-lg:0 24px 60px rgba(10,26,47,.18);
-}
+:root{--navy:#0a1a2f;--navy2:#102a45;--navy3:#1b3a5c;--gold:#e0a13a;--gold2:#f5c063;--ink:#0f1720;--muted:#64748b;--line:#e4eaf1;--bg:#f6f8fb;--white:#fff;--ok:#16a34a;--danger:#e11d48;--info:#2563eb;--warn:#d97706;--radius:14px;--shadow:0 10px 30px rgba(10,26,47,.08);--shadow-lg:0 24px 60px rgba(10,26,47,.18)}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
@@ -34,17 +24,14 @@ button,input,select,textarea{font-family:inherit}
 h1,h2,h3,h4,h5{line-height:1.18;letter-spacing:-.02em;font-weight:800}
 h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:16px}
 .lead{color:var(--muted);font-size:1.05rem;max-width:680px}
-.center{text-align:center}
-.center .lead{margin-inline:auto}
-
-/* BOUTONS */
+.center{text-align:center}.center .lead{margin-inline:auto}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 26px;border-radius:10px;border:1px solid transparent;font-weight:600;font-size:.95rem;cursor:pointer;transition:.22s ease;white-space:nowrap}
 .btn--gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#231a06;box-shadow:0 8px 22px rgba(224,161,58,.32)}
 .btn--gold:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(224,161,58,.42)}
 .btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
-.btn--ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.5)}
+.btn--ghost:hover{background:rgba(255,255,255,.09)}
 .btn--dark{background:var(--navy);color:#fff}
-.btn--dark:hover{background:var(--navy3);transform:translateY(-2px)}
+.btn--dark:hover{background:var(--navy3)}
 .btn--outline{background:#fff;color:var(--navy);border-color:var(--line)}
 .btn--outline:hover{border-color:var(--navy);background:#f8fafc}
 .btn--sm{padding:9px 16px;font-size:.85rem;border-radius:8px}
@@ -52,8 +39,6 @@ h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-bottom:16px}
 .btn--full{width:100%}
 .btn--danger{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5}
 .btn--danger:hover{background:#fecaca}
-
-/* NAV */
 header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:76px}
 .logo{display:flex;align-items:center;gap:11px;color:#fff}
@@ -69,8 +54,6 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .nav-cta{display:flex;align-items:center;gap:12px}
 .burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
 .burger span{display:block;width:24px;height:2px;background:#fff;margin:5px 0;border-radius:2px}
-
-/* HERO */
 .hero{position:relative;color:#fff;overflow:hidden;background:radial-gradient(900px 500px at 82% 12%,rgba(224,161,58,.18),transparent 62%),radial-gradient(700px 500px at 8% 88%,rgba(27,58,92,.85),transparent 65%),linear-gradient(160deg,#0a1a2f 0%,#102a45 55%,#0a1a2f 100%);padding:110px 0 120px}
 .hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:62px 62px;mask-image:radial-gradient(circle at 50% 40%,#000,transparent 78%);pointer-events:none}
 .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
@@ -80,7 +63,7 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
 .hero-badges{display:flex;gap:26px;flex-wrap:wrap;margin-top:44px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
 .hero-badges div{font-size:.82rem;color:rgba(255,255,255,.62)}
-.hero-badges strong{display:block;font-size:1.5rem;color:#fff;font-weight:800;letter-spacing:-.02em}
+.hero-badges strong{display:block;font-size:1.5rem;color:#fff;font-weight:800}
 .hero-card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:26px;backdrop-filter:blur(12px);box-shadow:var(--shadow-lg)}
 .hero-card h4{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
 .hero-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.09)}
@@ -90,9 +73,7 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .hero-row .t{flex:1}
 .hero-row .t strong{display:block;font-size:.9rem;font-weight:600}
 .hero-row .t span{font-size:.76rem;color:rgba(255,255,255,.55)}
-.hero-row .v{font-size:.78rem;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
-
-/* SERVICES */
+.hero-row .v{font-size:.78rem;font-weight:700;color:var(--gold)}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;transition:.28s ease;position:relative;overflow:hidden}
 .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:.35s}
@@ -102,14 +83,10 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .card-ico svg{width:26px;height:26px}
 .card h3{font-size:1.1rem;margin-bottom:10px}
 .card p{color:var(--muted);font-size:.92rem}
-
-/* STATS */
 .stats{background:var(--navy);color:#fff;padding:64px 0}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
-.stat strong{display:block;font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800;color:var(--gold);letter-spacing:-.03em}
-.stat span{font-size:.85rem;color:rgba(255,255,255,.62);letter-spacing:.04em}
-
-/* SECTIONS ADMIN */
+.stat strong{display:block;font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800;color:var(--gold)}
+.stat span{font-size:.85rem;color:rgba(255,255,255,.62)}
 .section-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:52px}
 .tabs{display:flex;gap:6px;background:#e9eef5;padding:6px;border-radius:12px;flex-wrap:wrap}
 .tab{flex:1;min-width:110px;padding:11px 16px;border:0;background:transparent;border-radius:9px;font-size:.87rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;white-space:nowrap}
@@ -118,17 +95,11 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .panel.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .admin{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:var(--shadow)}
-
-/* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0 28px}
 .kpi{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px}
 .kpi span{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;margin-bottom:8px}
-.kpi strong{font-size:1.7rem;font-weight:800;color:var(--navy);letter-spacing:-.02em}
-.kpi.ok strong{color:var(--ok)}
-.kpi.warn strong{color:var(--danger)}
-.kpi.info strong{color:var(--info)}
-
-/* QR */
+.kpi strong{font-size:1.7rem;font-weight:800;color:var(--navy)}
+.kpi.ok strong{color:var(--ok)}.kpi.warn strong{color:var(--danger)}.kpi.info strong{color:var(--info)}
 .qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:20px;margin-top:20px}
 .qr-card{border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center;background:#fff;transition:.25s}
 .qr-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
@@ -137,9 +108,7 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 .qr-card p{font-size:.78rem;color:var(--muted);margin-bottom:14px}
 .qr-box{width:150px;height:150px;margin:0 auto 16px;border-radius:10px;overflow:hidden;background:#fff;border:1px solid var(--line);display:grid;place-items:center;position:relative}
 .qr-box img,.qr-box canvas{width:100%!important;height:100%!important;object-fit:contain;display:block}
-.qr-box .fb{font-size:.62rem;color:var(--muted);padding:8px;word-break:break-all;line-height:1.3}
-
-/* TABLES */
+.qr-box .fb{font-size:.62rem;color:var(--muted);padding:8px;word-break:break-all}
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:18px}
 table{width:100%;border-collapse:collapse;font-size:.87rem;min-width:640px}
 thead th{background:var(--bg);text-align:left;padding:13px 16px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -152,23 +121,18 @@ tbody tr:hover{background:#fafcfe}
 .tag--new{background:#dbeafe;color:#1d4ed8}
 .tag--prog{background:#fef3c7;color:#b45309}
 .tag--done{background:#dcfce7;color:#15803d}
-.tag--admin{background:linear-gradient(135deg,#e0a13a,#f5c063);color:#231a06}
-.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.84rem}
+.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace;font-size:.84rem}
 .empty{padding:44px 20px;text-align:center;color:var(--muted);font-size:.9rem}
-
-/* TOOLBAR */
 .toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:8px}
 .toolbar-left{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-select,input[type=text],input[type=password],input[type=search],input[type=date],input[type=email],input[type=tel]{padding:11px 14px;border:1px solid var(--line);border-radius:9px;font-size:.9rem;background:#fff;color:var(--ink);outline:none;transition:.2s;width:100%}
+select,input[type=text],input[type=password],input[type=search],input[type=email],input[type=tel]{padding:11px 14px;border:1px solid var(--line);border-radius:9px;font-size:.9rem;background:#fff;color:var(--ink);outline:none;transition:.2s;width:100%}
 select:focus,input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(224,161,58,.16)}
 .toolbar select{width:auto;min-width:170px}
 textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font-size:.9rem;resize:vertical;min-height:90px;outline:none;transition:.2s}
 label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 0 7px}
 .field{margin-bottom:16px}
-
-/* PLANNING */
 .plan-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px}
-.week-nav{display:flex;align-items:center;gap:8px}
+.week-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .week-label{font-weight:700;color:var(--navy);font-size:.95rem;min-width:180px;text-align:center}
 .plan-grid{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 .plan-grid table{min-width:920px}
@@ -179,51 +143,45 @@ label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;le
 .plan-grid tbody tr:hover td{background:#fafcfe}
 .plan-grid tbody tr:hover td.agent-col{background:#f4f8fd}
 .plan-grid tbody tr.plan-admin-row td.agent-col{background:#fff8e8}
-.plan-grid tbody tr.plan-admin-row:hover td.agent-col{background:#fff2d6}
 .day-num{font-weight:800;font-size:1rem;color:var(--navy);display:block}
 .day-name{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
 .day-today{color:var(--gold)}
-.shift-chip{display:inline-flex;flex-direction:column;gap:1px;padding:6px 9px;border-radius:8px;font-size:.72rem;font-weight:700;line-height:1.25;cursor:pointer;transition:.15s;min-width:74px;text-align:center}
+.shift-chip{display:inline-flex;flex-direction:column;gap:1px;padding:6px 9px;border-radius:8px;font-size:.72rem;font-weight:700;line-height:1.25;cursor:pointer;transition:.15s;min-width:74px;text-align:center;position:relative}
 .shift-chip:hover{transform:scale(1.03);box-shadow:var(--shadow)}
-.shift-chip small{font-size:.62rem;font-weight:600;opacity:.85;font-variant-numeric:tabular-nums}
+.shift-chip small{font-size:.62rem;font-weight:600;opacity:.85}
+.shift-chip.conflict::after{content:"⚠";position:absolute;top:-6px;right:-6px;background:#e11d48;color:#fff;width:18px;height:18px;border-radius:50%;font-size:.7rem;display:grid;place-items:center;font-weight:800}
 .s-mat{background:#dcfce7;color:#14532d}
 .s-apm{background:#fef3c7;color:#78350f}
 .s-nui{background:#1e293b;color:#e2e8f0}
 .s-off{background:#f1f5f9;color:#94a3b8;font-weight:600}
 .s-admin{background:linear-gradient(135deg,#e0a13a,#f5c063);color:#231a06}
 .agent-mini{display:flex;align-items:center;gap:9px}
-.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--navy3),var(--navy));color:#fff;display:grid;place-items:center;font-weight:800;font-size:.78rem;letter-spacing:.03em;flex:none}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--navy3),var(--navy));color:#fff;display:grid;place-items:center;font-weight:800;font-size:.78rem;flex:none}
 .avatar--lg{width:56px;height:56px;font-size:1.15rem}
 .avatar--gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#231a06}
 .agent-mini .info strong{display:block;font-size:.87rem;color:var(--navy);font-weight:700}
 .agent-mini .info span{font-size:.72rem;color:var(--muted)}
-
-/* BANNIERE ADMIN PERSONNEL */
 .admin-banner{display:none;align-items:center;gap:16px;background:linear-gradient(135deg,#0a1a2f,#1b3a5c);color:#fff;border-radius:14px;padding:18px 22px;margin-top:22px;box-shadow:var(--shadow)}
 .admin-banner.show{display:flex}
-.admin-banner .meta{flex:1;min-width:0}
+.admin-banner .meta{flex:1}
 .admin-banner .meta .kicker{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
 .admin-banner .meta .name{font-size:1.05rem;font-weight:800;color:#fff}
 .admin-banner .meta .role{font-size:.85rem;color:rgba(255,255,255,.65)}
-
-/* PROFIL MODAL */
 .modal{position:fixed;inset:0;z-index:1500;display:none;background:rgba(10,26,47,.55);backdrop-filter:blur(4px);overflow-y:auto;padding:40px 16px}
-.modal.open{display:block;animation:fade .2s ease}
+.modal.open{display:block}
 .modal-in{width:min(880px,100%);margin:0 auto;background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden}
 .modal-head{display:flex;align-items:center;gap:16px;padding:26px 28px;background:linear-gradient(135deg,var(--navy),var(--navy3));color:#fff;position:relative}
 .modal-head h3{font-size:1.25rem;color:#fff}
 .modal-head p{font-size:.85rem;color:rgba(255,255,255,.65);margin-top:2px}
-.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem;line-height:1;transition:.2s}
+.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem}
 .modal-close:hover{background:rgba(255,255,255,.25)}
 .profile-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);padding:0 20px;overflow-x:auto;background:#f8fafc}
 .ptab{padding:15px 18px;border:0;background:transparent;font-size:.86rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
 .ptab:hover{color:var(--navy)}
 .ptab.active{color:var(--navy);border-bottom-color:var(--gold)}
 .pbody{padding:26px 28px 32px}
-.ppanel{display:none;animation:fade .25s ease}
+.ppanel{display:none}
 .ppanel.active{display:block}
-
-/* INFOS */
 .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .info-block{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
 .info-block span{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:5px}
@@ -232,8 +190,6 @@ label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;le
 .admin-notice .ico{font-size:1.4rem}
 .admin-notice .kicker{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
 .admin-notice .txt{font-weight:700}
-
-/* RAPPORTS */
 .report-form{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:22px}
 .report-form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .report-list{display:flex;flex-direction:column;gap:12px}
@@ -246,12 +202,9 @@ label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;le
 .report-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
 .report-head h4{font-size:.98rem;color:var(--navy)}
 .report-meta{font-size:.74rem;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.report-meta span{display:inline-flex;align-items:center;gap:4px}
 .report p{font-size:.88rem;color:#334155;line-height:1.55}
 .report-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .status-select{padding:5px 10px;font-size:.74rem;font-weight:700;border-radius:20px;border:1px solid var(--line);cursor:pointer;width:auto}
-
-/* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
 .info-list{margin-top:28px;display:flex;flex-direction:column;gap:20px}
 .info-item{display:flex;gap:16px;align-items:flex-start}
@@ -263,14 +216,11 @@ label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;le
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .note{font-size:.78rem;color:var(--muted);margin-top:14px}
 .form-ok{display:none;background:#dcfce7;color:#15803d;padding:13px 16px;border-radius:10px;font-size:.88rem;font-weight:600;margin-bottom:16px}
-
-/* VUE TERRAIN */
 .scan{position:fixed;inset:0;z-index:2000;display:none;overflow-y:auto;background:linear-gradient(165deg,#0a1a2f,#102a45 60%,#08131f)}
 .scan.open{display:block}
 .scan-in{width:min(430px,92%);margin:0 auto;padding:34px 0 60px;color:#fff}
 .scan-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-.scan-close{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:1.1rem;line-height:1;transition:.2s}
-.scan-close:hover{background:rgba(255,255,255,.2)}
+.scan-close{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:1.1rem}
 .scan-site{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:20px;margin-bottom:22px}
 .scan-site span{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
 .scan-site h3{font-size:1.18rem;margin:6px 0 4px;color:#fff}
@@ -286,21 +236,17 @@ label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;le
 .scan-msg.err{display:block;background:#fee2e2;color:#b91c1c}
 .scan-msg.ok{display:block;background:#dcfce7;color:#15803d}
 .recap{text-align:center;padding:12px 0}
-.recap .big{font-size:2.6rem;font-weight:800;color:var(--navy);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.recap .big{font-size:2.6rem;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
 .recap .sub{color:var(--muted);font-size:.9rem}
 .recap .who{font-weight:700;font-size:1.05rem;margin-top:10px}
 .pill{display:inline-block;margin-top:14px;padding:7px 16px;border-radius:20px;font-weight:700;font-size:.85rem}
 .pill.in{background:#dcfce7;color:#15803d}
 .pill.out{background:#fee2e2;color:#b91c1c}
-
-/* ZONES */
 .zones{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
 .zone{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;border-left:3px solid var(--gold);transition:.25s}
 .zone:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
 .zone h4{font-size:1rem;margin-bottom:6px}
 .zone p{font-size:.85rem;color:var(--muted)}
-
-/* FOOTER */
 footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
 .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
 .foot-grid h5{color:#fff;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;font-weight:700}
@@ -309,8 +255,73 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
 .foot-grid a:hover{color:var(--gold)}
 .foot-brand p{font-size:.88rem;margin-top:16px;max-width:300px}
 .foot-bottom{padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.8rem}
-
-/* RESPONSIVE */
+.user-bar{position:fixed;top:88px;right:3%;z-index:850;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);display:none;align-items:center;gap:12px}
+.user-bar.show{display:flex}
+.user-bar .avatar{width:32px;height:32px;font-size:.72rem}
+.user-bar .who{font-size:.82rem;font-weight:700;color:var(--navy)}
+.user-bar .role{font-size:.7rem;color:var(--muted)}
+.user-bar .logout{background:#fee2e2;color:#b91c1c;border:0;padding:6px 12px;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer}
+.admin-fab{position:fixed;bottom:24px;right:24px;z-index:800;background:var(--navy);border:0;border-radius:50%;width:56px;height:56px;cursor:pointer;box-shadow:0 12px 30px rgba(10,26,47,.35);transition:.25s;display:grid;place-items:center}
+.admin-fab:hover{transform:scale(1.08);background:var(--navy3)}
+.admin-fab svg{width:24px;height:24px;stroke:#e0a13a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.agnes-fab{position:fixed;bottom:24px;right:96px;z-index:1100;background:linear-gradient(135deg,#e0a13a,#f5c063);border:0;border-radius:50%;width:60px;height:60px;cursor:pointer;box-shadow:0 12px 30px rgba(224,161,58,.45);transition:.25s;display:grid;place-items:center;font-size:1.5rem}
+.agnes-fab:hover{transform:scale(1.08)}
+.agnes-fab .badge{position:absolute;top:-4px;right:-4px;background:#e11d48;color:#fff;width:20px;height:20px;border-radius:50%;font-size:.65rem;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+.agnes-panel{position:fixed;bottom:100px;right:24px;width:400px;max-width:calc(100vw - 48px);height:560px;max-height:calc(100vh - 140px);z-index:1101;background:#fff;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.3);display:none;flex-direction:column;overflow:hidden}
+.agnes-panel.open{display:flex;animation:fade .25s ease}
+.agnes-head{background:linear-gradient(135deg,#0a1a2f,#1b3a5c);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.agnes-head .avatar{width:42px;height:42px;font-size:.9rem;background:linear-gradient(135deg,#e0a13a,#f5c063);color:#231a06}
+.agnes-head .info{flex:1}
+.agnes-head strong{display:block;font-size:.95rem;color:#fff}
+.agnes-head span{display:block;font-size:.72rem;color:#e0a13a;font-weight:600}
+.agnes-head .close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:.95rem}
+.agnes-body{flex:1;overflow-y:auto;padding:16px;background:#f6f8fb;display:flex;flex-direction:column;gap:12px}
+.agnes-msg{max-width:82%;padding:11px 14px;border-radius:14px;font-size:.87rem;line-height:1.5;word-wrap:break-word;animation:fade .25s ease}
+.agnes-msg.user{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+.agnes-msg.bot{align-self:flex-start;background:#fff;color:var(--ink);border:1px solid var(--line);border-bottom-left-radius:4px}
+.agnes-msg.bot strong{color:var(--navy)}
+.agnes-msg.bot ul{margin:8px 0 4px 18px}
+.agnes-msg.bot li{margin-bottom:4px;font-size:.85rem}
+.agnes-msg .quick{display:inline-block;margin-top:8px;padding:6px 12px;background:linear-gradient(135deg,#e0a13a,#f5c063);color:#231a06;border:0;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer}
+.agnes-msg.typing{display:flex;gap:4px;padding:14px 18px}
+.agnes-msg.typing span{width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:bounce 1.4s infinite}
+.agnes-msg.typing span:nth-child(2){animation-delay:.2s}
+.agnes-msg.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}
+.agnes-foot{border-top:1px solid var(--line);padding:12px;background:#fff;display:flex;gap:8px;align-items:flex-end}
+.agnes-foot textarea{flex:1;min-height:40px;max-height:100px;padding:10px 14px;border-radius:12px;resize:none;font-size:.88rem}
+.agnes-foot .send{background:linear-gradient(135deg,#e0a13a,#f5c063);color:#231a06;border:0;width:44px;height:44px;border-radius:12px;cursor:pointer;font-size:1.2rem;display:grid;place-items:center;flex:none}
+.agnes-suggestions{padding:8px 12px;background:#fff;border-top:1px solid var(--line);display:flex;gap:6px;overflow-x:auto}
+.agnes-suggestions::-webkit-scrollbar{display:none}
+.agnes-sug{padding:6px 12px;background:#eef3f9;color:var(--navy);border:0;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;white-space:nowrap;flex:none}
+.agnes-sug:hover{background:#dbeafe;color:#1d4ed8}
+.ia-report{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid #f5c063;border-radius:14px;padding:20px;margin-top:18px}
+.ia-report h4{display:flex;align-items:center;gap:8px;font-size:.95rem;color:var(--navy);margin-bottom:14px}
+.ia-report h4 .ico{font-size:1.2rem}
+.ia-report ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ia-report li{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#fff;border-radius:9px;border-left:3px solid var(--gold);font-size:.85rem}
+.ia-report li.warning{border-left-color:var(--danger)}
+.ia-report li.ok{border-left-color:var(--ok)}
+.ia-report li .em{font-size:1.05rem;flex:none}
+.login-overlay{position:fixed;inset:0;z-index:3000;display:none;background:linear-gradient(165deg,#0a1a2f,#102a45 60%,#08131f);overflow-y:auto;padding:40px 16px}
+.login-overlay.open{display:block}
+.login-box{width:min(420px,100%);margin:60px auto 0}
+.login-form{background:#fff;border-radius:18px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.login-msg{display:none;border-radius:10px;padding:12px 14px;font-size:.85rem;font-weight:600;margin-bottom:18px}
+.login-msg.err{display:block;background:#fee2e2;color:#b91c1c}
+.login-msg.ok{display:block;background:#dcfce7;color:#15803d}
+.locked-notice{background:#fff8e8;border:1px solid #f5c063;border-radius:14px;padding:32px 24px;text-align:center;margin-top:22px}
+.locked-notice .ico{font-size:2.4rem;margin-bottom:12px}
+.locked-notice h3{font-size:1.15rem;color:var(--navy);margin-bottom:8px}
+.locked-notice p{color:var(--muted);font-size:.9rem;max-width:520px;margin:0 auto 18px}
+.email-config{background:#f0f9ff;border:1px solid #7dd3fc;border-radius:12px;padding:18px;margin-top:18px}
+.email-config h4{font-size:.9rem;color:#0369a1;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.email-config .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.email-config .row.full{grid-template-columns:1fr}
+.email-config input{font-size:.85rem;padding:9px 12px}
+.email-config .status{font-size:.78rem;padding:8px 12px;border-radius:8px;margin-top:10px;display:none}
+.email-config .status.ok{display:block;background:#dcfce7;color:#15803d}
+.email-config .status.err{display:block;background:#fee2e2;color:#b91c1c}
 @media(max-width:1024px){
   .hero-grid,.section-head,.contact-grid{grid-template-columns:1fr;gap:44px}
   .grid-3{grid-template-columns:repeat(2,1fr)}
@@ -321,7 +332,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   .info-grid{grid-template-columns:1fr}
 }
 @media(max-width:760px){
-  .menu{display:none;position:absolute;top:76px;left:0;right:0;background:var(--navy);flex-direction:column;align-items:stretch;padding:20px 6%;gap:4px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .menu{display:none;position:absolute;top:76px;left:0;right:0;background:var(--navy);flex-direction:column;align-items:stretch;padding:20px 6%;gap:4px}
   .menu.open{display:flex}
   .menu a{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07)}
   .menu a::after{display:none}
@@ -336,212 +347,62 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   .modal{padding:16px 8px}
   .pbody,.modal-head{padding:20px}
   .admin-banner{flex-direction:column;text-align:center}
-  .user-bar{top:auto;bottom:88px;right:16px}
+  .agnes-panel{right:8px;left:8px;bottom:160px;width:auto;height:70vh}
+  .email-config .row{grid-template-columns:1fr}
 }
-
-/* ============ IMPRESSION ============ */
 #printContainer{display:none}
 @media print{
-  @page{size:A4; margin:12mm}
-  body > *{display:none!important}
-  #printContainer{
-    display:block!important;
-    background:#fff;
-    color:#000;
-    padding:0;
-  }
-  .print-header{
-    text-align:center;
-    margin-bottom:26px;
-    padding-bottom:16px;
-    border-bottom:3px solid #0a1a2f;
-  }
-  .print-header h1{
-    font-size:1.7rem;
-    color:#0a1a2f;
-    margin-bottom:6px;
-    letter-spacing:-.02em;
-  }
-  .print-header p{font-size:.9rem; color:#475569}
-  .print-date{font-size:.72rem !important; color:#94a3b8; margin-top:8px}
-  .print-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:22px;
-  }
-  .print-card{
-    border:2px solid #0a1a2f;
-    border-radius:14px;
-    padding:22px 18px;
-    text-align:center;
-    break-inside:avoid;
-    page-break-inside:avoid;
-    min-height:400px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  .print-code{
-    font-size:.72rem;
-    letter-spacing:.22em;
-    color:#e0a13a;
-    font-weight:700;
-    text-transform:uppercase;
-  }
-  .print-card h2{
-    font-size:1.15rem;
-    color:#0a1a2f;
-    margin:6px 0 4px;
-  }
-  .print-ville{font-size:.85rem; color:#64748b; margin-bottom:14px}
-  .print-qr{
-    width:220px; height:220px;
-    margin:0 auto 12px;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .print-qr img, .print-qr canvas{
-    width:220px!important;
-    height:220px!important;
-    display:block;
-  }
-  .print-url{
-    font-size:.58rem;
-    color:#94a3b8;
-    word-break:break-all;
-    margin-bottom:10px;
-    font-family:monospace;
-    line-height:1.3;
-  }
-  .print-instructions{
-    font-size:.82rem;
-    font-weight:700;
-    color:#0a1a2f;
-    line-height:1.4;
-  }
-}
-
-/* ============ ÉCRAN DE CONNEXION ============ */
-.login-overlay{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  display:none;
-  background:linear-gradient(165deg,#0a1a2f,#102a45 60%,#08131f);
-  overflow-y:auto;
-  padding:40px 16px;
-}
-.login-overlay.open{display:block;animation:fade .25s ease}
-.login-box{
-  width:min(420px,100%);
-  margin:60px auto 0;
-}
-.login-form{
-  background:#fff;
-  border-radius:18px;
-  padding:28px;
-  box-shadow:0 24px 60px rgba(0,0,0,.4);
-}
-.login-msg{
-  display:none;
-  border-radius:10px;
-  padding:12px 14px;
-  font-size:.85rem;
-  font-weight:600;
-  margin-bottom:18px;
-}
-.login-msg.err{display:block;background:#fee2e2;color:#b91c1c}
-.login-msg.ok{display:block;background:#dcfce7;color:#15803d}
-
-/* Barre utilisateur connecté */
-.user-bar{
-  position:fixed;
-  top:88px;
-  right:3%;
-  z-index:850;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:10px 14px;
-  box-shadow:var(--shadow);
-  display:none;
-  align-items:center;
-  gap:12px;
-}
-.user-bar.show{display:flex}
-.user-bar .avatar{width:32px;height:32px;font-size:.72rem}
-.user-bar .who{font-size:.82rem;font-weight:700;color:var(--navy)}
-.user-bar .role{font-size:.7rem;color:var(--muted)}
-.user-bar .logout{
-  background:#fee2e2;
-  color:#b91c1c;
-  border:0;
-  padding:6px 12px;
-  border-radius:8px;
-  font-size:.78rem;
-  font-weight:700;
-  cursor:pointer;
-  transition:.2s;
-}
-.user-bar .logout:hover{background:#fecaca}
-
-/* Bouton admin flottant */
-.admin-fab{
-  position:fixed;
-  bottom:24px;
-  right:24px;
-  z-index:800;
-  background:var(--navy);
-  color:#fff;
-  border:0;
-  border-radius:50%;
-  width:56px;
-  height:56px;
-  cursor:pointer;
-  box-shadow:0 12px 30px rgba(10,26,47,.35);
-  transition:.25s;
-  display:grid;
-  place-items:center;
-}
-.admin-fab:hover{transform:scale(1.08);background:var(--navy3)}
-.admin-fab svg{width:24px;height:24px;stroke:#e0a13a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* Section gestion verrouillée */
-.locked-notice{
-  background:#fff8e8;
-  border:1px solid #f5c063;
-  border-radius:14px;
-  padding:32px 24px;
-  text-align:center;
-  margin-top:22px;
-}
-.locked-notice .ico{
-  font-size:2.4rem;
-  margin-bottom:12px;
-}
-.locked-notice h3{
-  font-size:1.15rem;
-  color:var(--navy);
-  margin-bottom:8px;
-}
-.locked-notice p{
-  color:var(--muted);
-  font-size:.9rem;
-  max-width:520px;
-  margin:0 auto 18px;
+  @page{size:A4;margin:12mm}
+  body>*{display:none!important}
+  #printContainer{display:block!important;background:#fff;color:#000}
+  .print-header{text-align:center;margin-bottom:26px;padding-bottom:16px;border-bottom:3px solid #0a1a2f}
+  .print-header h1{font-size:1.7rem;color:#0a1a2f;margin-bottom:6px}
+  .print-header p{font-size:.9rem;color:#475569}
+  .print-date{font-size:.72rem!important;color:#94a3b8;margin-top:8px}
+  .print-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .print-card{border:2px solid #0a1a2f;border-radius:14px;padding:22px 18px;text-align:center;break-inside:avoid;page-break-inside:avoid;min-height:400px;display:flex;flex-direction:column;justify-content:center}
+  .print-code{font-size:.72rem;letter-spacing:.22em;color:#e0a13a;font-weight:700;text-transform:uppercase}
+  .print-card h2{font-size:1.15rem;color:#0a1a2f;margin:6px 0 4px}
+  .print-ville{font-size:.85rem;color:#64748b;margin-bottom:14px}
+  .print-qr{width:220px;height:220px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center}
+  .print-qr img,.print-qr canvas{width:220px!important;height:220px!important;display:block}
+  .print-url{font-size:.58rem;color:#94a3b8;word-break:break-all;margin-bottom:10px;font-family:monospace}
+  .print-instructions{font-size:.82rem;font-weight:700;color:#0a1a2f}
 }
 </style>
 </head>
 <body>
 
-<!-- ============ BOUTON ADMIN FLOTTANT ============ -->
-<button class="admin-fab" id="adminFab" onclick="openLogin()" title="Accès administration" aria-label="Accès administration">
-  <svg viewBox="0 0 24 24">
-    <rect x="3" y="11" width="18" height="11" rx="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-  </svg>
+<!-- Bouton admin flottant -->
+<button class="admin-fab" id="adminFab" onclick="openLogin()" title="Accès administration">
+  <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
 </button>
 
-<!-- ============ BARRE UTILISATEUR CONNECTÉ ============ -->
+<!-- Bouton IA Agnès -->
+<button class="agnes-fab" id="agnesFab" onclick="toggleAgnes()" title="Parler à Agnès (IA)">
+  🤖
+  <span class="badge" id="agnesBadge" style="display:none">!</span>
+</button>
+
+<!-- Panneau chat Agnès -->
+<div class="agnes-panel" id="agnesPanel">
+  <div class="agnes-head">
+    <div class="avatar">IA</div>
+    <div class="info">
+      <strong>Agnès · IA</strong>
+      <span>Assistante Planning & Personnel</span>
+    </div>
+    <button class="close" onclick="toggleAgnes()">✕</button>
+  </div>
+  <div class="agnes-body" id="agnesBody"></div>
+  <div class="agnes-suggestions" id="agnesSuggestions"></div>
+  <div class="agnes-foot">
+    <textarea id="agnesInput" placeholder="Posez votre question…" onkeydown="agnesKeydown(event)"></textarea>
+    <button class="send" onclick="agnesSend()">➤</button>
+  </div>
+</div>
+
+<!-- Barre utilisateur connecté -->
 <div class="user-bar" id="userBar">
   <div class="avatar" id="userBarAvatar">KS</div>
   <div>
@@ -551,7 +412,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   <button class="logout" onclick="logout()">Déconnexion</button>
 </div>
 
-<!-- ================= NAV ================= -->
+<!-- Nav -->
 <header class="nav">
   <div class="wrap nav-in">
     <a href="#top" class="logo">
@@ -566,129 +427,105 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
     </nav>
     <div class="nav-cta">
       <a href="#contact" class="btn btn--gold btn--sm">Demander un devis</a>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
+<!-- Hero -->
 <section class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">Sécurité privée certifiée</span>
       <h1>Protéger vos sites,<br>piloter vos <em>équipes</em>.</h1>
-      <p class="lead">K.S.I assure gardiennage, surveillance et sécurité électronique. Notre plateforme gère le <strong>planning</strong>, le <strong>pointage QR</strong> et les <strong>rapports de terrain</strong> de vos agents — en temps réel.</p>
+      <p class="lead">K.S.I assure gardiennage, surveillance et sécurité électronique. Notre plateforme intègre <strong>IA Agnès</strong> pour générer les plannings, détecter les conflits et prédire vos besoins.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn btn--gold">Obtenir une étude gratuite</a>
-        <a href="#gestion" class="btn btn--ghost">Découvrir la gestion</a>
+        <a href="#gestion" class="btn btn--ghost">Découvrir IA Agnès</a>
       </div>
       <div class="hero-badges">
         <div><strong>24/7</strong>Centre opérationnel</div>
         <div><strong>+180</strong>Agents déployés</div>
         <div><strong>42</strong>Sites surveillés</div>
-        <div><strong>&lt;15 min</strong>Délai d'intervention</div>
+        <div><strong>IA</strong>Planning automatique</div>
       </div>
     </div>
     <aside class="hero-card">
-      <h4>● Supervision en direct</h4>
-      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Tour Horizon — Paris 15e</strong><span>Ronde effectuée · K001</span></span><span class="v">06:12</span></div>
-      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Usine Nord — Lille</strong><span>Prise de poste · K002</span></span><span class="v">06:04</span></div>
-      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Centre Rive — Lyon</strong><span>Rapport transmis · K003</span></span><span class="v">05:58</span></div>
-      <div class="hero-row"><span class="dot" style="background:#e0a13a;box-shadow:0 0 0 4px rgba(224,161,58,.2)"></span><span class="t"><strong>Entrepôt Logistique — Marseille</strong><span>Prise de poste dans 4 min</span></span><span class="v">06:00</span></div>
+      <h4>● IA Agnès en direct</h4>
+      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Génération planning</strong><span>7 agents · 4 sites · 0 conflit</span></span><span class="v">OK</span></div>
+      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Équilibrage des heures</strong><span>Écart max réduit à 3h</span></span><span class="v">OK</span></div>
+      <div class="hero-row"><span class="dot" style="background:#e0a13a"></span><span class="t"><strong>Prédiction besoins</strong><span>Vendredi soir : +1 agent</span></span><span class="v">!</span></div>
+      <div class="hero-row"><span class="dot"></span><span class="t"><strong>Notifications email</strong><span>Configurable (gratuit)</span></span><span class="v">OK</span></div>
     </aside>
   </div>
 </section>
 
-<!-- ================= SERVICES ================= -->
+<!-- Services -->
 <section class="section" id="services">
   <div class="wrap">
     <div class="center">
       <span class="eyebrow">Nos prestations</span>
       <h2>Une couverture sécurité complète</h2>
-      <p class="lead">De l'agent sur site au pilotage à distance, K.S.I combine présence humaine et technologies de surveillance.</p>
+      <p class="lead">De l'agent sur site au pilotage IA, K.S.I combine présence humaine, technologies et intelligence artificielle.</p>
     </div>
     <div class="grid-3">
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/></svg></div>
-        <h3>Gardiennage &amp; surveillance</h3>
-        <p>Agents qualifiés en poste fixe ou en rondes, jour et nuit, pour sécuriser vos locaux.</p>
-      </article>
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7 16 12l7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <h3>Vidéosurveillance</h3>
-        <p>Caméras HD, enregistrement sécurisé et accès à distance depuis notre centre de supervision.</p>
-      </article>
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="2"/></svg></div>
-        <h3>Contrôle d'accès</h3>
-        <p>Badges, interphonie et gestion des flux visiteurs pour maîtriser qui entre, où et quand.</p>
-      </article>
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v3M17 20h4M14 20h.01"/></svg></div>
-        <h3>Pointage QR des agents</h3>
-        <p>Chaque site dispose de son QR code. Vos agents scannent à l'arrivée et au départ.</p>
-      </article>
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-        <h3>Planning &amp; gestion du personnel</h3>
-        <p>Attribution des vacations par site et par agent, suivi des heures et des remplacements.</p>
-      </article>
-      <article class="card">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
-        <h3>Rapports de terrain</h3>
-        <p>Rondes, incidents, mains courantes : chaque agent consigne ses observations depuis son profil.</p>
-      </article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/></svg></div><h3>Gardiennage &amp; surveillance</h3><p>Agents qualifiés en poste fixe ou en rondes, jour et nuit.</p></article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7 16 12l7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><h3>Vidéosurveillance</h3><p>Caméras HD, enregistrement sécurisé et accès à distance.</p></article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="2"/></svg></div><h3>Contrôle d'accès</h3><p>Badges, interphonie et gestion des flux visiteurs.</p></article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/></svg></div><h3>Pointage QR des agents</h3><p>Chaque site a son QR. Agents scannent à l'arrivée et au départ.</p></article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.2 4.2l4.3 4.3M15.5 15.5l4.3 4.3M1 12h6M17 12h6"/></svg></div><h3>IA Agnès — Planning auto</h3><p>Génération auto, détection conflits, équilibrage, prédictions.</p></article>
+      <article class="card"><div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><h3>Rapports de terrain</h3><p>Rondes, incidents, mains courantes : chaque agent consigne.</p></article>
     </div>
   </div>
 </section>
 
-<!-- ================= STATS ================= -->
+<!-- Stats -->
 <section class="stats">
   <div class="wrap stats-grid">
     <div class="stat"><strong>+180</strong><span>Agents certifiés</span></div>
     <div class="stat"><strong>42</strong><span>Sites sous contrat</span></div>
     <div class="stat"><strong>99,4 %</strong><span>Taux de présence</span></div>
-    <div class="stat"><strong>24/7</strong><span>Supervision active</span></div>
+    <div class="stat"><strong>IA</strong><span>Planning automatique</span></div>
   </div>
 </section>
 
-<!-- ================= GESTION ================= -->
+<!-- Gestion -->
 <section class="section section--grey" id="gestion">
   <div class="wrap">
     <div class="section-head">
       <div>
         <span class="eyebrow">Espace gestion</span>
-        <h2>Planning, personnel &amp; rapports</h2>
-        <p class="lead">Un back-office unique pour organiser les vacations, suivre vos agents et centraliser les rapports de terrain. Supervisé par Agnès, notre responsable Planning &amp; Personnel.</p>
+        <h2>Planning, personnel &amp; IA Agnès</h2>
+        <p class="lead">Back-office augmenté par l'IA : génération auto, conflits, équilibrage, prédictions et notifications email.</p>
       </div>
       <div class="admin" style="padding:24px">
-        <h4 style="font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e0a13a;margin-bottom:14px">Modules disponibles</h4>
+        <h4 style="font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e0a13a;margin-bottom:14px">IA Agnès</h4>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;font-size:.9rem;color:#64748b">
-          <li>📅 <strong style="color:#0a1a2f">Planning hebdo</strong> — vacations par agent et par site</li>
-          <li>👥 <strong style="color:#0a1a2f">Personnel</strong> — fiches agents complètes</li>
-          <li>🏢 <strong style="color:#0a1a2f">Sites</strong> — gestion et QR codes</li>
-          <li>📝 <strong style="color:#0a1a2f">Rapports</strong> — rondes, incidents, mains courantes</li>
+          <li>🤖 <strong style="color:#0a1a2f">Génération auto</strong> — 1 ou 4 semaines</li>
+          <li>⚠️ <strong style="color:#0a1a2f">Conflits</strong> — heures sup, doubles postes</li>
+          <li>🔮 <strong style="color:#0a1a2f">Prédictions</strong> — analyse des pointages</li>
+          <li>📧 <strong style="color:#0a1a2f">Notifications</strong> — email aux agents (gratuit)</li>
         </ul>
       </div>
     </div>
 
-    <!-- Zone verrouillée affichée si non connecté -->
     <div class="locked-notice" id="lockedNotice">
       <div class="ico">🔒</div>
       <h3>Espace réservé à l'équipe K.S.I</h3>
-      <p>Le tableau de bord, le planning, la gestion du personnel, des sites et des rapports sont accessibles après connexion avec un compte administrateur.</p>
+      <p>Connectez-vous avec un compte administrateur pour accéder à la gestion.</p>
       <button class="btn btn--gold" onclick="openLogin()">Se connecter</button>
     </div>
 
-    <!-- Zone admin (masquée si non connecté) -->
     <div id="adminZone" style="display:none">
       <div class="tabs" id="tabs">
         <button class="tab active" data-panel="dash">Tableau de bord</button>
-        <button class="tab" data-panel="planning">Planning</button>
+        <button class="tab" data-panel="planning">Planning IA</button>
+        <button class="tab" data-panel="predict">🔮 Prédictions</button>
         <button class="tab" data-panel="personnel">Personnel</button>
         <button class="tab" data-panel="sites">Sites</button>
         <button class="tab" data-panel="qr">QR des sites</button>
         <button class="tab" data-panel="reg">Registre</button>
+        <button class="tab" data-panel="config">⚙️ Config</button>
       </div>
 
       <div class="admin" style="margin-top:20px">
@@ -697,9 +534,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
         <div class="panel active" id="panel-dash">
           <div class="toolbar">
             <h3 style="font-size:1.15rem">Activité du jour — <span id="todayLabel" class="mono"></span></h3>
-            <div class="toolbar-left">
-              <button class="btn btn--outline btn--sm" onclick="resetDemo()">Réinitialiser la démo</button>
-            </div>
+            <div class="toolbar-left"><button class="btn btn--outline btn--sm" onclick="resetDemo()">Réinitialiser la démo</button></div>
           </div>
           <div class="kpis">
             <div class="kpi ok"><span>Agents présents</span><strong id="kPresent">0</strong></div>
@@ -707,16 +542,11 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
             <div class="kpi"><span>Sites couverts</span><strong id="kSites">0</strong></div>
             <div class="kpi warn"><span>Rapports en attente</span><strong id="kRapports">0</strong></div>
           </div>
-
-          <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:22px" class="dash-split">
+          <div id="iaReportContainer"></div>
+          <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:22px;margin-top:22px">
             <div>
               <h4 style="font-size:.95rem;margin-bottom:4px">Derniers mouvements</h4>
-              <div class="table-wrap">
-                <table>
-                  <thead><tr><th>Heure</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
-                  <tbody id="dashBody"></tbody>
-                </table>
-              </div>
+              <div class="table-wrap"><table><thead><tr><th>Heure</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead><tbody id="dashBody"></tbody></table></div>
             </div>
             <div>
               <h4 style="font-size:.95rem;margin-bottom:4px">Derniers rapports</h4>
@@ -730,7 +560,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
           <div class="plan-head">
             <div>
               <h3 style="font-size:1.15rem">Planning hebdomadaire</h3>
-              <p style="font-size:.85rem;color:#64748b">Cliquez sur une case pour modifier la vacation d'un agent. Agnès apparaît en bandeau doré.</p>
+              <p style="font-size:.85rem;color:#64748b">Cliquez sur une case pour modifier. IA détecte les conflits automatiquement.</p>
             </div>
             <div class="week-nav">
               <button class="btn btn--outline btn--sm" onclick="shiftWeek(-1)">← Précédente</button>
@@ -739,11 +569,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
               <button class="btn btn--dark btn--sm" onclick="shiftWeek(0)">Cette semaine</button>
             </div>
           </div>
-
-          <div class="plan-grid">
-            <table id="planTable"></table>
+          <div class="ia-report" style="margin-bottom:18px">
+            <h4><span class="ico">🤖</span>Actions IA Agnès</h4>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn--gold btn--sm" onclick="iaGenerateWeek()">✨ Générer la semaine</button>
+              <button class="btn btn--outline btn--sm" onclick="iaGenerateMonth()">📅 Générer 4 semaines</button>
+              <button class="btn btn--outline btn--sm" onclick="iaDetectConflicts()">⚠️ Vérifier les conflits</button>
+              <button class="btn btn--outline btn--sm" onclick="iaBalanceHours()">⚖️ Équilibrer les heures</button>
+              <button class="btn btn--outline btn--sm" onclick="iaNotifyAllChanges()">📧 Notifier les agents</button>
+            </div>
           </div>
-
+          <div class="plan-grid"><table id="planTable"></table></div>
           <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;font-size:.8rem;color:#64748b">
             <span><span class="shift-chip s-mat" style="min-width:auto;padding:3px 10px">Matin 06–14</span></span>
             <span><span class="shift-chip s-apm" style="min-width:auto;padding:3px 10px">Après-midi 14–22</span></span>
@@ -753,90 +589,72 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
           </div>
         </div>
 
+        <!-- PREDICTIONS -->
+        <div class="panel" id="panel-predict">
+          <div class="toolbar">
+            <div>
+              <h3 style="font-size:1.15rem">🔮 Prédictions IA</h3>
+              <p style="font-size:.85rem;color:#64748b">Analyse des pointages passés pour anticiper les besoins et les risques.</p>
+            </div>
+            <div class="toolbar-left">
+              <select id="predictPeriod" onchange="iaRenderPredictions()" style="width:auto">
+                <option value="7">7 derniers jours</option>
+                <option value="30" selected>30 derniers jours</option>
+                <option value="90">90 derniers jours</option>
+              </select>
+            </div>
+          </div>
+          <div id="predictContainer"></div>
+        </div>
+
         <!-- PERSONNEL -->
         <div class="panel" id="panel-personnel">
           <div class="toolbar">
             <div>
               <h3 style="font-size:1.15rem">Personnel K.S.I</h3>
-              <p style="font-size:.85rem;color:#64748b">Cliquez sur un membre pour ouvrir sa fiche complète (planning, rapports, pointages).</p>
+              <p style="font-size:.85rem;color:#64748b">Cliquez sur un membre pour sa fiche. IA analyse la charge.</p>
             </div>
             <div class="toolbar-left">
-              <input type="search" id="searchEmp" placeholder="Rechercher un agent…" style="width:220px" oninput="renderPersonnel()">
+              <input type="search" id="searchEmp" placeholder="Rechercher…" style="width:200px" oninput="renderPersonnel()">
+              <button class="btn btn--gold btn--sm" onclick="iaAnalyzePersonnel()">🤖 Analyser</button>
             </div>
           </div>
-
+          <div id="iaPersonnelReport"></div>
           <div class="admin-banner" id="adminBanner"></div>
-
           <div id="personnelGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:22px"></div>
         </div>
 
         <!-- SITES -->
         <div class="panel" id="panel-sites">
           <div class="toolbar">
-            <div>
-              <h3 style="font-size:1.15rem">Gestion des sites</h3>
-              <p style="font-size:.85rem;color:#64748b">Ajoutez, modifiez ou supprimez vos sites d'intervention. Chaque site reçoit automatiquement son QR code.</p>
-            </div>
-            <div class="toolbar-left">
-              <button class="btn btn--gold btn--sm" onclick="openSiteForm()">+ Nouveau site</button>
-            </div>
+            <div><h3 style="font-size:1.15rem">Gestion des sites</h3><p style="font-size:.85rem;color:#64748b">Ajoutez, modifiez ou supprimez vos sites.</p></div>
+            <div class="toolbar-left"><button class="btn btn--gold btn--sm" onclick="openSiteForm()">+ Nouveau site</button></div>
           </div>
-
           <div id="siteForm" style="display:none;background:#f6f8fb;border:1px solid #e4eaf1;border-radius:12px;padding:20px;margin-top:18px">
             <h4 style="font-size:.95rem;margin-bottom:16px" id="siteFormTitle">Nouveau site</h4>
             <input type="hidden" id="sfId">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-              <div class="field">
-                <label for="sfCode">Code du site *</label>
-                <input type="text" id="sfCode" placeholder="Ex. S005" maxlength="6" style="text-transform:uppercase">
-              </div>
-              <div class="field">
-                <label for="sfNom">Nom du site *</label>
-                <input type="text" id="sfNom" placeholder="Ex. Dépôt Sud">
-              </div>
-              <div class="field">
-                <label for="sfVille">Ville *</label>
-                <input type="text" id="sfVille" placeholder="Ex. Bordeaux">
-              </div>
-              <div class="field">
-                <label for="sfAdresse">Adresse complète</label>
-                <input type="text" id="sfAdresse" placeholder="Ex. 12 rue du Port, 33000 Bordeaux">
-              </div>
+              <div class="field"><label for="sfCode">Code *</label><input type="text" id="sfCode" placeholder="Ex. S005" maxlength="6" style="text-transform:uppercase"></div>
+              <div class="field"><label for="sfNom">Nom *</label><input type="text" id="sfNom" placeholder="Ex. Dépôt Sud"></div>
+              <div class="field"><label for="sfVille">Ville *</label><input type="text" id="sfVille" placeholder="Ex. Bordeaux"></div>
+              <div class="field"><label for="sfAdresse">Adresse</label><input type="text" id="sfAdresse" placeholder="12 rue du Port"></div>
             </div>
             <div style="display:flex;gap:10px;margin-top:8px">
               <button class="btn btn--gold btn--sm" onclick="saveSite()">Enregistrer</button>
               <button class="btn btn--outline btn--sm" onclick="closeSiteForm()">Annuler</button>
             </div>
-            <p class="note">Le code du site sera utilisé pour l'URL de pointage : <span class="mono" id="siteFormPreview">#/pointage?site=…</span></p>
+            <p class="note">URL pointage : <span class="mono" id="siteFormPreview">#/pointage?site=…</span></p>
           </div>
-
           <div class="table-wrap" style="margin-top:18px">
-            <table>
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Nom du site</th>
-                  <th>Ville</th>
-                  <th>Adresse</th>
-                  <th>Agents affectés</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="sitesBody"></tbody>
-            </table>
+            <table><thead><tr><th>Code</th><th>Nom</th><th>Ville</th><th>Adresse</th><th>Agents</th><th>Actions</th></tr></thead><tbody id="sitesBody"></tbody></table>
           </div>
         </div>
 
         <!-- QR -->
         <div class="panel" id="panel-qr">
           <div class="toolbar">
-            <div>
-              <h3 style="font-size:1.15rem">QR codes par site</h3>
-              <p style="font-size:.85rem;color:#64748b">Générés localement, aucune connexion externe requise. Imprimez et affichez ces QR à l'entrée de chaque site.</p>
-            </div>
-            <div class="toolbar-left">
-              <button class="btn btn--gold btn--sm" onclick="printQRs()">🖨️ Imprimer les QR</button>
-            </div>
+            <div><h3 style="font-size:1.15rem">QR codes par site</h3><p style="font-size:.85rem;color:#64748b">Générés localement. Imprimez à l'entrée de chaque site.</p></div>
+            <div class="toolbar-left"><button class="btn btn--gold btn--sm" onclick="printQRs()">🖨️ Imprimer les QR</button></div>
           </div>
           <div class="qr-grid" id="qrGrid"></div>
         </div>
@@ -846,107 +664,119 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
           <div class="toolbar">
             <h3 style="font-size:1.15rem">Registre des pointages</h3>
             <div class="toolbar-left">
-              <select id="filterSite" onchange="renderRegistre()">
-                <option value="">Tous les sites</option>
-              </select>
+              <select id="filterSite" onchange="renderRegistre()"><option value="">Tous les sites</option></select>
               <button class="btn btn--outline btn--sm" onclick="exportCSV()">Exporter CSV</button>
             </div>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Date</th><th>Heure</th><th>Matricule</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
-              <tbody id="regBody"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Heure</th><th>Matricule</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead><tbody id="regBody"></tbody></table></div>
         </div>
 
+        <!-- CONFIG -->
+        <div class="panel" id="panel-config">
+          <div class="toolbar"><h3 style="font-size:1.15rem">⚙️ Configuration</h3></div>
+          <div class="email-config">
+            <h4>📧 Notifications email (EmailJS — gratuit jusqu'à 200/mois)</h4>
+            <p style="font-size:.85rem;color:#475569;margin-bottom:14px">Créez un compte gratuit sur <strong>emailjs.com</strong>, connectez votre boîte mail et collez vos identifiants.</p>
+            <div class="row">
+              <div class="field" style="margin-bottom:0"><label for="emailPublicKey">Public Key</label><input type="text" id="emailPublicKey" placeholder="Ex: AbCdEf123456"></div>
+              <div class="field" style="margin-bottom:0"><label for="emailServiceId">Service ID</label><input type="text" id="emailServiceId" placeholder="Ex: service_xxxxxx"></div>
+            </div>
+            <div class="row full">
+              <div class="field" style="margin-bottom:0"><label for="emailTemplateId">Template ID</label><input type="text" id="emailTemplateId" placeholder="Ex: template_xxxxxx"></div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+              <button class="btn btn--gold btn--sm" onclick="saveEmailConfig()">💾 Enregistrer</button>
+              <button class="btn btn--outline btn--sm" onclick="testEmailConfig()">📧 Tester</button>
+              <button class="btn btn--outline btn--sm" onclick="clearEmailConfig()">🗑️ Effacer</button>
+            </div>
+            <div class="status" id="emailStatus"></div>
+          </div>
+          <div class="ia-report" style="margin-top:22px;background:linear-gradient(135deg,#e0f2fe,#fff);border-color:#7dd3fc">
+            <h4><span class="ico">📋</span>Variables du template EmailJS</h4>
+            <ul style="font-size:.8rem;color:#475569;list-style:none;display:flex;flex-direction:column;gap:6px">
+              <li>• <code>{{to_name}}</code> — Nom de l'agent</li>
+              <li>• <code>{{to_email}}</code> — Destinataire</li>
+              <li>• <code>{{date}}</code> — Date de la vacation</li>
+              <li>• <code>{{shift}}</code> — Matin / Après-midi / Nuit</li>
+              <li>• <code>{{hours}}</code> — Horaires</li>
+              <li>• <code>{{site}}</code> — Nom du site</li>
+              <li>• <code>{{action}}</code> — Action effectuée</li>
+              <li>• <code>{{agent}}</code> — Admin qui a modifié</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= POINTAGE ================= -->
+<!-- Pointage -->
 <section class="section" id="pointage">
   <div class="wrap">
     <div class="section-head">
       <div>
         <span class="eyebrow">Pointage sur site</span>
         <h2>Pointage des salariés par QR code</h2>
-        <p class="lead">Un QR code unique est généré pour chaque site. L'agent le scanne avec son smartphone : sa prise de poste et sa fin de service sont horodatées et centralisées.</p>
+        <p class="lead">Un QR code unique par site. L'agent scanne : sa prise de poste est horodatée.</p>
       </div>
       <div class="admin" style="padding:24px">
         <h4 style="font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e0a13a;margin-bottom:14px">Comment ça marche</h4>
         <ol style="list-style:none;display:flex;flex-direction:column;gap:14px;font-size:.9rem;color:#64748b">
-          <li><strong style="color:#0a1a2f">1.</strong> Le QR code du site est affiché à l'entrée.</li>
-          <li><strong style="color:#0a1a2f">2.</strong> L'agent le scanne → la page de pointage s'ouvre.</li>
-          <li><strong style="color:#0a1a2f">3.</strong> Il saisit son matricule + code PIN.</li>
-          <li><strong style="color:#0a1a2f">4.</strong> Arrivée ou départ est enregistré avec l'heure exacte.</li>
-          <li><strong style="color:#0a1a2f">5.</strong> Le registre est consultable et exportable en CSV.</li>
+          <li><strong style="color:#0a1a2f">1.</strong> QR du site affiché à l'entrée.</li>
+          <li><strong style="color:#0a1a2f">2.</strong> L'agent le scanne.</li>
+          <li><strong style="color:#0a1a2f">3.</strong> Saisit matricule + PIN.</li>
+          <li><strong style="color:#0a1a2f">4.</strong> Arrivée/départ enregistré.</li>
         </ol>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
+<!-- Contact -->
 <section class="section section--grey" id="contact">
   <div class="wrap contact-grid">
     <div>
       <span class="eyebrow">Contact</span>
       <h2>Parlons de votre sécurité</h2>
-      <p class="lead">Décrivez-nous votre besoin : nous vous répondons sous 24 h ouvrées avec une proposition chiffrée.</p>
+      <p class="lead">Réponse sous 24 h ouvrées.</p>
       <div class="info-list">
-        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><div><strong>Standard 24/7</strong><span>01 84 00 00 00</span></div></div>
-        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><div><strong>Email</strong><span>contact@ksi-securite.fr</span></div></div>
-        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><strong>Siège social</strong><span>12 rue des Peupliers, 75015 Paris</span></div></div>
-        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><div><strong>Centre opérationnel</strong><span>Supervision et télésurveillance 24h/24, 365 j/an</span></div></div>
+        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><div><strong>Standard 24/7</strong><span>01 84 00 00 00</span></div></div>
+        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><div><strong>Email</strong><span>contact@ksi-securite.fr</span></div></div>
+        <div class="info-item"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><strong>Siège</strong><span>12 rue des Peupliers, 75015 Paris</span></div></div>
       </div>
     </div>
     <div class="form-card">
-      <div class="form-ok" id="formOk">✓ Merci, votre demande a bien été envoyée. Un conseiller K.S.I vous contacte sous 24 h.</div>
+      <div class="form-ok" id="formOk">✓ Demande envoyée. Nous vous recontactons sous 24 h.</div>
       <form id="contactForm" onsubmit="return sendForm(event)">
         <div class="form-row">
-          <div class="field"><label for="cNom">Nom complet *</label><input type="text" id="cNom" required placeholder="Jean Dupont"></div>
-          <div class="field"><label for="cSociete">Société</label><input type="text" id="cSociete" placeholder="Nom de l'entreprise"></div>
+          <div class="field"><label for="cNom">Nom *</label><input type="text" id="cNom" required placeholder="Jean Dupont"></div>
+          <div class="field"><label for="cSociete">Société</label><input type="text" id="cSociete" placeholder="Entreprise"></div>
         </div>
         <div class="form-row">
-          <div class="field"><label for="cEmail">Email *</label><input type="text" id="cEmail" required placeholder="jean.dupont@email.fr"></div>
+          <div class="field"><label for="cEmail">Email *</label><input type="text" id="cEmail" required placeholder="jean@email.fr"></div>
           <div class="field"><label for="cTel">Téléphone *</label><input type="text" id="cTel" required placeholder="06 12 34 56 78"></div>
         </div>
-        <div class="field">
-          <label for="cBesoin">Votre besoin</label>
-          <select id="cBesoin">
-            <option>Gardiennage / surveillance de site</option>
-            <option>Vidéosurveillance</option>
-            <option>Contrôle d'accès</option>
-            <option>Pointage QR des agents</option>
-            <option>Gestion du planning</option>
-            <option>Alarme / télésurveillance</option>
-            <option>Autre demande</option>
-          </select>
-        </div>
-        <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="Décrivez brièvement votre site et vos attentes…"></textarea></div>
+        <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" placeholder="Décrivez votre besoin…"></textarea></div>
         <button type="submit" class="btn btn--gold btn--full">Envoyer ma demande</button>
-        <p class="note">* Champs obligatoires. Vos données ne sont utilisées que pour traiter votre demande.</p>
       </form>
     </div>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
+<!-- Footer -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
         <div class="logo">
-          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#231a06" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#231a06" stroke-width="2.2"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <span class="logo-txt"><strong>K.S.I</strong><span>Sécurité &amp; Sûreté</span></span>
         </div>
-        <p>Société de sécurité privée agréée. Gardiennage, surveillance, sécurité électronique, gestion du personnel et rapports de terrain.</p>
+        <p>Société de sécurité privée agréée. Gardiennage, surveillance, sécurité électronique et IA de gestion.</p>
       </div>
-      <div><h5>Services</h5><ul><li><a href="#services">Gardiennage</a></li><li><a href="#services">Vidéosurveillance</a></li><li><a href="#services">Contrôle d'accès</a></li><li><a href="#services">Télésurveillance</a></li></ul></div>
-      <div><h5>Gestion</h5><ul><li><a href="#gestion">Planning</a></li><li><a href="#gestion">Personnel</a></li><li><a href="#pointage">Pointage QR</a></li><li><a href="#gestion">Rapports</a></li></ul></div>
-      <div><h5>Légal</h5><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Politique de confidentialité</a></li><li><a href="#">Autorisation CNAPS</a></li><li><a href="#">CGV</a></li></ul></div>
+      <div><h5>Services</h5><ul><li><a href="#services">Gardiennage</a></li><li><a href="#services">Vidéosurveillance</a></li><li><a href="#services">Contrôle d'accès</a></li><li><a href="#services">IA Agnès</a></li></ul></div>
+      <div><h5>Gestion</h5><ul><li><a href="#gestion">Planning IA</a></li><li><a href="#gestion">Personnel</a></li><li><a href="#pointage">Pointage QR</a></li><li><a href="#gestion">Prédictions</a></li></ul></div>
+      <div><h5>Légal</h5><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Confidentialité</a></li><li><a href="#">CNAPS</a></li><li><a href="#">CGV</a></li></ul></div>
     </div>
     <div class="foot-bottom">
       <span>© <span id="year"></span> K.S.I — Tous droits réservés.</span>
@@ -955,19 +785,16 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   </div>
 </footer>
 
-<!-- ================= MODALE PROFIL ================= -->
+<!-- Modal Profil -->
 <div class="modal" id="profileModal">
   <div class="modal-in">
     <div class="modal-head">
       <div class="avatar avatar--lg avatar--gold" id="pmAvatar">KS</div>
-      <div>
-        <h3 id="pmName">—</h3>
-        <p id="pmRole">—</p>
-      </div>
-      <button class="modal-close" onclick="closeProfile()" aria-label="Fermer">✕</button>
+      <div><h3 id="pmName">—</h3><p id="pmRole">—</p></div>
+      <button class="modal-close" onclick="closeProfile()">✕</button>
     </div>
     <div class="profile-tabs">
-      <button class="ptab active" data-ptab="infos">Informations</button>
+      <button class="ptab active" data-ptab="infos">Infos</button>
       <button class="ptab" data-ptab="planning">Planning</button>
       <button class="ptab" data-ptab="rapports">Rapports</button>
       <button class="ptab" data-ptab="pointages">Pointages</button>
@@ -981,42 +808,32 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   </div>
 </div>
 
-<!-- ================= VUE TERRAIN ================= -->
+<!-- Vue terrain -->
 <div class="scan" id="scanView">
   <div class="scan-in">
     <div class="scan-top">
       <div class="logo">
-        <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#231a06" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#231a06" stroke-width="2.2"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/><path d="m9 12 2 2 4-4"/></svg></span>
         <span class="logo-txt"><strong>K.S.I</strong><span>Pointage agent</span></span>
       </div>
-      <button class="scan-close" onclick="closeScan()" aria-label="Fermer">✕</button>
+      <button class="scan-close" onclick="closeScan()">✕</button>
     </div>
-    <div class="scan-site">
-      <span>Site identifié</span>
-      <h3 id="scanSiteName">—</h3>
-      <p id="scanSiteAddr">—</p>
-    </div>
+    <div class="scan-site"><span>Site identifié</span><h3 id="scanSiteName">—</h3><p id="scanSiteAddr">—</p></div>
     <div class="scan-form">
       <div class="scan-msg" id="scanMsg"></div>
       <div id="scanStep1">
         <div class="field"><label for="pMat">Matricule</label><input type="text" id="pMat" placeholder="Ex. K001" autocomplete="off"></div>
-        <div class="field"><label for="pPin">Code PIN</label><input type="password" id="pPin" placeholder="••••" inputmode="numeric" autocomplete="off"></div>
-        <button class="btn btn--dark btn--full" onclick="identify()">Valider mon identité</button>
-        <p class="note" style="text-align:center">Démo : K001/1234 · K002/2345 · K003/3456 · K004/4567 · ADM1/0000</p>
+        <div class="field"><label for="pPin">Code PIN</label><input type="password" id="pPin" placeholder="••••" inputmode="numeric"></div>
+        <button class="btn btn--dark btn--full" onclick="identify()">Valider</button>
+        <p class="note" style="text-align:center">Démo : K001/1234 · K002/2345 · K003/3456 · K004/4567 · K005/5678 · ADM1/0000 · ADM2/1111</p>
       </div>
       <div id="scanStep2" style="display:none">
-        <div class="recap">
-          <div class="sub">Bonjour</div>
-          <div class="who" id="pWho">—</div>
-          <div class="sub" id="pLast" style="margin-top:6px">Aucun pointage aujourd'hui</div>
-        </div>
+        <div class="recap"><div class="sub">Bonjour</div><div class="who" id="pWho">—</div><div class="sub" id="pLast" style="margin-top:6px"></div></div>
         <div class="scan-actions">
           <button class="btn btn-in" onclick="pointer('arrivee')">Arrivée</button>
           <button class="btn btn-out" onclick="pointer('depart')">Départ</button>
         </div>
-        <p class="note" style="text-align:center;margin-top:16px">
-          <a href="#" onclick="logoutScan();return false" style="color:#0a1a2f;font-weight:600;text-decoration:underline">Changer d'agent</a>
-        </p>
+        <p class="note" style="text-align:center;margin-top:16px"><a href="#" onclick="logoutScan();return false" style="color:#0a1a2f;font-weight:600;text-decoration:underline">Changer d'agent</a></p>
       </div>
       <div id="scanStep3" style="display:none">
         <div class="recap">
@@ -1032,49 +849,32 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   </div>
 </div>
 
-<!-- ================= ÉCRAN DE CONNEXION ================= -->
+<!-- Login -->
 <div class="login-overlay" id="loginView">
   <div class="login-box">
     <div style="text-align:center;margin-bottom:28px">
-      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#e0a13a,#f5c063);display:grid;place-items:center;margin:0 auto 14px;box-shadow:0 8px 22px rgba(224,161,58,.4)">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#231a06" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/>
-          <path d="m9 12 2 2 4-4"/>
-        </svg>
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#e0a13a,#f5c063);display:grid;place-items:center;margin:0 auto 14px">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#231a06" stroke-width="2.2"><path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/><path d="m9 12 2 2 4-4"/></svg>
       </div>
       <h2 style="font-size:1.4rem;color:#fff;margin-bottom:6px">Accès administration</h2>
       <p style="font-size:.85rem;color:rgba(255,255,255,.6)">Espace réservé à l'équipe K.S.I</p>
     </div>
-
     <div class="login-form">
       <div class="login-msg" id="loginMsg"></div>
-      <div class="field">
-        <label for="loginMat">Identifiant</label>
-        <input type="text" id="loginMat" placeholder="Ex. ADM1" autocomplete="username" style="text-transform:uppercase">
-      </div>
-      <div class="field">
-        <label for="loginPin">Code d'accès</label>
-        <input type="password" id="loginPin" placeholder="••••" autocomplete="current-password" inputmode="numeric">
-      </div>
+      <div class="field"><label for="loginMat">Identifiant</label><input type="text" id="loginMat" placeholder="Ex. ADM1" style="text-transform:uppercase"></div>
+      <div class="field"><label for="loginPin">Code d'accès</label><input type="password" id="loginPin" placeholder="••••" inputmode="numeric"></div>
       <button class="btn btn--gold btn--full" onclick="login()" style="margin-top:6px">Se connecter</button>
-      <p class="note" style="text-align:center;color:rgba(255,255,255,.5)">
-        Démo : ADM1 / 0000
-      </p>
-      <p style="text-align:center;margin-top:14px">
-        <a href="#" onclick="closeLogin();return false" style="font-size:.82rem;color:rgba(255,255,255,.6);text-decoration:underline">
-          ← Retour au site public
-        </a>
-      </p>
+      <p class="note" style="text-align:center;color:rgba(255,255,255,.5)">Démo : ADM1 / 0000 · ADM2 / 1111</p>
+      <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeLogin();return false" style="font-size:.82rem;color:rgba(255,255,255,.6);text-decoration:underline">← Retour au site public</a></p>
     </div>
   </div>
 </div>
 
 <script>
-/* =========================================================
-   K.S.I — DONNÉES
-   ========================================================= */
-const STORE = 'ksi_state_v6';
+/* ================== DONNÉES ================== */
+const STORE = 'ksi_state_v8';
 const SESSION_KEY = 'ksi_session';
+const EMAIL_STORE = 'ksi_email_config';
 
 let SITES = [
   {id:'S001', nom:'Siège — Tour Horizon',  ville:'Paris 15e', adresse:'12 rue des Peupliers, 75015 Paris'},
@@ -1084,11 +884,13 @@ let SITES = [
 ];
 
 const EMPLOYES = [
-  {mat:'K001', nom:'Amine Diallo',  poste:'Agent de sécurité',              pin:'1234', tel:'06 11 22 33 44', email:'a.diallo@ksi.fr',  embauche:'12/03/2021', cartePro:'CNAPS-075-11223', siteHabituel:'S001', role:'agent'},
-  {mat:'K002', nom:'Fatou Ndiaye',  poste:'Chef de poste',                  pin:'2345', tel:'06 22 33 44 55', email:'f.ndiaye@ksi.fr',  embauche:'04/09/2019', cartePro:'CNAPS-075-33445', siteHabituel:'S002', role:'agent'},
-  {mat:'K003', nom:'Karim Benali',  poste:'Agent de sécurité',              pin:'3456', tel:'06 33 44 55 66', email:'k.benali@ksi.fr',  embauche:'21/06/2022', cartePro:'CNAPS-075-55667', siteHabituel:'S003', role:'agent'},
-  {mat:'K004', nom:'Sophie Martin', poste:'Opératrice vidéo',               pin:'4567', tel:'06 44 55 66 77', email:'s.martin@ksi.fr',  embauche:'15/01/2020', cartePro:'CNAPS-075-77889', siteHabituel:'S004', role:'agent'},
-  {mat:'ADM1', nom:'Agnès Lefèvre', poste:'Responsable Planning & Personnel', pin:'0000', tel:'06 55 66 77 88', email:'a.lefevre@ksi.fr', embauche:'02/05/2017', cartePro:'CNAPS-075-ADM01', siteHabituel:'S001', role:'admin'}
+  {mat:'K001', nom:'Amine Diallo',  poste:'Agent de sécurité',   pin:'1234', tel:'06 11 22 33 44', email:'a.diallo@ksi.fr',  embauche:'12/03/2021', cartePro:'CNAPS-075-11223', siteHabituel:'S001', role:'agent'},
+  {mat:'K002', nom:'Fatou Ndiaye',  poste:'Chef de poste',       pin:'2345', tel:'06 22 33 44 55', email:'f.ndiaye@ksi.fr',  embauche:'04/09/2019', cartePro:'CNAPS-075-33445', siteHabituel:'S002', role:'agent'},
+  {mat:'K003', nom:'Karim Benali',  poste:'Agent de sécurité',   pin:'3456', tel:'06 33 44 55 66', email:'k.benali@ksi.fr',  embauche:'21/06/2022', cartePro:'CNAPS-075-55667', siteHabituel:'S003', role:'agent'},
+  {mat:'K004', nom:'Sophie Martin', poste:'Opératrice vidéo',    pin:'4567', tel:'06 44 55 66 77', email:'s.martin@ksi.fr',  embauche:'15/01/2020', cartePro:'CNAPS-075-77889', siteHabituel:'S004', role:'agent'},
+  {mat:'K005', nom:'Lia Anies',     poste:'Agent de sécurité',   pin:'5678', tel:'06 66 77 88 99', email:'l.anies@ksi.fr',   embauche:'10/09/2023', cartePro:'CNAPS-075-99001', siteHabituel:'S002', role:'agent'},
+  {mat:'ADM1', nom:'Agnès Lefèvre', poste:'Responsable Planning & Personnel', pin:'0000', tel:'06 55 66 77 88', email:'a.lefevre@ksi.fr', embauche:'02/05/2017', cartePro:'CNAPS-075-ADM01', siteHabituel:'S001', role:'admin'},
+  {mat:'ADM2', nom:'Lia Anies (RH)',poste:'Assistante Planning',  pin:'1111', tel:'06 66 77 88 99', email:'l.anies@ksi.fr',   embauche:'01/10/2024', cartePro:'CNAPS-075-ADM02', siteHabituel:'S001', role:'admin'}
 ];
 
 const ZONES = [
@@ -1099,27 +901,28 @@ const ZONES = [
 ];
 
 const SHIFTS = {
-  matin: {label:'Matin',       code:'M',  hours:'06:00–14:00', cls:'s-mat'},
-  aprem: {label:'Après-midi',  code:'AM', hours:'14:00–22:00', cls:'s-apm'},
-  nuit:  {label:'Nuit',        code:'N',  hours:'22:00–06:00', cls:'s-nui'},
-  repos: {label:'Repos',       code:'R',  hours:'',            cls:'s-off'},
-  admin: {label:'Administration', code:'ADM', hours:'09:00–17:00', cls:'s-admin'}
+  matin: {label:'Matin',       code:'M',  hours:'06:00–14:00', cls:'s-mat', h:8},
+  aprem: {label:'Après-midi',  code:'AM', hours:'14:00–22:00', cls:'s-apm', h:8},
+  nuit:  {label:'Nuit',        code:'N',  hours:'22:00–06:00', cls:'s-nui', h:8},
+  repos: {label:'Repos',       code:'R',  hours:'',            cls:'s-off', h:0},
+  admin: {label:'Administration', code:'ADM', hours:'09:00–17:00', cls:'s-admin', h:7}
 };
 
 const TYPES_RAPPORT = {
-  ronde:         {label:'Ronde',          cls:'ronde'},
-  incident:      {label:'Incident',       cls:'incident'},
-  maincourante:  {label:'Main courante',  cls:'maincourante'},
-  remise:        {label:'Remise de clés', cls:'remise'}
+  ronde:{label:'Ronde',cls:'ronde'},
+  incident:{label:'Incident',cls:'incident'},
+  maincourante:{label:'Main courante',cls:'maincourante'},
+  remise:{label:'Remise de clés',cls:'remise'}
 };
 
-let state = { logs: [], planning: [], rapports: [], weekOffset: 0 };
+let state = { logs:[], planning:[], rapports:[], weekOffset:0 };
 let currentAgentMat = null;
 let scanSite = null;
 let scanAgent = null;
 let currentAdmin = null;
+let agnesHistory = [];
 
-/* ---------- utilitaires ---------- */
+/* ================== UTILITAIRES ================== */
 const pad = n => String(n).padStart(2,'0');
 const todayKey = () => { const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
 const fmtDate = d => `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
@@ -1128,21 +931,12 @@ const isoDate = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate(
 const siteById = id => SITES.find(s => s.id === id) || {nom:'Site inconnu', adresse:'', ville:''};
 const empByMat = m => EMPLOYES.find(e => e.mat.toUpperCase() === String(m).toUpperCase());
 const initials = nom => nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function startOfWeek(date){
-  const d = new Date(date);
-  const day = (d.getDay() + 6) % 7;
-  d.setDate(d.getDate() - day);
-  d.setHours(0,0,0,0);
-  return d;
-}
-function addDays(date, n){
-  const d = new Date(date);
-  d.setDate(d.getDate() + n);
-  return d;
-}
+function startOfWeek(date){ const d=new Date(date); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); d.setHours(0,0,0,0); return d; }
+function addDays(date, n){ const d=new Date(date); d.setDate(d.getDate()+n); return d; }
 
-/* ---------- persistance ---------- */
+/* ================== PERSISTANCE ================== */
 function load(){
   try{
     const raw = localStorage.getItem(STORE);
@@ -1157,13 +951,11 @@ function load(){
   if(!state.planning.length) seedPlanning();
   if(!state.rapports.length) seedRapports();
 }
+
 function save(){
   try{
     localStorage.setItem(STORE, JSON.stringify({
-      logs: state.logs,
-      planning: state.planning,
-      rapports: state.rapports,
-      sites: SITES
+      logs: state.logs, planning: state.planning, rapports: state.rapports, sites: SITES
     }));
   }catch(e){}
 }
@@ -1175,45 +967,443 @@ function seedPlanning(){
     K001: ['matin','matin','aprem','aprem','nuit','nuit','repos'],
     K002: ['aprem','aprem','nuit','nuit','repos','matin','matin'],
     K003: ['nuit','nuit','repos','matin','matin','aprem','aprem'],
-    K004: ['matin','repos','matin','aprem','aprem','repos','matin']
+    K004: ['matin','repos','matin','aprem','aprem','repos','matin'],
+    K005: ['aprem','matin','matin','repos','nuit','nuit','repos']
   };
-  const sitesByAgent = {K001:'S001', K002:'S002', K003:'S003', K004:'S004'};
+  const sitesByAgent = {K001:'S001',K002:'S002',K003:'S003',K004:'S004',K005:'S002'};
   Object.keys(pattern).forEach(mat => {
     pattern[mat].forEach((shift, i) => {
       const date = isoDate(addDays(monday, i));
       state.planning.push({date, mat, shift, siteId: sitesByAgent[mat]});
     });
   });
-  for(let i = 0; i < 7; i++){
-    const date = isoDate(addDays(monday, i));
-    const shift = i < 5 ? 'admin' : 'repos';
-    state.planning.push({date, mat:'ADM1', shift, siteId:'S001'});
-  }
+  ['ADM1','ADM2'].forEach(mat => {
+    for(let i = 0; i < 7; i++){
+      const date = isoDate(addDays(monday, i));
+      const shift = i < 5 ? 'admin' : 'repos';
+      state.planning.push({date, mat, shift, siteId:'S001'});
+    }
+  });
   save();
 }
 
 function seedRapports(){
   const now = new Date();
   state.rapports = [
-    {id:'r1', mat:'K001', date:isoDate(addDays(now,-1)), siteId:'S001', type:'ronde',
-     titre:'Ronde de nuit — RAS', contenu:"Ronde effectuée à 02h15. Portes de parking fermées, éclairage conforme, aucun véhicule suspect.",
-     statut:'traite', createdAt: addDays(now,-1).getTime()},
-    {id:'r2', mat:'K002', date:isoDate(addDays(now,-1)), siteId:'S002', type:'incident',
-     titre:'Tentative d\'intrusion côté sud', contenu:"Déclenchement alarme périmétrique zone sud à 23h47. Levée de doute : traces d'escalade sur le grillage. Aucune personne sur site. Photos transmises au PC.",
-     statut:'en_cours', createdAt: addDays(now,-1).getTime()},
-    {id:'r3', mat:'K003', date:isoDate(now), siteId:'S003', type:'maincourante',
-     titre:'Passation de consigne', contenu:"Passation avec l'équipe montante. Le badge visiteur n°12 ne fonctionne pas, à remplacer. Clientèle habituelle, aucune remarque.",
-     statut:'nouveau', createdAt: now.getTime()}
+    {id:'r1', mat:'K001', date:isoDate(addDays(now,-1)), siteId:'S001', type:'ronde', titre:'Ronde de nuit — RAS', contenu:"Ronde effectuée à 02h15. Portes fermées.", statut:'traite', createdAt: addDays(now,-1).getTime()},
+    {id:'r2', mat:'K002', date:isoDate(addDays(now,-1)), siteId:'S002', type:'incident', titre:'Tentative intrusion zone sud', contenu:"Alarme déclenchée. Traces d'escalade.", statut:'en_cours', createdAt: addDays(now,-1).getTime()}
   ];
   save();
 }
 
-/* =========================================================
-   ZONES & QR
-   ========================================================= */
+/* ================== EMAIL CONFIG ================== */
+function loadEmailConfig(){
+  try{ const raw = localStorage.getItem(EMAIL_STORE); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function isEmailConfigured(){ return !!loadEmailConfig(); }
+
+function saveEmailConfig(){
+  const cfg = {
+    publicKey: document.getElementById('emailPublicKey').value.trim(),
+    serviceId: document.getElementById('emailServiceId').value.trim(),
+    templateId: document.getElementById('emailTemplateId').value.trim()
+  };
+  if(!cfg.publicKey || !cfg.serviceId || !cfg.templateId){ setEmailStatus('Merci de remplir les 3 champs.', 'err'); return; }
+  localStorage.setItem(EMAIL_STORE, JSON.stringify(cfg));
+  if(typeof emailjs !== 'undefined') emailjs.init(cfg.publicKey);
+  setEmailStatus('✅ Configuration enregistrée.', 'ok');
+}
+function clearEmailConfig(){
+  if(!confirm('Effacer la configuration email ?')) return;
+  localStorage.removeItem(EMAIL_STORE);
+  ['emailPublicKey','emailServiceId','emailTemplateId'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  setEmailStatus('Configuration effacée.', 'ok');
+}
+function setEmailStatus(txt, type){
+  const el = document.getElementById('emailStatus');
+  if(!el) return;
+  el.className = 'status ' + (type || 'ok');
+  el.textContent = txt;
+  if(type === 'ok') setTimeout(() => { el.className = 'status'; }, 4000);
+}
+async function testEmailConfig(){
+  if(!isEmailConfigured()){ setEmailStatus('Enregistrez d\'abord la config.', 'err'); return; }
+  const cfg = loadEmailConfig();
+  if(typeof emailjs === 'undefined'){ setEmailStatus('EmailJS non chargé.', 'err'); return; }
+  emailjs.init(cfg.publicKey);
+  try{
+    await emailjs.send(cfg.serviceId, cfg.templateId, {
+      to_name: currentAdmin ? currentAdmin.nom : 'Test',
+      to_email: currentAdmin ? currentAdmin.email : 'test@example.com',
+      date: fmtDate(new Date()), shift:'Test', hours:'00:00–00:00',
+      site:'Test', action:'Test config', agent: currentAdmin ? currentAdmin.nom : 'Admin'
+    });
+    setEmailStatus('✅ Email test envoyé !', 'ok');
+  }catch(err){
+    console.error(err);
+    setEmailStatus('❌ Échec : ' + (err.text || err.message || 'Vérifiez vos identifiants'), 'err');
+  }
+}
+async function notifyAgent(mat, date, shift, action){
+  if(!isEmailConfigured()) return false;
+  const emp = empByMat(mat);
+  if(!emp || !emp.email) return false;
+  const cfg = loadEmailConfig();
+  if(typeof emailjs === 'undefined') return false;
+  try{
+    emailjs.init(cfg.publicKey);
+    const s = SHIFTS[shift];
+    const [y,m,d] = date.split('-');
+    await emailjs.send(cfg.serviceId, cfg.templateId, {
+      to_name: emp.nom, to_email: emp.email, date: `${d}/${m}/${y}`,
+      shift: s.label, hours: s.hours || 'Repos',
+      site: siteById(emp.siteHabituel).nom,
+      action: action || 'Modification',
+      agent: currentAdmin ? currentAdmin.nom : 'K.S.I'
+    });
+    return true;
+  }catch(err){ console.warn('Email échec pour', emp.nom, err); return false; }
+}
+async function iaNotifyAllChanges(){
+  if(!isEmailConfigured()){
+    alert('📧 Email non configuré.\n\nAllez dans l\'onglet ⚙️ Config pour renseigner vos identifiants EmailJS (gratuit sur emailjs.com).');
+    return;
+  }
+  if(!currentAdmin){ alert('Connectez-vous d\'abord.'); return; }
+  if(!confirm('Envoyer un email à tous les agents avec leur planning de la semaine ?')) return;
+  const monday = startOfWeek(addDays(new Date(), state.weekOffset * 7));
+  const dates = Array.from({length:7}, (_, i) => isoDate(addDays(monday, i)));
+  let sent = 0, total = 0;
+  for(const emp of EMPLOYES){
+    if(emp.role === 'admin') continue;
+    for(const d of dates){
+      const entry = state.planning.find(p => p.date === d && p.mat === emp.mat);
+      if(entry && entry.shift !== 'repos'){
+        total++;
+        const ok = await notifyAgent(emp.mat, d, entry.shift, 'Planning hebdomadaire');
+        if(ok) sent++;
+        await new Promise(r => setTimeout(r, 200));
+      }
+    }
+  }
+  alert(`✅ ${sent}/${total} emails envoyés.`);
+}
+
+/* ================== IA - HEURES & CONFLITS ================== */
+function iaGetWeeklyHours(mat, weekOffset){
+  const offset = weekOffset !== undefined ? weekOffset : state.weekOffset;
+  const monday = startOfWeek(addDays(new Date(), offset * 7));
+  const dates = Array.from({length:7}, (_, i) => isoDate(addDays(monday, i)));
+  let total = 0;
+  dates.forEach(d => {
+    const entry = state.planning.find(p => p.date === d && p.mat === mat);
+    if(entry) total += SHIFTS[entry.shift].h;
+  });
+  return total;
+}
+
+function iaCheckConflict(mat, date){
+  const emp = empByMat(mat);
+  if(!emp || emp.role === 'admin') return false;
+  const entry = state.planning.find(p => p.date === date && p.mat === mat);
+  if(!entry || entry.shift === 'repos') return false;
+  const monday = startOfWeek(new Date(date));
+  const days = [];
+  for(let i = 0; i < 7; i++){
+    const d = isoDate(addDays(monday, i));
+    const e = state.planning.find(p => p.date === d && p.mat === mat);
+    if(e && e.shift !== 'repos') days.push(i);
+  }
+  const dayIdx = (new Date(date).getDay() + 6) % 7;
+  let consec = 1;
+  for(let i = dayIdx - 1; i >= 0; i--){ if(days.includes(i)) consec++; else break; }
+  for(let i = dayIdx + 1; i < 7; i++){ if(days.includes(i)) consec++; else break; }
+  if(consec > 6) return true;
+  if(iaGetWeeklyHours(mat) > 48) return true;
+  if(entry.shift === 'nuit'){
+    const nextDate = isoDate(addDays(new Date(date), 1));
+    const nextEntry = state.planning.find(p => p.date === nextDate && p.mat === mat);
+    if(nextEntry && nextEntry.shift === 'matin') return true;
+  }
+  return false;
+}
+
+function iaGetAllConflicts(){
+  const conflicts = [];
+  const monday = startOfWeek(addDays(new Date(), state.weekOffset * 7));
+  const dates = Array.from({length:7}, (_, i) => isoDate(addDays(monday, i)));
+  EMPLOYES.forEach(emp => {
+    if(emp.role === 'admin') return;
+    const hWeek = iaGetWeeklyHours(emp.mat);
+    if(hWeek > 48) conflicts.push({mat:emp.mat, nom:emp.nom, msg:`${hWeek}h cette semaine (max 48h)`, level:'danger'});
+    else if(hWeek > 44) conflicts.push({mat:emp.mat, nom:emp.nom, msg:`${hWeek}h — proche limite`, level:'warn'});
+    let consec = 0, maxConsec = 0;
+    dates.forEach(d => {
+      const e = state.planning.find(p => p.date === d && p.mat === emp.mat);
+      if(e && e.shift !== 'repos'){ consec++; maxConsec = Math.max(maxConsec, consec); } else consec = 0;
+    });
+    if(maxConsec >= 6) conflicts.push({mat:emp.mat, nom:emp.nom, msg:`${maxConsec} jours d'affilée`, level:'danger'});
+    dates.forEach((d, i) => {
+      if(i === dates.length - 1) return;
+      const e1 = state.planning.find(p => p.date === d && p.mat === emp.mat);
+      const e2 = state.planning.find(p => p.date === dates[i+1] && p.mat === emp.mat);
+      if(e1 && e1.shift === 'nuit' && e2 && e2.shift === 'matin')
+        conflicts.push({mat:emp.mat, nom:emp.nom, msg:`Nuit → matin le ${dates[i+1]}`, level:'danger'});
+    });
+  });
+  return conflicts;
+}
+
+/* ================== IA - GÉNÉRATION ================== */
+function iaGenerateWeek(){
+  if(!confirm('Générer un planning optimisé pour la semaine affichée ?')) return;
+  const monday = startOfWeek(addDays(new Date(), state.weekOffset * 7));
+  const dates = Array.from({length:7}, (_, i) => isoDate(addDays(monday, i)));
+  const agents = EMPLOYES.filter(e => e.role !== 'admin');
+  state.planning = state.planning.filter(p => !dates.includes(p.date) || empByMat(p.mat)?.role === 'admin');
+  const shiftsByDay = [
+    ['matin','aprem','nuit'],['matin','aprem','nuit'],['matin','aprem','nuit'],
+    ['matin','aprem','nuit'],['matin','aprem','nuit'],['matin','aprem'],['matin','aprem']
+  ];
+  const hoursByAgent = {}; const lastShiftByAgent = {};
+  agents.forEach(a => { hoursByAgent[a.mat]=0; lastShiftByAgent[a.mat]=null; });
+  dates.forEach((date, dayIdx) => {
+    const shiftsToday = shiftsByDay[dayIdx];
+    shiftsToday.forEach(shift => {
+      const candidates = agents
+        .filter(a => hoursByAgent[a.mat] + SHIFTS[shift].h <= 48)
+        .filter(a => !(shift === 'matin' && lastShiftByAgent[a.mat] === 'nuit'))
+        .filter(a => { const cur = state.planning.find(p => p.date === date && p.mat === a.mat); return !cur || cur.shift === 'repos'; })
+        .sort((a,b) => hoursByAgent[a.mat] - hoursByAgent[b.mat]);
+      if(candidates.length){
+        const chosen = candidates[0];
+        state.planning.push({date, mat:chosen.mat, shift, siteId:chosen.siteHabituel});
+        hoursByAgent[chosen.mat] += SHIFTS[shift].h;
+        lastShiftByAgent[chosen.mat] = shift;
+      }
+    });
+    agents.forEach(a => {
+      const e = state.planning.find(p => p.date === date && p.mat === a.mat);
+      if(!e || e.shift === 'repos') lastShiftByAgent[a.mat] = null;
+    });
+  });
+  save();
+  renderPlanning(); renderPersonnel(); iaRenderDashboardReport();
+  const summary = agents.map(a => `${a.nom} : ${hoursByAgent[a.mat]}h`).join('\n');
+  alert(`✅ Planning généré !\n\n${summary}`);
+}
+
+function iaGenerateMonth(){
+  if(!confirm('Générer 4 semaines de planning d\'affilée ?')) return;
+  const startMonday = startOfWeek(new Date());
+  const agents = EMPLOYES.filter(e => e.role !== 'admin');
+  const datesToClear = [];
+  for(let w = 0; w < 4; w++){
+    for(let d = 0; d < 7; d++){
+      datesToClear.push(isoDate(addDays(startMonday, w*7 + d)));
+    }
+  }
+  state.planning = state.planning.filter(p => !datesToClear.includes(p.date) || empByMat(p.mat)?.role === 'admin');
+  const shiftsByDay = [
+    ['matin','aprem','nuit'],['matin','aprem','nuit'],['matin','aprem','nuit'],
+    ['matin','aprem','nuit'],['matin','aprem','nuit'],['matin','aprem'],['matin','aprem']
+  ];
+  const hoursByAgent = {}; const lastShiftByAgent = {}; const rotationOffset = {};
+  agents.forEach((a, i) => { hoursByAgent[a.mat]=0; lastShiftByAgent[a.mat]=null; rotationOffset[a.mat]=i; });
+  let totalVacations = 0;
+  for(let w = 0; w < 4; w++){
+    for(let dayIdx = 0; dayIdx < 7; dayIdx++){
+      const date = isoDate(addDays(startMonday, w*7 + dayIdx));
+      const shiftsToday = shiftsByDay[dayIdx];
+      shiftsToday.forEach((shift, si) => {
+        const candidates = agents
+          .filter(a => !(shift === 'matin' && lastShiftByAgent[a.mat] === 'nuit'))
+          .filter(a => { const cur = state.planning.find(p => p.date === date && p.mat === a.mat); return !cur || cur.shift === 'repos'; })
+          .sort((a, b) => {
+            const ha = hoursByAgent[a.mat] + ((w + rotationOffset[a.mat]) % 3 === si ? -3 : 0);
+            const hb = hoursByAgent[b.mat] + ((w + rotationOffset[b.mat]) % 3 === si ? -3 : 0);
+            return ha - hb;
+          });
+        if(candidates.length){
+          const chosen = candidates[0];
+          state.planning.push({date, mat:chosen.mat, shift, siteId:chosen.siteHabituel});
+          hoursByAgent[chosen.mat] += SHIFTS[shift].h;
+          lastShiftByAgent[chosen.mat] = shift;
+          totalVacations++;
+        }
+      });
+      agents.forEach(a => {
+        const e = state.planning.find(p => p.date === date && p.mat === a.mat);
+        if(!e || e.shift === 'repos') lastShiftByAgent[a.mat] = null;
+      });
+    }
+  }
+  save();
+  renderPlanning(); renderPersonnel(); iaRenderDashboardReport();
+  const summary = agents.map(a => `${a.nom} : ${hoursByAgent[a.mat]}h (4 sem.)`).join('\n');
+  alert(`✅ 4 semaines générées ! ${totalVacations} vacations.\n\n${summary}`);
+}
+
+/* ================== IA - DÉTECTION CONFLITS ================== */
+function iaDetectConflicts(){
+  const conflicts = iaGetAllConflicts();
+  renderPlanning();
+  if(!conflicts.length){
+    alert('✅ Aucun conflit détecté cette semaine.');
+    return;
+  }
+  const msg = conflicts.map(c => `• ${c.nom} : ${c.msg}`).join('\n');
+  alert(`⚠️ ${conflicts.length} conflit(s) détecté(s) :\n\n${msg}`);
+}
+
+/* ================== IA - ÉQUILIBRAGE ================== */
+function iaBalanceHours(){
+  if(!confirm('Équilibrer les heures entre les agents ?')) return;
+  const agents = EMPLOYES.filter(e => e.role !== 'admin');
+  const monday = startOfWeek(addDays(new Date(), state.weekOffset * 7));
+  const dates = Array.from({length:7}, (_, i) => isoDate(addDays(monday, i)));
+  let iterations = 0;
+  while(iterations++ < 50){
+    const loads = agents.map(a => ({mat:a.mat, h:iaGetWeeklyHours(a.mat)}));
+    loads.sort((a,b) => b.h - a.h);
+    const most = loads[0]; const least = loads[loads.length - 1];
+    if(most.h - least.h <= 2) break;
+    let transferred = false;
+    for(const date of dates){
+      const entry = state.planning.find(p => p.date === date && p.mat === most.mat);
+      if(!entry || entry.shift === 'repos' || entry.shift === 'admin') continue;
+      const targetEmp = empByMat(least.mat);
+      const targetEntry = state.planning.find(p => p.date === date && p.mat === least.mat);
+      if(targetEntry && targetEntry.shift !== 'repos') continue;
+      if(least.h + SHIFTS[entry.shift].h > 48) continue;
+      state.planning = state.planning.filter(p => !(p.date === date && p.mat === most.mat));
+      if(targetEntry) targetEntry.shift = entry.shift;
+      else state.planning.push({date, mat:least.mat, shift:entry.shift, siteId:targetEmp.siteHabituel});
+      transferred = true;
+      break;
+    }
+    if(!transferred) break;
+  }
+  save(); renderPlanning(); renderPersonnel(); iaRenderDashboardReport();
+  const final = agents.map(a => `${a.nom} : ${iaGetWeeklyHours(a.mat)}h`).join('\n');
+  alert(`✅ Heures équilibrées !\n\n${final}`);
+}
+
+/* ================== IA - ANALYSE PERSONNEL ================== */
+function iaAnalyzePersonnel(){
+  const agents = EMPLOYES.filter(e => e.role !== 'admin');
+  const cutoff = Date.now() - (30 * 24 * 3600 * 1000);
+  const recentLogs = state.logs.filter(l => l.ts > cutoff);
+  let html = `<div class="ia-report"><h4><span class="ico">🤖</span>Analyse IA — Charge du personnel</h4><ul>`;
+  agents.forEach(a => {
+    const h = iaGetWeeklyHours(a.mat);
+    const em = h > 48 ? '⚠️' : (h < 20 ? '💤' : '✅');
+    const cls = h > 48 ? 'warning' : (h < 20 ? '' : 'ok');
+    const pres = recentLogs.filter(l => l.mat === a.mat && l.type === 'arrivee').length;
+    html += `<li class="${cls}"><span class="em">${em}</span><div><strong>${a.nom}</strong> — ${h}h cette semaine<br><span style="font-size:.78rem;color:#64748b">${pres} présences (30j) · ${a.poste}</span></div></li>`;
+  });
+  html += `</ul></div>`;
+  document.getElementById('iaPersonnelReport').innerHTML = html;
+}
+
+/* ================== IA - PRÉDICTIONS ================== */
+function iaRenderPredictions(){
+  const container = document.getElementById('predictContainer');
+  if(!container) return;
+  const period = parseInt(document.getElementById('predictPeriod').value || '30');
+  const cutoff = Date.now() - (period * 24 * 3600 * 1000);
+  const logs = state.logs.filter(l => l.ts > cutoff);
+
+  if(!logs.length){
+    container.innerHTML = `<div class="empty">Aucun pointage sur les ${period} derniers jours.</div>`;
+    return;
+  }
+
+  const byAgent = {};
+  EMPLOYES.forEach(e => { if(e.role !== 'admin') byAgent[e.mat] = {arrivees:0, retards:0, presences:new Set()}; });
+  logs.forEach(l => {
+    if(!byAgent[l.mat]) return;
+    if(l.type === 'arrivee'){
+      byAgent[l.mat].arrivees++;
+      byAgent[l.mat].presences.add(l.date);
+      const [h,m] = l.heure.split(':').map(Number);
+      const mins = h*60 + m;
+      if((mins > 6*60+15 && mins < 14*60) || (mins > 14*60+15 && mins < 22*60)) byAgent[l.mat].retards++;
+    }
+  });
+
+  const bySite = {};
+  SITES.forEach(s => { bySite[s.id] = {agents:new Set(), jours:new Set()}; });
+  logs.forEach(l => {
+    if(!bySite[l.siteId]) return;
+    if(l.type === 'arrivee'){ bySite[l.siteId].agents.add(l.mat); bySite[l.siteId].jours.add(l.date); }
+  });
+
+  let html = '';
+  html += `<div class="ia-report"><h4><span class="ico">🎯</span>Besoins prévus par site</h4><ul>`;
+  SITES.forEach(s => {
+    const d = bySite[s.id];
+    if(!d.jours.size) return;
+    const avg = (d.agents.size / d.jours.size).toFixed(1);
+    const couv = Math.round((d.jours.size / period) * 100);
+    const emoji = couv >= 90 ? '✅' : couv >= 70 ? '⚠️' : '🚨';
+    html += `<li><span class="em">${emoji}</span><div><strong>${s.nom}</strong><br><span style="font-size:.78rem;color:#64748b">Couverture : ${couv}% · Moyenne : ${avg} agent(s)/jour</span></div></li>`;
+  });
+  html += `</ul></div>`;
+
+  html += `<div class="ia-report" style="margin-top:18px"><h4><span class="ico">👤</span>Fiabilité par agent</h4><ul>`;
+  EMPLOYES.filter(e => e.role !== 'admin').forEach(e => {
+    const d = byAgent[e.mat];
+    if(!d || !d.arrivees) return;
+    const tr = d.arrivees ? Math.round((d.retards / d.arrivees) * 100) : 0;
+    const emoji = tr > 15 ? '⚠️' : tr > 5 ? '💤' : '✅';
+    html += `<li><span class="em">${emoji}</span><div><strong>${e.nom}</strong><br><span style="font-size:.78rem;color:#64748b">${d.presences.size} présences · ${d.arrivees} arrivées · ${tr}% retards</span></div></li>`;
+  });
+  html += `</ul></div>`;
+
+  const tomorrow = addDays(new Date(), 1);
+  const plannedTomorrow = state.planning.filter(p => p.date === isoDate(tomorrow) && p.shift !== 'repos' && p.shift !== 'admin');
+  html += `<div class="ia-report" style="margin-top:18px;background:linear-gradient(135deg,#fef3c7,#fff);border-color:#fcd34d">
+    <h4><span class="ico">🔮</span>Prévision demain (${fmtDate(tomorrow)})</h4>
+    <ul><li><span class="em">${plannedTomorrow.length >= 3 ? '✅' : '⚠️'}</span><div><strong>${plannedTomorrow.length} agent(s) prévu(s)</strong><br><span style="font-size:.78rem;color:#64748b">Basé sur le planning + l'historique</span></div></li></ul></div>`;
+
+  container.innerHTML = html;
+}
+
+/* ================== DASHBOARD IA ================== */
+function iaRenderDashboardReport(){
+  const container = document.getElementById('iaReportContainer');
+  if(!container) return;
+  const conflicts = iaGetAllConflicts();
+  const agents = EMPLOYES.filter(e => e.role !== 'admin');
+  const totalHours = agents.reduce((s, a) => s + iaGetWeeklyHours(a.mat), 0);
+  const avgHours = agents.length ? Math.round(totalHours / agents.length) : 0;
+
+  let html = `<div class="ia-report" style="margin-top:20px">
+    <h4><span class="ico">🤖</span>Rapport IA Agnès — Semaine en cours</h4>
+    <ul>
+      <li class="ok"><span class="em">✅</span><div><strong>${agents.length} agents</strong> · charge moyenne <strong>${avgHours}h</strong>/semaine</div></li>`;
+  if(conflicts.length){
+    html += `<li class="warning"><span class="em">⚠️</span><div><strong>${conflicts.length} conflit${conflicts.length>1?'s':''}</strong> : ${conflicts.slice(0,3).map(c=>c.nom).join(', ')}${conflicts.length>3?'…':''}</div></li>`;
+  } else {
+    html += `<li class="ok"><span class="em">✅</span><div>Aucun conflit détecté</div></li>`;
+  }
+  const overload = agents.filter(a => iaGetWeeklyHours(a.mat) > 48);
+  if(overload.length){
+    html += `<li class="warning"><span class="em">🚨</span><div><strong>${overload.length} agent(s)</strong> en heures sup : ${overload.map(a=>a.nom).join(', ')}</div></li>`;
+  }
+  html += `<li><span class="em">💡</span><div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn--gold btn--xs" onclick="iaGenerateWeek()">Générer la semaine</button>
+    <button class="btn btn--outline btn--xs" onclick="iaDetectConflicts()">Conflits</button>
+    <button class="btn btn--outline btn--xs" onclick="iaBalanceHours()">Équilibrer</button>
+  </div></li></ul></div>`;
+  container.innerHTML = html;
+}
+
+/* ================== RENDU ZONES & QR ================== */
 function renderZones(){
-  document.getElementById('zones').innerHTML = ZONES.map(z => `
-    <div class="zone"><h4>${z.nom}</h4><p>${z.desc}</p></div>`).join('');
+  const el = document.getElementById('zones');
+  if(el) el.innerHTML = ZONES.map(z => `<div class="zone"><h4>${z.nom}</h4><p>${z.desc}</p></div>`).join('');
 }
 
 function checkinURL(siteId){
@@ -1223,83 +1413,49 @@ function checkinURL(siteId){
 function renderQR(){
   const grid = document.getElementById('qrGrid');
   if(!grid) return;
-
-  if(!SITES.length){
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Aucun site. Ajoutez-en un dans l'onglet « Sites ».</div>`;
-    return;
-  }
-
+  if(!SITES.length){ grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Aucun site.</div>`; return; }
   grid.innerHTML = SITES.map(s => {
     const url = checkinURL(s.id);
-    return `
-      <div class="qr-card">
-        <div class="code">${s.id}</div>
-        <h4>${s.nom}</h4>
-        <p>${s.ville}</p>
-        <div class="qr-box" id="qr-${s.id}"></div>
-        <p class="mono" style="font-size:.66rem;color:#94a3b8;word-break:break-all;margin-top:8px">${url}</p>
-        <button class="btn btn--outline btn--sm btn--full" style="margin-top:12px" onclick="openScan('${s.id}')">Simuler un scan</button>
-      </div>`;
+    return `<div class="qr-card">
+      <div class="code">${s.id}</div><h4>${s.nom}</h4><p>${s.ville}</p>
+      <div class="qr-box" id="qr-${s.id}"></div>
+      <p class="mono" style="font-size:.66rem;color:#94a3b8;word-break:break-all;margin-top:8px">${url}</p>
+      <button class="btn btn--outline btn--sm btn--full" style="margin-top:12px" onclick="openScan('${s.id}')">Simuler un scan</button>
+    </div>`;
   }).join('');
-
   SITES.forEach(s => {
-    const container = document.getElementById('qr-' + s.id);
-    if(!container) return;
+    const c = document.getElementById('qr-' + s.id);
+    if(!c) return;
     try{
       if(typeof QRCode !== 'undefined'){
-        new QRCode(container, {
-          text: checkinURL(s.id),
-          width: 150,
-          height: 150,
-          colorDark: '#0a1a2f',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      } else {
-        container.innerHTML = `<div class="fb">${checkinURL(s.id)}</div>`;
-      }
-    }catch(err){
-      console.warn('Erreur QR', s.id, err);
-    }
+        new QRCode(c, {text:checkinURL(s.id), width:150, height:150, colorDark:'#0a1a2f', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.H});
+      } else { c.innerHTML = `<div class="fb">${checkinURL(s.id)}</div>`; }
+    }catch(e){ c.innerHTML = `<div class="fb">${checkinURL(s.id)}</div>`; }
   });
 }
 
 function renderFilters(){
   const sel = document.getElementById('filterSite');
   if(!sel) return;
-  sel.innerHTML = '<option value="">Tous les sites</option>' +
-    SITES.map(s => `<option value="${s.id}">${s.nom}</option>`).join('');
+  sel.innerHTML = '<option value="">Tous les sites</option>' + SITES.map(s => `<option value="${s.id}">${s.nom}</option>`).join('');
 }
 
-/* =========================================================
-   GESTION DES SITES
-   ========================================================= */
+/* ================== SITES CRUD ================== */
 function renderSites(){
   const tbody = document.getElementById('sitesBody');
   if(!tbody) return;
-
-  if(!SITES.length){
-    tbody.innerHTML = `<tr><td colspan="6" class="empty">Aucun site enregistré. Cliquez sur « + Nouveau site ».</td></tr>`;
-    return;
-  }
-
+  if(!SITES.length){ tbody.innerHTML = `<tr><td colspan="6" class="empty">Aucun site.</td></tr>`; return; }
   tbody.innerHTML = SITES.map(s => {
-    const agents = EMPLOYES.filter(e => e.siteHabituel === s.id).length;
-    return `
-      <tr>
-        <td class="mono"><strong>${s.id}</strong></td>
-        <td>${s.nom}</td>
-        <td>${s.ville}</td>
-        <td style="font-size:.82rem;color:#64748b">${s.adresse || '—'}</td>
-        <td><span class="tag tag--new">${agents} agent${agents>1?'s':''}</span></td>
-        <td>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button class="btn btn--outline btn--xs" onclick="openSiteForm('${s.id}')">Modifier</button>
-            <button class="btn btn--outline btn--xs" onclick="openScan('${s.id}')">Tester QR</button>
-            <button class="btn btn--danger btn--xs" onclick="deleteSite('${s.id}')">Supprimer</button>
-          </div>
-        </td>
-      </tr>`;
+    const n = EMPLOYES.filter(e => e.siteHabituel === s.id).length;
+    return `<tr>
+      <td class="mono"><strong>${s.id}</strong></td><td>${s.nom}</td><td>${s.ville}</td>
+      <td style="font-size:.82rem;color:#64748b">${s.adresse || '—'}</td>
+      <td><span class="tag tag--new">${n} agent${n>1?'s':''}</span></td>
+      <td><div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn--outline btn--xs" onclick="openSiteForm('${s.id}')">Modifier</button>
+        <button class="btn btn--outline btn--xs" onclick="openScan('${s.id}')">Tester</button>
+        <button class="btn btn--danger btn--xs" onclick="deleteSite('${s.id}')">Suppr.</button>
+      </div></td></tr>`;
   }).join('');
 }
 
@@ -1307,11 +1463,9 @@ function openSiteForm(siteId){
   const form = document.getElementById('siteForm');
   form.style.display = 'block';
   form.scrollIntoView({behavior:'smooth', block:'center'});
-
   if(siteId){
-    const s = SITES.find(x => x.id === siteId);
-    if(!s) return;
-    document.getElementById('siteFormTitle').textContent = 'Modifier le site';
+    const s = SITES.find(x => x.id === siteId); if(!s) return;
+    document.getElementById('siteFormTitle').textContent = 'Modifier';
     document.getElementById('sfId').value = s.id;
     document.getElementById('sfCode').value = s.id;
     document.getElementById('sfNom').value = s.nom;
@@ -1320,24 +1474,21 @@ function openSiteForm(siteId){
     document.getElementById('sfCode').disabled = true;
   } else {
     document.getElementById('siteFormTitle').textContent = 'Nouveau site';
-    document.getElementById('sfId').value = '';
-    document.getElementById('sfCode').value = '';
-    document.getElementById('sfNom').value = '';
-    document.getElementById('sfVille').value = '';
-    document.getElementById('sfAdresse').value = '';
+    ['sfId','sfCode','sfNom','sfVille','sfAdresse'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
     document.getElementById('sfCode').disabled = false;
   }
   updateSitePreview();
 }
 
 function closeSiteForm(){
-  document.getElementById('siteForm').style.display = 'none';
+  const f = document.getElementById('siteForm');
+  if(f) f.style.display = 'none';
 }
 
 function updateSitePreview(){
   const code = (document.getElementById('sfCode').value || '…').toUpperCase();
-  const preview = document.getElementById('siteFormPreview');
-  if(preview) preview.textContent = `#/pointage?site=${code}`;
+  const p = document.getElementById('siteFormPreview');
+  if(p) p.textContent = `#/pointage?site=${code}`;
 }
 
 function saveSite(){
@@ -1346,150 +1497,97 @@ function saveSite(){
   const ville = document.getElementById('sfVille').value.trim();
   const adresse = document.getElementById('sfAdresse').value.trim();
   const editing = document.getElementById('sfId').value;
-
-  if(!id){ alert('Merci de saisir un code de site.'); return; }
-  if(!nom){ alert('Merci de saisir un nom de site.'); return; }
-  if(!ville){ alert('Merci de saisir une ville.'); return; }
-
+  if(!id || !nom || !ville){ alert('Code, nom et ville obligatoires.'); return; }
   if(editing){
     const s = SITES.find(x => x.id === editing);
     if(s){ s.nom = nom; s.ville = ville; s.adresse = adresse; }
   } else {
-    if(SITES.find(x => x.id === id)){
-      alert('Ce code de site existe déjà. Choisissez un autre code.');
-      return;
-    }
+    if(SITES.find(x => x.id === id)){ alert('Ce code existe déjà.'); return; }
     SITES.push({id, nom, ville, adresse});
   }
-
-  save();
-  closeSiteForm();
-  renderSites();
-  renderQR();
-  renderFilters();
-  renderPersonnel();
-  renderPlanning();
-  renderDash();
+  save(); closeSiteForm();
+  renderSites(); renderQR(); renderFilters(); renderPersonnel(); renderPlanning(); renderDash();
 }
 
 function deleteSite(id){
-  const agents = EMPLOYES.filter(e => e.siteHabituel === id).length;
-  let msg = `Supprimer le site ${id} ?`;
-  if(agents > 0){
-    msg += `\n\n⚠️ ${agents} agent(s) sont affectés à ce site. Ils devront être réaffectés manuellement.`;
-  }
-  if(!confirm(msg)) return;
-
+  const n = EMPLOYES.filter(e => e.siteHabituel === id).length;
+  if(!confirm(`Supprimer ${id} ?${n ? `\n⚠️ ${n} agent(s) affecté(s).` : ''}`)) return;
   SITES = SITES.filter(s => s.id !== id);
-  save();
-  renderSites();
-  renderQR();
-  renderFilters();
+  save(); renderSites(); renderQR(); renderFilters();
 }
 
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
+/* ================== DASHBOARD ================== */
 function renderDash(){
   const t = todayKey();
   const logsToday = state.logs.filter(l => l.date === t);
-  const seen = {};
-  logsToday.forEach(l => { seen[l.mat] = l.type; });
+  const seen = {}; logsToday.forEach(l => { seen[l.mat] = l.type; });
   const presents = Object.keys(seen).filter(m => seen[m] === 'arrivee' && empByMat(m) && empByMat(m).role !== 'admin');
-
   const sitesCouverts = new Set(logsToday.map(l => l.siteId)).size;
   const rapportsEnAttente = state.rapports.filter(r => r.statut !== 'traite').length;
-
-  document.getElementById('kPresent').textContent   = presents.length;
+  document.getElementById('kPresent').textContent = presents.length;
   document.getElementById('kPointages').textContent = logsToday.length;
-  document.getElementById('kSites').textContent     = sitesCouverts;
-  document.getElementById('kRapports').textContent  = rapportsEnAttente;
+  document.getElementById('kSites').textContent = sitesCouverts;
+  document.getElementById('kRapports').textContent = rapportsEnAttente;
   document.getElementById('todayLabel').textContent = fmtDate(new Date());
-
   const last = [...state.logs].slice(-6).reverse();
   const body = document.getElementById('dashBody');
-  if(!last.length){
-    body.innerHTML = `<tr><td colspan="4" class="empty">Aucun pointage. Testez la démo dans « QR des sites ».</td></tr>`;
-  } else {
-    body.innerHTML = last.map(l => `
-      <tr>
-        <td class="mono">${l.heure}</td>
-        <td><strong>${l.nom}</strong></td>
-        <td>${l.siteNom}</td>
-        <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td>
-      </tr>`).join('');
+  if(!last.length){ body.innerHTML = `<tr><td colspan="4" class="empty">Aucun pointage.</td></tr>`; }
+  else {
+    body.innerHTML = last.map(l => `<tr>
+      <td class="mono">${l.heure}</td><td><strong>${l.nom}</strong></td><td>${l.siteNom}</td>
+      <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td>
+    </tr>`).join('');
   }
-
   const raps = [...state.rapports].sort((a,b)=>b.createdAt-a.createdAt).slice(0,4);
   const rdiv = document.getElementById('dashRapports');
-  if(!raps.length){
-    rdiv.innerHTML = `<div class="empty">Aucun rapport pour l'instant.</div>`;
-  } else {
+  if(!raps.length){ rdiv.innerHTML = `<div class="empty">Aucun rapport.</div>`; }
+  else {
     rdiv.innerHTML = raps.map(r => {
       const emp = empByMat(r.mat) || {nom:'—'};
       const t2 = TYPES_RAPPORT[r.type] || {label:'Autre', cls:'maincourante'};
-      const statutCls = r.statut==='traite' ? 'tag--done' : (r.statut==='en_cours' ? 'tag--prog' : 'tag--new');
-      const statutTxt = r.statut==='traite' ? 'Traité' : (r.statut==='en_cours' ? 'En cours' : 'Nouveau');
-      return `
-        <div class="report ${t2.cls}" style="padding:12px 14px">
-          <div class="report-head" style="margin-bottom:4px">
-            <h4 style="font-size:.88rem">${escapeHtml(r.titre)}</h4>
-            <span class="tag ${statutCls}" style="font-size:.66rem">${statutTxt}</span>
-          </div>
-          <div class="report-meta" style="margin:0">
-            <span>${emp.nom}</span><span>·</span><span>${t2.label}</span>
-          </div>
-        </div>`;
+      const sc = r.statut==='traite'?'tag--done':(r.statut==='en_cours'?'tag--prog':'tag--new');
+      const st = r.statut==='traite'?'Traité':(r.statut==='en_cours'?'En cours':'Nouveau');
+      return `<div class="report ${t2.cls}" style="padding:12px 14px">
+        <div class="report-head" style="margin-bottom:4px"><h4 style="font-size:.88rem">${escapeHtml(r.titre)}</h4><span class="tag ${sc}" style="font-size:.66rem">${st}</span></div>
+        <div class="report-meta" style="margin:0"><span>${emp.nom}</span><span>·</span><span>${t2.label}</span></div>
+      </div>`;
     }).join('');
   }
 }
 
-/* =========================================================
-   REGISTRE
-   ========================================================= */
+/* ================== REGISTRE ================== */
 function renderRegistre(){
   const f = document.getElementById('filterSite').value;
   let logs = [...state.logs].reverse();
   if(f) logs = logs.filter(l => l.siteId === f);
   const body = document.getElementById('regBody');
-  if(!logs.length){
-    body.innerHTML = `<tr><td colspan="6" class="empty">Aucun enregistrement pour ce filtre.</td></tr>`;
-    return;
-  }
-  body.innerHTML = logs.map(l => `
-    <tr>
-      <td class="mono">${l.dateAff}</td>
-      <td class="mono">${l.heure}</td>
-      <td class="mono">${l.mat}</td>
-      <td><strong>${l.nom}</strong></td>
-      <td>${l.siteNom}</td>
-      <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td>
-    </tr>`).join('');
+  if(!logs.length){ body.innerHTML = `<tr><td colspan="6" class="empty">Aucun enregistrement.</td></tr>`; return; }
+  body.innerHTML = logs.map(l => `<tr>
+    <td class="mono">${l.dateAff}</td><td class="mono">${l.heure}</td><td class="mono">${l.mat}</td>
+    <td><strong>${l.nom}</strong></td><td>${l.siteNom}</td>
+    <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td>
+  </tr>`).join('');
 }
 
-/* =========================================================
-   PLANNING
-   ========================================================= */
+/* ================== PLANNING ================== */
 function shiftWeek(delta){
-  if(delta === 0){ state.weekOffset = 0; }
-  else { state.weekOffset += delta; }
+  if(delta === 0){ state.weekOffset = 0; } else { state.weekOffset += delta; }
   renderPlanning();
+  iaRenderPredictions();
 }
+
 function getWeekDates(){
   const monday = startOfWeek(addDays(new Date(), state.weekOffset * 7));
   return Array.from({length:7}, (_, i) => addDays(monday, i));
 }
+
 function renderPlanning(){
   const dates = getWeekDates();
   const today = isoDate(new Date());
-
   const fmtShort = d => `${pad(d.getDate())}/${pad(d.getMonth()+1)}`;
-  document.getElementById('weekLabel').textContent =
-    `Semaine du ${fmtShort(dates[0])} au ${fmtShort(dates[6])}`;
-
+  document.getElementById('weekLabel').textContent = `Semaine du ${fmtShort(dates[0])} au ${fmtShort(dates[6])}`;
   const dayNames = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
   const ordered = [...EMPLOYES].sort((a,b) => (a.role === 'admin' ? -1 : b.role === 'admin' ? 1 : 0));
-
   let html = '<thead><tr><th class="agent-col">Agent</th>';
   dates.forEach((d,i) => {
     const isToday = isoDate(d) === today;
@@ -1499,16 +1597,12 @@ function renderPlanning(){
     </th>`;
   });
   html += '</tr></thead><tbody>';
-
   ordered.forEach(e => {
     const isAdmin = e.role === 'admin';
     html += `<tr class="${isAdmin?'plan-admin-row':''}"><td class="agent-col">
       <div class="agent-mini">
         <div class="avatar ${isAdmin?'avatar--gold':''}">${initials(e.nom)}</div>
-        <div class="info">
-          <strong>${e.nom}${isAdmin?' 🛡️':''}</strong>
-          <span>${e.mat} · ${isAdmin ? 'Administration' : e.poste}</span>
-        </div>
+        <div class="info"><strong>${e.nom}${isAdmin?' 🛡️':''}</strong><span>${e.mat} · ${isAdmin?'Administration':e.poste}</span></div>
       </div>
     </td>`;
     dates.forEach(d => {
@@ -1516,70 +1610,56 @@ function renderPlanning(){
       const entry = state.planning.find(p => p.date === iso && p.mat === e.mat);
       const shift = entry ? entry.shift : 'repos';
       const s = SHIFTS[shift];
-      const siteId = entry ? entry.siteId : '';
-      const site = siteId ? siteById(siteId) : null;
-
+      const site = entry ? siteById(entry.siteId) : null;
+      const conflict = iaCheckConflict(e.mat, iso);
       if(shift === 'repos'){
         html += `<td><span class="shift-chip s-off" onclick="cycleShift('${iso}','${e.mat}')">Repos</span></td>`;
       } else if(shift === 'admin'){
-        html += `<td><span class="shift-chip s-admin" onclick="cycleShift('${iso}','${e.mat}')" title="Administration">ADM</span></td>`;
+        html += `<td><span class="shift-chip s-admin" onclick="cycleShift('${iso}','${e.mat}')">ADM</span></td>`;
       } else {
-        html += `<td>
-          <div class="shift-chip ${s.cls}" onclick="cycleShift('${iso}','${e.mat}')" title="${s.label} ${s.hours} · ${site?site.nom:''}">
-            <span>${s.code}</span>
-            <small>${site ? site.ville : s.hours}</small>
-          </div>
-        </td>`;
+        html += `<td><div class="shift-chip ${s.cls}${conflict?' conflict':''}" onclick="cycleShift('${iso}','${e.mat}')" title="${conflict?'⚠️ Conflit':s.label+' '+s.hours}">
+          <span>${s.code}</span><small>${site?site.ville:s.hours}</small>
+        </div></td>`;
       }
     });
     html += '</tr>';
   });
   html += '</tbody>';
-
   document.getElementById('planTable').innerHTML = html;
 }
+
 function cycleShift(date, mat){
   const emp = empByMat(mat);
   const isAdmin = emp && emp.role === 'admin';
   const cur = state.planning.find(p => p.date === date && p.mat === mat);
-
+  let nextShift = 'repos';
   if(isAdmin){
     const curShift = cur ? cur.shift : 'repos';
-    const nextShift = curShift === 'admin' ? 'repos' : 'admin';
-    if(nextShift === 'repos'){
-      state.planning = state.planning.filter(p => !(p.date === date && p.mat === mat));
-    } else {
-      if(cur){ cur.shift = nextShift; }
-      else { state.planning.push({date, mat, shift: nextShift, siteId: emp.siteHabituel}); }
-    }
+    nextShift = curShift === 'admin' ? 'repos' : 'admin';
+    if(nextShift === 'repos') state.planning = state.planning.filter(p => !(p.date === date && p.mat === mat));
+    else if(cur) cur.shift = nextShift;
+    else state.planning.push({date, mat, shift: nextShift, siteId: emp.siteHabituel});
   } else {
     const order = ['repos','matin','aprem','nuit'];
     const curShift = cur ? cur.shift : 'repos';
-    const nextShift = order[(order.indexOf(curShift) + 1) % order.length];
-    if(nextShift === 'repos'){
-      state.planning = state.planning.filter(p => !(p.date === date && p.mat === mat));
-    } else {
-      if(cur){ cur.shift = nextShift; }
-      else { state.planning.push({date, mat, shift: nextShift, siteId: emp ? emp.siteHabituel : SITES[0].id}); }
-    }
+    nextShift = order[(order.indexOf(curShift) + 1) % order.length];
+    if(nextShift === 'repos') state.planning = state.planning.filter(p => !(p.date === date && p.mat === mat));
+    else if(cur) cur.shift = nextShift;
+    else state.planning.push({date, mat, shift: nextShift, siteId: emp ? emp.siteHabituel : SITES[0].id});
   }
-
   save();
   renderPlanning();
-  if(document.getElementById('profileModal').classList.contains('open')){
-    renderProfilePlanning();
+  if(document.getElementById('profileModal').classList.contains('open')) renderProfilePlanning();
+  // Notification email async
+  if(isEmailConfigured() && emp && nextShift !== 'repos' && nextShift !== 'admin'){
+    notifyAgent(mat, date, nextShift, 'Modification').catch(()=>{});
   }
 }
 
-/* =========================================================
-   PERSONNEL
-   ========================================================= */
+/* ================== PERSONNEL ================== */
 function renderPersonnel(){
   const q = (document.getElementById('searchEmp')?.value || '').toLowerCase().trim();
-  const all = EMPLOYES.filter(e =>
-    !q || e.nom.toLowerCase().includes(q) || e.mat.toLowerCase().includes(q) || e.poste.toLowerCase().includes(q)
-  );
-
+  const all = EMPLOYES.filter(e => !q || e.nom.toLowerCase().includes(q) || e.mat.toLowerCase().includes(q) || e.poste.toLowerCase().includes(q));
   const admins = all.filter(e => e.role === 'admin');
   const banner = document.getElementById('adminBanner');
   if(admins.length){
@@ -1588,74 +1668,52 @@ function renderPersonnel(){
       <div class="avatar avatar--lg avatar--gold">${initials(admins[0].nom)}</div>
       <div class="meta">
         <div class="kicker">Administration</div>
-        <div class="name">${admins[0].nom}</div>
-        <div class="role">${admins[0].poste}</div>
-      </div>
-      <button class="btn btn--gold btn--sm" onclick="openProfile('${admins[0].mat}')">Ouvrir la fiche →</button>`;
-  } else {
-    banner.classList.remove('show');
-  }
+        <div class="name">${admins.length} compte${admins.length>1?'s':''} admin</div>
+        <div class="role">${admins.map(a=>a.nom).join(' · ')}</div>
+      </div>`;
+  } else banner.classList.remove('show');
 
   const list = all.filter(e => e.role !== 'admin');
   const grid = document.getElementById('personnelGrid');
-
-  if(!list.length){
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Aucun agent ne correspond à votre recherche.</div>`;
-    return;
-  }
-
+  if(!list.length){ grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Aucun agent.</div>`; return; }
   const t = todayKey();
   grid.innerHTML = list.map(e => {
     const todayPlan = state.planning.find(p => p.date === t && p.mat === e.mat);
-    const todayLabel = todayPlan
-      ? `${SHIFTS[todayPlan.shift].label} · ${siteById(todayPlan.siteId).ville}`
-      : 'Repos aujourd\'hui';
+    const todayLabel = todayPlan ? `${SHIFTS[todayPlan.shift].label} · ${siteById(todayPlan.siteId).ville}` : 'Repos';
     const rapportsCount = state.rapports.filter(r => r.mat === e.mat).length;
     const site = siteById(e.siteHabituel);
-
-    return `
-      <div class="card" style="cursor:pointer;padding:22px" onclick="openProfile('${e.mat}')">
-        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-          <div class="avatar avatar--lg">${initials(e.nom)}</div>
-          <div style="min-width:0">
-            <h3 style="font-size:1rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.nom}</h3>
-            <p style="font-size:.8rem;color:#64748b">${e.poste}</p>
-          </div>
+    const h = iaGetWeeklyHours(e.mat);
+    return `<div class="card" style="cursor:pointer;padding:22px" onclick="openProfile('${e.mat}')">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div class="avatar avatar--lg">${initials(e.nom)}</div>
+        <div style="min-width:0">
+          <h3 style="font-size:1rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.nom}</h3>
+          <p style="font-size:.8rem;color:#64748b">${e.poste}</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem;color:#475569;border-top:1px solid #eef2f7;padding-top:14px">
-          <div><strong style="color:#0a1a2f">${e.mat}</strong> · ${site.nom}</div>
-          <div>Aujourd'hui : <strong style="color:#0a1a2f">${todayLabel}</strong></div>
-          <div>${rapportsCount} rapport${rapportsCount>1?'s':''} au total</div>
-        </div>
-        <div style="margin-top:14px;text-align:right">
-          <span style="font-size:.8rem;color:#e0a13a;font-weight:700">Ouvrir la fiche →</span>
-        </div>
-      </div>`;
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem;color:#475569;border-top:1px solid #eef2f7;padding-top:14px">
+        <div><strong style="color:#0a1a2f">${e.mat}</strong> · ${site.nom}</div>
+        <div>Aujourd'hui : <strong style="color:#0a1a2f">${todayLabel}</strong></div>
+        <div>Cette semaine : <strong style="color:${h>48?'#e11d48':'#0a1a2f'}">${h}h</strong>${h>48?' ⚠️':''}</div>
+        <div>${rapportsCount} rapport${rapportsCount>1?'s':''}</div>
+      </div>
+      <div style="margin-top:14px;text-align:right"><span style="font-size:.8rem;color:#e0a13a;font-weight:700">Ouvrir →</span></div>
+    </div>`;
   }).join('');
 }
 
-/* =========================================================
-   MODALE PROFIL
-   ========================================================= */
+/* ================== PROFIL MODAL ================== */
 function openProfile(mat){
-  const emp = empByMat(mat);
-  if(!emp) return;
+  const emp = empByMat(mat); if(!emp) return;
   currentAgentMat = mat;
-
   document.getElementById('pmAvatar').textContent = initials(emp.nom);
   document.getElementById('pmName').textContent = emp.nom;
-  document.getElementById('pmRole').textContent = `${emp.poste} · Matricule ${emp.mat}`;
-
+  document.getElementById('pmRole').textContent = `${emp.poste} · ${emp.mat}`;
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.ppanel').forEach(p => p.classList.remove('active'));
   document.querySelector('.ptab[data-ptab="infos"]').classList.add('active');
   document.getElementById('pp-infos').classList.add('active');
-
-  renderProfileInfos();
-  renderProfilePlanning();
-  renderProfileRapports();
-  renderProfilePointages();
-
+  renderProfileInfos(); renderProfilePlanning(); renderProfileRapports(); renderProfilePointages();
   document.getElementById('profileModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1665,168 +1723,94 @@ function closeProfile(){
   currentAgentMat = null;
 }
 function renderProfileInfos(){
-  const emp = empByMat(currentAgentMat);
-  if(!emp) return;
+  const emp = empByMat(currentAgentMat); if(!emp) return;
   const site = siteById(emp.siteHabituel);
   const isAdmin = emp.role === 'admin';
-
+  const h = iaGetWeeklyHours(emp.mat);
   document.getElementById('pp-infos').innerHTML = `
-    ${isAdmin ? `
-      <div class="admin-notice">
-        <span class="ico">🛡️</span>
-        <div>
-          <div class="kicker">Accès administration</div>
-          <div class="txt">Gestion du planning et du personnel K.S.I</div>
-        </div>
-      </div>` : ''}
-
+    ${isAdmin ? `<div class="admin-notice"><span class="ico">🛡️</span><div><div class="kicker">Accès administration</div><div class="txt">Gestion du planning et du personnel</div></div></div>` : ''}
     <div class="info-grid">
       <div class="info-block"><span>Matricule</span><strong>${emp.mat}</strong></div>
       <div class="info-block"><span>Poste</span><strong>${emp.poste}</strong></div>
       <div class="info-block"><span>Téléphone</span><strong>${emp.tel}</strong></div>
       <div class="info-block"><span>Email</span><strong style="word-break:break-all">${emp.email}</strong></div>
-      <div class="info-block"><span>Carte professionnelle</span><strong>${emp.cartePro}</strong></div>
-      <div class="info-block"><span>Date d'embauche</span><strong>${emp.embauche}</strong></div>
+      <div class="info-block"><span>Carte pro.</span><strong>${emp.cartePro}</strong></div>
+      <div class="info-block"><span>Embauche</span><strong>${emp.embauche}</strong></div>
+      <div class="info-block"><span>Heures/semaine</span><strong style="color:${h>48?'#e11d48':'#16a34a'}">${h}h</strong></div>
       <div class="info-block" style="grid-column:1/-1"><span>Site habituel</span><strong>${site.nom} — ${site.adresse}</strong></div>
     </div>
     <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn btn--dark btn--sm" onclick="switchProfileTab('planning')">Voir son planning</button>
-      <button class="btn btn--outline btn--sm" onclick="switchProfileTab('rapports')">Ses rapports</button>
-      <button class="btn btn--outline btn--sm" onclick="switchProfileTab('pointages')">Ses pointages</button>
+      <button class="btn btn--dark btn--sm" onclick="switchProfileTab('planning')">Planning</button>
+      <button class="btn btn--outline btn--sm" onclick="switchProfileTab('rapports')">Rapports</button>
+      <button class="btn btn--outline btn--sm" onclick="switchProfileTab('pointages')">Pointages</button>
     </div>`;
 }
 function switchProfileTab(name){
   document.querySelectorAll('.ptab').forEach(t => t.classList.toggle('active', t.dataset.ptab === name));
   document.querySelectorAll('.ppanel').forEach(p => p.classList.remove('active'));
-  document.getElementById('pp-' + name).classList.add('active');
+  const el = document.getElementById('pp-' + name); if(el) el.classList.add('active');
 }
 function renderProfilePlanning(){
-  const emp = empByMat(currentAgentMat);
-  if(!emp) return;
+  const emp = empByMat(currentAgentMat); if(!emp) return;
   const dates = getWeekDates();
   const dayNames = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-
-  let html = `
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px">
-      <h4 style="font-size:.95rem">Planning de la semaine</h4>
-      <div class="week-nav">
-        <button class="btn btn--outline btn--xs" onclick="shiftWeek(-1);renderProfilePlanning()">←</button>
-        <span class="week-label mono" style="min-width:160px;font-size:.82rem" id="weekLabelProfile">—</span>
-        <button class="btn btn--outline btn--xs" onclick="shiftWeek(1);renderProfilePlanning()">→</button>
-      </div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr>${dates.map((d,i) => {
-          const isToday = isoDate(d) === isoDate(new Date());
-          return `<th style="text-align:center${isToday?';background:#fef3c7':''}">
-            <span class="day-name">${dayNames[i]}</span><br>
-            <span class="day-num" style="font-size:.9rem">${pad(d.getDate())}/${pad(d.getMonth()+1)}</span>
-          </th>`;
-        }).join('')}</tr></thead>
-        <tbody><tr>
-          ${dates.map(d => {
-            const iso = isoDate(d);
-            const entry = state.planning.find(p => p.date === iso && p.mat === emp.mat);
-            if(!entry) return `<td style="text-align:center;padding:14px 6px"><span class="shift-chip s-off" style="min-width:auto;padding:5px 10px">Repos</span></td>`;
-            const s = SHIFTS[entry.shift];
-            const site = siteById(entry.siteId);
-            if(entry.shift === 'admin'){
-              return `<td style="text-align:center;padding:14px 6px">
-                <span class="shift-chip s-admin" style="min-width:auto;padding:5px 10px">Admin</span>
-              </td>`;
-            }
-            return `<td style="text-align:center;padding:14px 6px">
-              <span class="shift-chip ${s.cls}" style="min-width:auto;padding:5px 10px">
-                <span>${s.label}</span>
-                <small>${site.ville}</small>
-              </span>
-            </td>`;
-          }).join('')}
-        </tr></tbody>
-      </table>
-    </div>`;
-
+  let html = `<h4 style="font-size:.95rem;margin-bottom:14px">Planning de la semaine</h4>
+    <div class="table-wrap"><table>
+      <thead><tr>${dates.map((d,i) => {
+        const isToday = isoDate(d) === isoDate(new Date());
+        return `<th style="text-align:center${isToday?';background:#fef3c7':''}"><span class="day-name">${dayNames[i]}</span><br><span class="day-num" style="font-size:.9rem">${pad(d.getDate())}/${pad(d.getMonth()+1)}</span></th>`;
+      }).join('')}</tr></thead>
+      <tbody><tr>
+        ${dates.map(d => {
+          const iso = isoDate(d);
+          const entry = state.planning.find(p => p.date === iso && p.mat === emp.mat);
+          if(!entry || entry.shift === 'repos') return `<td style="text-align:center;padding:14px 6px"><span class="shift-chip s-off" style="min-width:auto;padding:5px 10px">Repos</span></td>`;
+          const s = SHIFTS[entry.shift];
+          if(entry.shift === 'admin') return `<td style="text-align:center;padding:14px 6px"><span class="shift-chip s-admin" style="min-width:auto;padding:5px 10px">Admin</span></td>`;
+          const site = siteById(entry.siteId);
+          return `<td style="text-align:center;padding:14px 6px"><span class="shift-chip ${s.cls}" style="min-width:auto;padding:5px 10px"><span>${s.label}</span><small>${site.ville}</small></span></td>`;
+        }).join('')}
+      </tr></tbody>
+    </table></div>`;
   document.getElementById('pp-planning').innerHTML = html;
-  const lbl = document.getElementById('weekLabelProfile');
-  if(lbl){
-    const fmtShort = d => `${pad(d.getDate())}/${pad(d.getMonth()+1)}`;
-    lbl.textContent = `Du ${fmtShort(dates[0])} au ${fmtShort(dates[6])}`;
-  }
 }
 function renderProfileRapports(){
-  const emp = empByMat(currentAgentMat);
-  if(!emp) return;
-  const list = state.rapports
-    .filter(r => r.mat === emp.mat)
-    .sort((a,b) => b.createdAt - a.createdAt);
-
+  const emp = empByMat(currentAgentMat); if(!emp) return;
+  const list = state.rapports.filter(r => r.mat === emp.mat).sort((a,b) => b.createdAt - a.createdAt);
   let html = `
     <div class="report-form">
-      <h4 style="font-size:.9rem;margin-bottom:14px">➕ Rédiger un nouveau rapport</h4>
+      <h4 style="font-size:.9rem;margin-bottom:14px">➕ Nouveau rapport</h4>
       <div class="row">
-        <div class="field">
-          <label for="rType">Type de rapport</label>
-          <select id="rType">
-            ${Object.keys(TYPES_RAPPORT).map(k => `<option value="${k}">${TYPES_RAPPORT[k].label}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field">
-          <label for="rSite">Site concerné</label>
-          <select id="rSite">
-            ${SITES.map(s => `<option value="${s.id}"${s.id===emp.siteHabituel?' selected':''}>${s.nom}</option>`).join('')}
-          </select>
-        </div>
+        <div class="field"><label for="rType">Type</label><select id="rType">${Object.keys(TYPES_RAPPORT).map(k => `<option value="${k}">${TYPES_RAPPORT[k].label}</option>`).join('')}</select></div>
+        <div class="field"><label for="rSite">Site</label><select id="rSite">${SITES.map(s => `<option value="${s.id}"${s.id===emp.siteHabituel?' selected':''}>${s.nom}</option>`).join('')}</select></div>
       </div>
-      <div class="field">
-        <label for="rTitre">Objet du rapport</label>
-        <input type="text" id="rTitre" placeholder="Ex. Ronde de nuit — RAS">
-      </div>
-      <div class="field">
-        <label for="rContenu">Observations</label>
-        <textarea id="rContenu" placeholder="Détaillez les faits observés, l'heure, les personnes présentes…"></textarea>
-      </div>
-      <button class="btn btn--gold btn--sm" onclick="addRapport()">Enregistrer le rapport</button>
+      <div class="field"><label for="rTitre">Objet</label><input type="text" id="rTitre" placeholder="Ex. Ronde de nuit"></div>
+      <div class="field"><label for="rContenu">Observations</label><textarea id="rContenu" placeholder="Détaillez…"></textarea></div>
+      <button class="btn btn--gold btn--sm" onclick="addRapport()">Enregistrer</button>
     </div>
-
-    <h4 style="font-size:.95rem;margin-bottom:14px">Historique des rapports (${list.length})</h4>
-    <div class="report-list" id="profileReportList">
-      ${list.length ? list.map(r => renderRapportCard(r)).join('') : `<div class="empty">Aucun rapport enregistré pour ce membre.</div>`}
-    </div>`;
-
+    <h4 style="font-size:.95rem;margin-bottom:14px">Historique (${list.length})</h4>
+    <div class="report-list">${list.length ? list.map(r => renderRapportCard(r)).join('') : `<div class="empty">Aucun rapport.</div>`}</div>`;
   document.getElementById('pp-rapports').innerHTML = html;
 }
 function renderRapportCard(r){
   const t = TYPES_RAPPORT[r.type] || {label:'Autre', cls:'maincourante'};
   const site = siteById(r.siteId);
   const [y,m,d] = r.date.split('-');
-  const dateAff = `${d}/${m}/${y}`;
-  const statutLabel = r.statut==='traite' ? 'Traité' : (r.statut==='en_cours' ? 'En cours' : 'Nouveau');
-  const statutCls = r.statut==='traite' ? 'tag--done' : (r.statut==='en_cours' ? 'tag--prog' : 'tag--new');
-  return `
-    <div class="report ${t.cls}" data-rid="${r.id}">
-      <div class="report-head">
-        <h4>${escapeHtml(r.titre)}</h4>
-        <span class="tag ${statutCls}" style="font-size:.68rem">${statutLabel}</span>
-      </div>
-      <div class="report-meta">
-        <span>📅 ${dateAff}</span>
-        <span>📍 ${site.nom}</span>
-        <span>🏷️ ${t.label}</span>
-      </div>
-      <p>${escapeHtml(r.contenu)}</p>
-      <div class="report-actions">
-        <select class="status-select" onchange="updateRapportStatut('${r.id}', this.value)">
-          <option value="nouveau"${r.statut==='nouveau'?' selected':''}>Nouveau</option>
-          <option value="en_cours"${r.statut==='en_cours'?' selected':''}>En cours</option>
-          <option value="traite"${r.statut==='traite'?' selected':''}>Traité</option>
-        </select>
-        <button class="btn btn--danger btn--xs" onclick="deleteRapport('${r.id}')">Supprimer</button>
-      </div>
-    </div>`;
-}
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const sc = r.statut==='traite'?'tag--done':(r.statut==='en_cours'?'tag--prog':'tag--new');
+  const sl = r.statut==='traite'?'Traité':(r.statut==='en_cours'?'En cours':'Nouveau');
+  return `<div class="report ${t.cls}">
+    <div class="report-head"><h4>${escapeHtml(r.titre)}</h4><span class="tag ${sc}" style="font-size:.68rem">${sl}</span></div>
+    <div class="report-meta"><span>📅 ${d}/${m}/${y}</span><span>📍 ${site.nom}</span><span>🏷️ ${t.label}</span></div>
+    <p>${escapeHtml(r.contenu)}</p>
+    <div class="report-actions">
+      <select class="status-select" onchange="updateRapportStatut('${r.id}', this.value)">
+        <option value="nouveau"${r.statut==='nouveau'?' selected':''}>Nouveau</option>
+        <option value="en_cours"${r.statut==='en_cours'?' selected':''}>En cours</option>
+        <option value="traite"${r.statut==='traite'?' selected':''}>Traité</option>
+      </select>
+      <button class="btn btn--danger btn--xs" onclick="deleteRapport('${r.id}')">Supprimer</button>
+    </div>
+  </div>`;
 }
 function addRapport(){
   if(!currentAgentMat) return;
@@ -1834,75 +1818,39 @@ function addRapport(){
   const siteId = document.getElementById('rSite').value;
   const titre = document.getElementById('rTitre').value.trim();
   const contenu = document.getElementById('rContenu').value.trim();
-
-  if(!titre){ alert('Merci de saisir un objet.'); return; }
-  if(!contenu){ alert('Merci de détailler vos observations.'); return; }
-
+  if(!titre || !contenu){ alert('Objet et observations obligatoires.'); return; }
   const now = new Date();
-  state.rapports.push({
-    id: 'r' + now.getTime(),
-    mat: currentAgentMat,
-    date: isoDate(now),
-    siteId, type, titre, contenu,
-    statut: 'nouveau',
-    createdAt: now.getTime()
-  });
-  save();
-  renderProfileRapports();
-  renderDash();
-  renderPersonnel();
+  state.rapports.push({id:'r'+now.getTime(), mat:currentAgentMat, date:isoDate(now), siteId, type, titre, contenu, statut:'nouveau', createdAt:now.getTime()});
+  save(); renderProfileRapports(); renderDash(); renderPersonnel();
 }
 function updateRapportStatut(id, statut){
-  const r = state.rapports.find(x => x.id === id);
-  if(!r) return;
-  r.statut = statut;
-  save();
-  renderDash();
-  renderPersonnel();
-  renderProfileRapports();
+  const r = state.rapports.find(x => x.id === id); if(!r) return;
+  r.statut = statut; save();
+  renderDash(); renderPersonnel(); renderProfileRapports();
 }
 function deleteRapport(id){
   if(!confirm('Supprimer ce rapport ?')) return;
   state.rapports = state.rapports.filter(r => r.id !== id);
-  save();
-  renderProfileRapports();
-  renderDash();
-  renderPersonnel();
+  save(); renderProfileRapports(); renderDash(); renderPersonnel();
 }
 function renderProfilePointages(){
-  const emp = empByMat(currentAgentMat);
-  if(!emp) return;
+  const emp = empByMat(currentAgentMat); if(!emp) return;
   const list = state.logs.filter(l => l.mat === emp.mat).sort((a,b) => b.ts - a.ts).slice(0,30);
-  if(!list.length){
-    document.getElementById('pp-pointages').innerHTML = `<div class="empty">Aucun pointage pour ce membre.</div>`;
-    return;
-  }
+  if(!list.length){ document.getElementById('pp-pointages').innerHTML = `<div class="empty">Aucun pointage.</div>`; return; }
   document.getElementById('pp-pointages').innerHTML = `
     <h4 style="font-size:.95rem;margin-bottom:4px">30 derniers pointages</h4>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Date</th><th>Heure</th><th>Site</th><th>Type</th></tr></thead>
-        <tbody>
-          ${list.map(l => `
-            <tr>
-              <td class="mono">${l.dateAff}</td>
-              <td class="mono">${l.heure}</td>
-              <td>${l.siteNom}</td>
-              <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`;
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Heure</th><th>Site</th><th>Type</th></tr></thead>
+      <tbody>${list.map(l => `<tr><td class="mono">${l.dateAff}</td><td class="mono">${l.heure}</td><td>${l.siteNom}</td>
+        <td><span class="tag ${l.type==='arrivee'?'tag--in':'tag--out'}">${l.type==='arrivee'?'Arrivée':'Départ'}</span></td></tr>`).join('')}</tbody>
+    </table></div>`;
 }
 
-/* =========================================================
-   VUE TERRAIN
-   ========================================================= */
+/* ================== VUE TERRAIN ================== */
 function openScan(siteId){
   scanSite = SITES.find(s => s.id === siteId) || SITES[0];
-  if(!scanSite){ alert('Aucun site disponible.'); return; }
+  if(!scanSite){ alert('Aucun site.'); return; }
   scanAgent = null;
-
   document.getElementById('scanSiteName').textContent = scanSite.nom;
   document.getElementById('scanSiteAddr').textContent = scanSite.adresse;
   document.getElementById('scanStep1').style.display = '';
@@ -1929,22 +1877,17 @@ function setMsg(txt, type){
 function identify(){
   const mat = document.getElementById('pMat').value.trim();
   const pin = document.getElementById('pPin').value.trim();
-  if(!mat || !pin){ setMsg('Merci de renseigner votre matricule et votre code PIN.'); return; }
+  if(!mat || !pin){ setMsg('Matricule et PIN obligatoires.'); return; }
   const emp = empByMat(mat);
   if(!emp){ setMsg('Matricule inconnu.'); return; }
-  if(emp.pin !== pin){ setMsg('Code PIN incorrect.'); return; }
-
+  if(emp.pin !== pin){ setMsg('PIN incorrect.'); return; }
   scanAgent = emp;
   setMsg('');
-
   const t = todayKey();
   const mine = state.logs.filter(l => l.mat === emp.mat && l.date === t);
   const last = mine[mine.length - 1];
   document.getElementById('pWho').textContent = emp.nom;
-  document.getElementById('pLast').textContent = last
-    ? `Dernier pointage : ${last.type === 'arrivee' ? 'Arrivée' : 'Départ'} à ${last.heure}`
-    : "Aucun pointage aujourd'hui sur ce site";
-
+  document.getElementById('pLast').textContent = last ? `Dernier : ${last.type==='arrivee'?'Arrivée':'Départ'} à ${last.heure}` : "Aucun pointage aujourd'hui";
   document.getElementById('scanStep1').style.display = 'none';
   document.getElementById('scanStep2').style.display = '';
 }
@@ -1961,116 +1904,55 @@ function pointer(type){
   const now = new Date();
   const entry = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
-    date: todayKey(),
-    dateAff: fmtDate(now),
-    heure: fmtTime(now),
-    ts: now.getTime(),
-    mat: scanAgent.mat,
-    nom: scanAgent.nom,
-    siteId: scanSite.id,
-    siteNom: scanSite.nom,
-    type: type
+    date: todayKey(), dateAff: fmtDate(now), heure: fmtTime(now), ts: now.getTime(),
+    mat: scanAgent.mat, nom: scanAgent.nom, siteId: scanSite.id, siteNom: scanSite.nom, type
   };
   state.logs.push(entry);
-  save();
-  renderDash();
-  renderRegistre();
-
+  save(); renderDash(); renderRegistre();
   document.getElementById('cTime').textContent = entry.heure;
-  document.getElementById('cWho').textContent  = entry.nom;
+  document.getElementById('cWho').textContent = entry.nom;
   document.getElementById('cSite').textContent = entry.siteNom;
   const pill = document.getElementById('cType');
   pill.textContent = type === 'arrivee' ? 'Arrivée' : 'Départ';
   pill.className = 'pill ' + (type === 'arrivee' ? 'in' : 'out');
-
   document.getElementById('scanStep2').style.display = 'none';
   document.getElementById('scanStep3').style.display = '';
 }
 
-/* =========================================================
-   IMPRESSION QR
-   ========================================================= */
+/* ================== IMPRESSION ================== */
 function printQRs(){
   const old = document.getElementById('printContainer');
   if(old) old.remove();
-
-  if(!SITES.length){
-    alert('Aucun site à imprimer. Ajoutez d\'abord un site dans l\'onglet « Sites ».');
-    return;
-  }
-
+  if(!SITES.length){ alert('Aucun site à imprimer.'); return; }
   const container = document.createElement('div');
   container.id = 'printContainer';
-
-  let html = `
-    <div class="print-header">
-      <h1>K.S.I — QR codes de pointage</h1>
-      <p>Affichage à l'entrée de chaque site pour la prise et la fin de poste.</p>
-      <p class="print-date">Généré le ${fmtDate(new Date())} à ${fmtTime(new Date())}</p>
-    </div>
-    <div class="print-grid">
-  `;
-
+  let html = `<div class="print-header"><h1>K.S.I — QR codes de pointage</h1><p>Affichage à l'entrée de chaque site.</p><p class="print-date">Généré le ${fmtDate(new Date())} à ${fmtTime(new Date())}</p></div><div class="print-grid">`;
   SITES.forEach(s => {
-    html += `
-      <div class="print-card">
-        <div class="print-code">${s.id}</div>
-        <h2>${s.nom}</h2>
-        <p class="print-ville">${s.ville}${s.adresse ? ' — ' + s.adresse : ''}</p>
-        <div class="print-qr" data-site="${s.id}"></div>
-        <p class="print-url">${checkinURL(s.id)}</p>
-        <p class="print-instructions">
-          Scannez pour pointer<br>
-          <span style="color:#e0a13a">Arrivée / Départ</span>
-        </p>
-      </div>
-    `;
+    html += `<div class="print-card"><div class="print-code">${s.id}</div><h2>${s.nom}</h2><p class="print-ville">${s.ville}${s.adresse ? ' — ' + s.adresse : ''}</p><div class="print-qr" data-site="${s.id}"></div><p class="print-url">${checkinURL(s.id)}</p><p class="print-instructions">Scannez pour pointer<br><span style="color:#e0a13a">Arrivée / Départ</span></p></div>`;
   });
-
   html += `</div>`;
   container.innerHTML = html;
   document.body.appendChild(container);
-
   SITES.forEach(s => {
     const box = container.querySelector(`.print-qr[data-site="${s.id}"]`);
     if(!box) return;
     try{
       if(typeof QRCode !== 'undefined'){
-        new QRCode(box, {
-          text: checkinURL(s.id),
-          width: 220,
-          height: 220,
-          colorDark: '#0a1a2f',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      } else {
-        box.innerHTML = `<div style="font-size:.6rem;padding:6px;word-break:break-all">${checkinURL(s.id)}</div>`;
-      }
-    }catch(err){
-      console.warn('Erreur QR impression', s.id, err);
-    }
+        new QRCode(box, {text:checkinURL(s.id), width:220, height:220, colorDark:'#0a1a2f', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.H});
+      } else { box.innerHTML = `<div style="font-size:.6rem;padding:6px;word-break:break-all">${checkinURL(s.id)}</div>`; }
+    }catch(e){}
   });
-
   setTimeout(() => {
     window.print();
-    setTimeout(() => {
-      const c = document.getElementById('printContainer');
-      if(c) c.remove();
-    }, 800);
+    setTimeout(() => { const c = document.getElementById('printContainer'); if(c) c.remove(); }, 800);
   }, 400);
 }
 
-/* =========================================================
-   EXPORT CSV
-   ========================================================= */
+/* ================== EXPORT CSV ================== */
 function exportCSV(){
-  if(!state.logs.length){ alert('Aucun pointage à exporter.'); return; }
+  if(!state.logs.length){ alert('Aucun pointage.'); return; }
   const rows = [['Date','Heure','Matricule','Agent','Site','Type']];
-  state.logs.forEach(l => rows.push([
-    l.dateAff, l.heure, l.mat, l.nom, l.siteNom,
-    l.type === 'arrivee' ? 'Arrivée' : 'Départ'
-  ]));
+  state.logs.forEach(l => rows.push([l.dateAff, l.heure, l.mat, l.nom, l.siteNom, l.type === 'arrivee' ? 'Arrivée' : 'Départ']));
   const csv = '\uFEFF' + rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
   const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
   const a = document.createElement('a');
@@ -2080,11 +1962,9 @@ function exportCSV(){
   URL.revokeObjectURL(a.href);
 }
 
-/* =========================================================
-   RESET
-   ========================================================= */
+/* ================== RESET ================== */
 function resetDemo(){
-  if(!confirm('Réinitialiser toute la démo (pointages, planning, rapports, sites) ?')) return;
+  if(!confirm('Réinitialiser toute la démo ?')) return;
   state = {logs:[], planning:[], rapports:[], weekOffset:0};
   localStorage.removeItem(STORE);
   SITES = [
@@ -2093,28 +1973,137 @@ function resetDemo(){
     {id:'S003', nom:'Centre Commercial Rive',ville:'Lyon',      adresse:'45 avenue de la Rive, 69007 Lyon'},
     {id:'S004', nom:'Entrepôt Logistique',   ville:'Marseille', adresse:'Porte 7, 13015 Marseille'}
   ];
-  seedPlanning();
-  seedRapports();
-  renderAll();
-  renderSites();
-  renderQR();
-  renderFilters();
+  seedPlanning(); seedRapports();
+  renderAll(); renderQR(); renderFilters();
 }
 
-/* =========================================================
-   RENDU GLOBAL
-   ========================================================= */
+/* ================== RENDU GLOBAL ================== */
 function renderAll(){
-  renderDash();
-  renderRegistre();
-  renderPlanning();
-  renderPersonnel();
-  renderSites();
+  renderDash(); renderRegistre(); renderPlanning(); renderPersonnel(); renderSites();
+  iaRenderDashboardReport();
 }
 
-/* =========================================================
-   AUTHENTIFICATION ADMIN
-   ========================================================= */
+/* ================== CHAT AGNÈS ================== */
+function toggleAgnes(){
+  const panel = document.getElementById('agnesPanel');
+  if(panel.classList.contains('open')){ panel.classList.remove('open'); return; }
+  panel.classList.add('open');
+  document.getElementById('agnesBadge').style.display = 'none';
+  if(!agnesHistory.length){
+    agnesSay(`Bonjour ${currentAdmin ? currentAdmin.nom.split(' ')[0] : ''} 👋<br>Je suis <strong>Agnès</strong>, l'IA qui gère vos plannings.<br><br>Je peux :<ul><li>Générer le planning (1 ou 4 semaines)</li><li>Détecter les conflits</li><li>Équilibrer les heures</li><li>Analyser les prédictions</li><li>Notifier les agents par email</li></ul>Que voulez-vous faire ?`);
+  }
+  renderAgnesSuggestions();
+  setTimeout(() => document.getElementById('agnesInput').focus(), 200);
+}
+
+function agnesKeydown(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); agnesSend(); } }
+
+function agnesSend(){
+  const input = document.getElementById('agnesInput');
+  const txt = input.value.trim();
+  if(!txt) return;
+  input.value = '';
+  agnesHistory.push({role:'user', text: txt});
+  renderAgnesMessage({role:'user', text: txt});
+  agnesTyping();
+  setTimeout(() => {
+    removeAgnesTyping();
+    const response = agnesProcess(txt);
+    agnesHistory.push({role:'bot', text: response});
+    renderAgnesMessage({role:'bot', text: response});
+    renderAgnesSuggestions();
+  }, 500 + Math.random() * 500);
+}
+
+function agnesSay(html){
+  agnesHistory.push({role:'bot', text: html});
+  renderAgnesMessage({role:'bot', text: html});
+}
+
+function renderAgnesMessage(msg){
+  const body = document.getElementById('agnesBody');
+  const div = document.createElement('div');
+  div.className = 'agnes-msg ' + (msg.role === 'user' ? 'user' : 'bot');
+  div.innerHTML = msg.text;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function agnesTyping(){
+  const body = document.getElementById('agnesBody');
+  const div = document.createElement('div');
+  div.className = 'agnes-msg bot typing';
+  div.id = 'agnesTyping';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+function removeAgnesTyping(){ const el = document.getElementById('agnesTyping'); if(el) el.remove(); }
+
+function renderAgnesSuggestions(){
+  const box = document.getElementById('agnesSuggestions');
+  const sugs = ['Générer la semaine','Générer 4 semaines','Prédictions','Vérifier les conflits','Équilibrer les heures','Qui travaille demain ?'];
+  box.innerHTML = sugs.map(s => `<button class="agnes-sug" onclick="agnesQuick('${s.replace(/'/g, "\\'")}')">${s}</button>`).join('');
+}
+function agnesQuick(txt){
+  document.getElementById('agnesInput').value = txt;
+  agnesSend();
+}
+
+function agnesProcess(raw){
+  const msg = raw.toLowerCase().trim();
+  if(/^(bonjour|salut|hello|hey|coucou|bonsoir)/.test(msg)) return `Bonjour ! 👋 Comment puis-je vous aider ?`;
+  if(/^(merci|thanks)/.test(msg)) return `Avec plaisir ! 😊`;
+  if(/génér|genere|creer|créer/.test(msg) && /4|quatre|mois|multi|plusieurs/.test(msg)){ setTimeout(() => iaGenerateMonth(), 300); return `Je lance la génération de <strong>4 semaines</strong> 📅`; }
+  if(/génér|genere|creer|créer/.test(msg) && /planning|semaine/.test(msg)){ setTimeout(() => iaGenerateWeek(), 300); return `Je lance la génération ✨`; }
+  if(/conflit|probleme|verifi|vérifi/.test(msg)){
+    const c = iaGetAllConflicts();
+    if(!c.length) return `Aucun conflit détecté ✅`;
+    let html = `J'ai détecté <strong>${c.length} conflit(s)</strong> :<ul>`;
+    c.slice(0,5).forEach(x => { html += `<li><strong>${x.nom}</strong> — ${x.msg}</li>`; });
+    html += `</ul>`;
+    return html;
+  }
+  if(/équilibre|equilibre|réparti|reparti/.test(msg)){ setTimeout(() => iaBalanceHours(), 300); return `Je lance l'équilibrage ⚖️`; }
+  if(/prédiction|prediction|prévision|prevision|anticiper/.test(msg)){
+    setTimeout(() => { const el = document.querySelector('[data-panel="predict"]'); if(el) el.click(); iaRenderPredictions(); }, 800);
+    return `Onglet 🔮 Prédictions ouvert.`;
+  }
+  if(/charge|analyse|stats/.test(msg)){
+    const agents = EMPLOYES.filter(e => e.role !== 'admin');
+    let html = `Charge des ${agents.length} agents :<ul>`;
+    agents.forEach(a => { const h = iaGetWeeklyHours(a.mat); html += `<li>${h>48?'⚠️':'✅'} <strong>${a.nom}</strong> — ${h}h</li>`; });
+    html += `</ul>`;
+    setTimeout(() => { const el = document.querySelector('[data-panel="personnel"]'); if(el) el.click(); iaAnalyzePersonnel(); }, 1200);
+    return html;
+  }
+  if(/qui travaille|qui bosse|présent|present/.test(msg)){
+    let t = new Date();
+    if(/demain/.test(msg)) t = addDays(new Date(), 1);
+    const iso = isoDate(t);
+    const w = state.planning.filter(p => p.date === iso && p.shift !== 'repos');
+    if(!w.length) return `Aucun agent prévu le ${fmtDate(t)}.`;
+    let html = `<strong>${fmtDate(t)}</strong> :<ul>`;
+    w.forEach(x => { const e = empByMat(x.mat); const s = SHIFTS[x.shift]; html += `<li><strong>${e.nom}</strong> — ${s.label} · ${siteById(x.siteId).ville}</li>`; });
+    html += `</ul>`;
+    return html;
+  }
+  if(/dispo|libre|remplac/.test(msg)){
+    let t = new Date();
+    if(/demain/.test(msg)) t = addDays(new Date(), 1);
+    const iso = isoDate(t);
+    const dispo = EMPLOYES.filter(e => e.role !== 'admin').filter(e => { const x = state.planning.find(p => p.date === iso && p.mat === e.mat); return !x || x.shift === 'repos'; });
+    if(!dispo.length) return `Aucun agent disponible.`;
+    let html = `Disponibles le <strong>${fmtDate(t)}</strong> :<ul>`;
+    dispo.forEach(e => { html += `<li><strong>${e.nom}</strong> — ${e.poste}</li>`; });
+    html += `</ul>`;
+    return html;
+  }
+  if(/aide|help|peux-tu/.test(msg)) return `Commandes :<ul><li>"Génère la semaine"</li><li>"Génère 4 semaines"</li><li>"Vérifie les conflits"</li><li>"Équilibre"</li><li>"Prédictions"</li><li>"Qui travaille demain"</li><li>"Dispo jeudi"</li></ul>`;
+  return `Je n'ai pas compris. Essayez "aide" pour voir mes commandes.`;
+}
+
+/* ================== AUTH ================== */
 function openLogin(){
   document.getElementById('loginView').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2123,63 +2112,48 @@ function openLogin(){
   setLoginMsg('');
   setTimeout(() => document.getElementById('loginMat').focus(), 200);
 }
-
 function closeLogin(){
   document.getElementById('loginView').classList.remove('open');
   document.body.style.overflow = '';
 }
-
 function setLoginMsg(txt, type){
   const el = document.getElementById('loginMsg');
   if(!txt){ el.className = 'login-msg'; el.textContent = ''; return; }
   el.className = 'login-msg ' + (type || 'err');
   el.textContent = txt;
 }
-
 function login(){
   const mat = document.getElementById('loginMat').value.trim().toUpperCase();
   const pin = document.getElementById('loginPin').value.trim();
-
-  if(!mat || !pin){ setLoginMsg('Merci de renseigner vos identifiants.'); return; }
-
+  if(!mat || !pin){ setLoginMsg('Identifiants obligatoires.'); return; }
   const emp = EMPLOYES.find(e => e.mat.toUpperCase() === mat);
   if(!emp){ setLoginMsg('Identifiant inconnu.'); return; }
-  if(emp.pin !== pin){ setLoginMsg('Code d\'accès incorrect.'); return; }
-  if(emp.role !== 'admin'){
-    setLoginMsg('Ce compte n\'a pas les droits d\'administration.');
-    return;
-  }
-
+  if(emp.pin !== pin){ setLoginMsg('Code incorrect.'); return; }
+  if(emp.role !== 'admin'){ setLoginMsg('Droits insuffisants.'); return; }
   sessionStorage.setItem(SESSION_KEY, emp.mat);
-  setLoginMsg('Connexion réussie. Redirection…', 'ok');
-
+  setLoginMsg('Connexion réussie…', 'ok');
   setTimeout(() => {
     closeLogin();
     applySession(emp);
     document.getElementById('gestion').scrollIntoView({behavior:'smooth'});
-  }, 600);
+    document.getElementById('agnesBadge').style.display = 'grid';
+  }, 500);
 }
-
 function logout(){
   sessionStorage.removeItem(SESSION_KEY);
   applySession(null);
   window.scrollTo({top:0, behavior:'smooth'});
 }
-
 function getSession(){
   const mat = sessionStorage.getItem(SESSION_KEY);
-  if(!mat) return null;
-  return EMPLOYES.find(e => e.mat === mat) || null;
+  return mat ? EMPLOYES.find(e => e.mat === mat) : null;
 }
-
 function applySession(emp){
   const bar = document.getElementById('userBar');
   const fab = document.getElementById('adminFab');
   const locked = document.getElementById('lockedNotice');
   const adminZone = document.getElementById('adminZone');
-
   currentAdmin = emp;
-
   if(emp){
     document.getElementById('userBarAvatar').textContent = initials(emp.nom);
     document.getElementById('userBarWho').textContent = emp.nom;
@@ -2197,9 +2171,7 @@ function applySession(emp){
   }
 }
 
-/* =========================================================
-   ONGLETS
-   ========================================================= */
+/* ================== ÉVÉNEMENTS ================== */
 document.getElementById('tabs').addEventListener('click', e => {
   const btn = e.target.closest('.tab');
   if(!btn) return;
@@ -2207,6 +2179,7 @@ document.getElementById('tabs').addEventListener('click', e => {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+  if(btn.dataset.panel === 'predict') iaRenderPredictions();
 });
 document.querySelectorAll('.ptab').forEach(t => {
   t.addEventListener('click', () => switchProfileTab(t.dataset.ptab));
@@ -2214,15 +2187,60 @@ document.querySelectorAll('.ptab').forEach(t => {
 document.getElementById('profileModal').addEventListener('click', e => {
   if(e.target.id === 'profileModal') closeProfile();
 });
+document.getElementById('loginPin').addEventListener('keypress', e => { if(e.key === 'Enter') login(); });
+document.getElementById('loginMat').addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('loginPin').focus(); });
 
-/* Entrée dans les champs de connexion */
-document.getElementById('loginPin').addEventListener('keypress', e => {
-  if(e.key === 'Enter') login();
+function route(){
+  const h = location.hash || '';
+  if(h.indexOf('#/pointage') === 0){
+    const q = h.split('?')[1] || '';
+    const params = new URLSearchParams(q);
+    const siteId = params.get('site') || (SITES[0] ? SITES[0].id : null);
+    if(siteId && !document.getElementById('scanView').classList.contains('open')) openScan(siteId);
+  } else {
+    if(document.getElementById('scanView').classList.contains('open')) closeScan();
+  }
+}
+window.addEventListener('hashchange', route);
+
+function sendForm(e){
+  e.preventDefault();
+  if(!document.getElementById('cNom').value.trim()) return false;
+  document.getElementById('formOk').style.display = 'block';
+  document.getElementById('contactForm').reset();
+  setTimeout(() => { document.getElementById('formOk').style.display = 'none'; }, 8000);
+  return false;
+}
+
+document.getElementById('burger').addEventListener('click', () => {
+  document.getElementById('menu').classList.toggle('open');
 });
-document.getElementById('loginMat').addEventListener('keypress', e => {
-  if(e.key === 'Enter') document.getElementById('loginPin').focus();
+document.querySelectorAll('#menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('menu').classList.remove('open'));
 });
 
-/* =========================================================
-   ROUTAGE
-   =
+/* ================== INIT ================== */
+(function init(){
+  load();
+  renderZones(); renderQR(); renderFilters(); renderAll();
+  document.getElementById('year').textContent = new Date().getFullYear();
+  route();
+  const sfCode = document.getElementById('sfCode');
+  if(sfCode) sfCode.addEventListener('input', updateSitePreview);
+  applySession(getSession());
+  renderAgnesSuggestions();
+  // Charge config email
+  const cfg = loadEmailConfig();
+  if(cfg){
+    if(document.getElementById('emailPublicKey')) document.getElementById('emailPublicKey').value = cfg.publicKey || '';
+    if(document.getElementById('emailServiceId')) document.getElementById('emailServiceId').value = cfg.serviceId || '';
+    if(document.getElementById('emailTemplateId')) document.getElementById('emailTemplateId').value = cfg.templateId || '';
+    if(typeof emailjs !== 'undefined') emailjs.init(cfg.publicKey);
+  }
+  if(document.getElementById('predictContainer')) iaRenderPredictions();
+  if(typeof QRCode === 'undefined') console.warn('⚠️ qrcode.js non chargé');
+  if(typeof emailjs === 'undefined') console.warn('⚠️ emailjs non chargé');
+})();
+</script>
+</body>
+</html>
