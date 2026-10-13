@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Bibliothèque QR locale (aucune dépendance API externe) -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -113,7 +112,7 @@ header.nav{position:sticky;top:0;z-index:900;background:rgba(10,26,47,.92);backd
 /* SECTIONS ADMIN */
 .section-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:52px}
 .tabs{display:flex;gap:6px;background:#e9eef5;padding:6px;border-radius:12px;flex-wrap:wrap}
-.tab{flex:1;min-width:120px;padding:11px 16px;border:0;background:transparent;border-radius:9px;font-size:.87rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;white-space:nowrap}
+.tab{flex:1;min-width:110px;padding:11px 16px;border:0;background:transparent;border-radius:9px;font-size:.87rem;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;white-space:nowrap}
 .tab.active{background:#fff;color:var(--navy);box-shadow:0 3px 10px rgba(10,26,47,.1)}
 .panel{display:none;animation:fade .3s ease}
 .panel.active{display:block}
@@ -338,10 +337,86 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   .pbody,.modal-head{padding:20px}
   .admin-banner{flex-direction:column;text-align:center}
 }
+
+/* ============ IMPRESSION ============ */
+#printContainer{display:none}
 @media print{
-  body>*:not(.print-zone){display:none!important}
-  .print-zone{display:block!important}
-  .qr-card{break-inside:avoid}
+  @page{size:A4; margin:12mm}
+  body > *{display:none!important}
+  #printContainer{
+    display:block!important;
+    background:#fff;
+    color:#000;
+    padding:0;
+  }
+  .print-header{
+    text-align:center;
+    margin-bottom:26px;
+    padding-bottom:16px;
+    border-bottom:3px solid #0a1a2f;
+  }
+  .print-header h1{
+    font-size:1.7rem;
+    color:#0a1a2f;
+    margin-bottom:6px;
+    letter-spacing:-.02em;
+  }
+  .print-header p{font-size:.9rem; color:#475569}
+  .print-date{font-size:.72rem !important; color:#94a3b8; margin-top:8px}
+  .print-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+  .print-card{
+    border:2px solid #0a1a2f;
+    border-radius:14px;
+    padding:22px 18px;
+    text-align:center;
+    break-inside:avoid;
+    page-break-inside:avoid;
+    min-height:400px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .print-code{
+    font-size:.72rem;
+    letter-spacing:.22em;
+    color:#e0a13a;
+    font-weight:700;
+    text-transform:uppercase;
+  }
+  .print-card h2{
+    font-size:1.15rem;
+    color:#0a1a2f;
+    margin:6px 0 4px;
+  }
+  .print-ville{font-size:.85rem; color:#64748b; margin-bottom:14px}
+  .print-qr{
+    width:220px; height:220px;
+    margin:0 auto 12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .print-qr img, .print-qr canvas{
+    width:220px!important;
+    height:220px!important;
+    display:block;
+  }
+  .print-url{
+    font-size:.58rem;
+    color:#94a3b8;
+    word-break:break-all;
+    margin-bottom:10px;
+    font-family:monospace;
+    line-height:1.3;
+  }
+  .print-instructions{
+    font-size:.82rem;
+    font-weight:700;
+    color:#0a1a2f;
+    line-height:1.4;
+  }
 }
 </style>
 </head>
@@ -462,8 +537,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
         <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;font-size:.9rem;color:#64748b">
           <li>📅 <strong style="color:#0a1a2f">Planning hebdo</strong> — vacations par agent et par site</li>
           <li>👥 <strong style="color:#0a1a2f">Personnel</strong> — fiches agents complètes</li>
+          <li>🏢 <strong style="color:#0a1a2f">Sites</strong> — gestion et QR codes</li>
           <li>📝 <strong style="color:#0a1a2f">Rapports</strong> — rondes, incidents, mains courantes</li>
-          <li>⏱️ <strong style="color:#0a1a2f">Pointages</strong> — historique par agent</li>
         </ul>
       </div>
     </div>
@@ -472,6 +547,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
       <button class="tab active" data-panel="dash">Tableau de bord</button>
       <button class="tab" data-panel="planning">Planning</button>
       <button class="tab" data-panel="personnel">Personnel</button>
+      <button class="tab" data-panel="sites">Sites</button>
       <button class="tab" data-panel="qr">QR des sites</button>
       <button class="tab" data-panel="reg">Registre</button>
     </div>
@@ -550,10 +626,66 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
           </div>
         </div>
 
-        <!-- Bandeau admin (Agnès) -->
         <div class="admin-banner" id="adminBanner"></div>
 
         <div id="personnelGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:22px"></div>
+      </div>
+
+      <!-- SITES -->
+      <div class="panel" id="panel-sites">
+        <div class="toolbar">
+          <div>
+            <h3 style="font-size:1.15rem">Gestion des sites</h3>
+            <p style="font-size:.85rem;color:#64748b">Ajoutez, modifiez ou supprimez vos sites d'intervention. Chaque site reçoit automatiquement son QR code.</p>
+          </div>
+          <div class="toolbar-left">
+            <button class="btn btn--gold btn--sm" onclick="openSiteForm()">+ Nouveau site</button>
+          </div>
+        </div>
+
+        <div id="siteForm" style="display:none;background:#f6f8fb;border:1px solid #e4eaf1;border-radius:12px;padding:20px;margin-top:18px">
+          <h4 style="font-size:.95rem;margin-bottom:16px" id="siteFormTitle">Nouveau site</h4>
+          <input type="hidden" id="sfId">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="field">
+              <label for="sfCode">Code du site *</label>
+              <input type="text" id="sfCode" placeholder="Ex. S005" maxlength="6" style="text-transform:uppercase">
+            </div>
+            <div class="field">
+              <label for="sfNom">Nom du site *</label>
+              <input type="text" id="sfNom" placeholder="Ex. Dépôt Sud">
+            </div>
+            <div class="field">
+              <label for="sfVille">Ville *</label>
+              <input type="text" id="sfVille" placeholder="Ex. Bordeaux">
+            </div>
+            <div class="field">
+              <label for="sfAdresse">Adresse complète</label>
+              <input type="text" id="sfAdresse" placeholder="Ex. 12 rue du Port, 33000 Bordeaux">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <button class="btn btn--gold btn--sm" onclick="saveSite()">Enregistrer</button>
+            <button class="btn btn--outline btn--sm" onclick="closeSiteForm()">Annuler</button>
+          </div>
+          <p class="note">Le code du site sera utilisé pour l'URL de pointage : <span class="mono" id="siteFormPreview">#/pointage?site=…</span></p>
+        </div>
+
+        <div class="table-wrap" style="margin-top:18px">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Nom du site</th>
+                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Agents affectés</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sitesBody"></tbody>
+          </table>
+        </div>
       </div>
 
       <!-- QR -->
@@ -564,10 +696,10 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
             <p style="font-size:.85rem;color:#64748b">Générés localement, aucune connexion externe requise. Imprimez et affichez ces QR à l'entrée de chaque site.</p>
           </div>
           <div class="toolbar-left">
-            <button class="btn btn--outline btn--sm" onclick="window.print()">Imprimer les QR</button>
+            <button class="btn btn--gold btn--sm" onclick="printQRs()">🖨️ Imprimer les QR</button>
           </div>
         </div>
-        <div class="qr-grid print-zone" id="qrGrid"></div>
+        <div class="qr-grid" id="qrGrid"></div>
       </div>
 
       <!-- REGISTRE -->
@@ -764,9 +896,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
 /* =========================================================
    K.S.I — DONNÉES
    ========================================================= */
-const STORE = 'ksi_state_v4';
+const STORE = 'ksi_state_v5';
 
-const SITES = [
+let SITES = [
   {id:'S001', nom:'Siège — Tour Horizon',  ville:'Paris 15e', adresse:'12 rue des Peupliers, 75015 Paris'},
   {id:'S002', nom:'Usine Nord',            ville:'Lille',     adresse:'ZAC des Prés, 59000 Lille'},
   {id:'S003', nom:'Centre Commercial Rive',ville:'Lyon',      adresse:'45 avenue de la Rive, 69007 Lyon'},
@@ -803,7 +935,6 @@ const TYPES_RAPPORT = {
   remise:        {label:'Remise de clés', cls:'remise'}
 };
 
-/* ---------- état ---------- */
 let state = { logs: [], planning: [], rapports: [], weekOffset: 0 };
 let currentAgentMat = null;
 let scanSite = null;
@@ -841,6 +972,7 @@ function load(){
       state.logs = p.logs || [];
       state.planning = p.planning || [];
       state.rapports = p.rapports || [];
+      if(p.sites && p.sites.length) SITES = p.sites;
     }
   }catch(e){}
   if(!state.planning.length) seedPlanning();
@@ -849,16 +981,17 @@ function load(){
 function save(){
   try{
     localStorage.setItem(STORE, JSON.stringify({
-      logs: state.logs, planning: state.planning, rapports: state.rapports
+      logs: state.logs,
+      planning: state.planning,
+      rapports: state.rapports,
+      sites: SITES
     }));
   }catch(e){}
 }
 
-/* ---------- seed planning ---------- */
 function seedPlanning(){
   state.planning = [];
   const monday = startOfWeek(new Date());
-
   const pattern = {
     K001: ['matin','matin','aprem','aprem','nuit','nuit','repos'],
     K002: ['aprem','aprem','nuit','nuit','repos','matin','matin'],
@@ -866,25 +999,20 @@ function seedPlanning(){
     K004: ['matin','repos','matin','aprem','aprem','repos','matin']
   };
   const sitesByAgent = {K001:'S001', K002:'S002', K003:'S003', K004:'S004'};
-
   Object.keys(pattern).forEach(mat => {
     pattern[mat].forEach((shift, i) => {
       const date = isoDate(addDays(monday, i));
       state.planning.push({date, mat, shift, siteId: sitesByAgent[mat]});
     });
   });
-
-  // Agnès : administration du lundi au vendredi
   for(let i = 0; i < 7; i++){
     const date = isoDate(addDays(monday, i));
     const shift = i < 5 ? 'admin' : 'repos';
     state.planning.push({date, mat:'ADM1', shift, siteId:'S001'});
   }
-
   save();
 }
 
-/* ---------- seed rapports ---------- */
 function seedRapports(){
   const now = new Date();
   state.rapports = [
@@ -902,7 +1030,7 @@ function seedRapports(){
 }
 
 /* =========================================================
-   RENDU — ZONES, QR, FILTRES
+   ZONES, QR, SITES
    ========================================================= */
 function renderZones(){
   document.getElementById('zones').innerHTML = ZONES.map(z => `
@@ -913,13 +1041,15 @@ function checkinURL(siteId){
   return `${location.origin + location.pathname}#/pointage?site=${siteId}`;
 }
 
-/* ---------------------------------------------------------
-   GÉNÉRATION LOCALE DES QR CODES (qrcode.js)
-   --------------------------------------------------------- */
 function renderQR(){
   const grid = document.getElementById('qrGrid');
+  if(!grid) return;
 
-  // 1. Structure HTML avec un conteneur vide par site
+  if(!SITES.length){
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Aucun site. Ajoutez-en un dans l'onglet « Sites ».</div>`;
+    return;
+  }
+
   grid.innerHTML = SITES.map(s => {
     const url = checkinURL(s.id);
     return `
@@ -933,11 +1063,9 @@ function renderQR(){
       </div>`;
   }).join('');
 
-  // 2. Génération locale des QR codes via qrcode.js
   SITES.forEach(s => {
     const container = document.getElementById('qr-' + s.id);
     if(!container) return;
-
     try{
       if(typeof QRCode !== 'undefined'){
         new QRCode(container, {
@@ -949,20 +1077,135 @@ function renderQR(){
           correctLevel: QRCode.CorrectLevel.H
         });
       } else {
-        // Fallback : affiche l'URL en texte si la librairie n'a pas chargé
-        container.innerHTML = `<div class="fb" style="font-size:.62rem;color:#64748b;padding:8px;word-break:break-all;text-align:center">${checkinURL(s.id)}</div>`;
+        container.innerHTML = `<div class="fb">${checkinURL(s.id)}</div>`;
       }
     }catch(err){
-      console.warn('Erreur génération QR pour', s.id, err);
-      container.innerHTML = `<div class="fb" style="font-size:.62rem;color:#64748b;padding:8px;word-break:break-all;text-align:center">${checkinURL(s.id)}</div>`;
+      console.warn('Erreur QR', s.id, err);
     }
   });
 }
 
 function renderFilters(){
   const sel = document.getElementById('filterSite');
+  if(!sel) return;
   sel.innerHTML = '<option value="">Tous les sites</option>' +
     SITES.map(s => `<option value="${s.id}">${s.nom}</option>`).join('');
+}
+
+/* =========================================================
+   GESTION DES SITES (CRUD)
+   ========================================================= */
+function renderSites(){
+  const tbody = document.getElementById('sitesBody');
+  if(!tbody) return;
+
+  if(!SITES.length){
+    tbody.innerHTML = `<tr><td colspan="6" class="empty">Aucun site enregistré. Cliquez sur « + Nouveau site ».</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = SITES.map(s => {
+    const agents = EMPLOYES.filter(e => e.siteHabituel === s.id).length;
+    return `
+      <tr>
+        <td class="mono"><strong>${s.id}</strong></td>
+        <td>${s.nom}</td>
+        <td>${s.ville}</td>
+        <td style="font-size:.82rem;color:#64748b">${s.adresse || '—'}</td>
+        <td><span class="tag tag--new">${agents} agent${agents>1?'s':''}</span></td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn--outline btn--xs" onclick="openSiteForm('${s.id}')">Modifier</button>
+            <button class="btn btn--outline btn--xs" onclick="openScan('${s.id}')">Tester QR</button>
+            <button class="btn btn--danger btn--xs" onclick="deleteSite('${s.id}')">Supprimer</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function openSiteForm(siteId){
+  const form = document.getElementById('siteForm');
+  form.style.display = 'block';
+  form.scrollIntoView({behavior:'smooth', block:'center'});
+
+  if(siteId){
+    const s = SITES.find(x => x.id === siteId);
+    if(!s) return;
+    document.getElementById('siteFormTitle').textContent = 'Modifier le site';
+    document.getElementById('sfId').value = s.id;
+    document.getElementById('sfCode').value = s.id;
+    document.getElementById('sfNom').value = s.nom;
+    document.getElementById('sfVille').value = s.ville;
+    document.getElementById('sfAdresse').value = s.adresse || '';
+    document.getElementById('sfCode').disabled = true;
+  } else {
+    document.getElementById('siteFormTitle').textContent = 'Nouveau site';
+    document.getElementById('sfId').value = '';
+    document.getElementById('sfCode').value = '';
+    document.getElementById('sfNom').value = '';
+    document.getElementById('sfVille').value = '';
+    document.getElementById('sfAdresse').value = '';
+    document.getElementById('sfCode').disabled = false;
+  }
+  updateSitePreview();
+}
+
+function closeSiteForm(){
+  document.getElementById('siteForm').style.display = 'none';
+}
+
+function updateSitePreview(){
+  const code = (document.getElementById('sfCode').value || '…').toUpperCase();
+  const preview = document.getElementById('siteFormPreview');
+  if(preview) preview.textContent = `#/pointage?site=${code}`;
+}
+
+function saveSite(){
+  const id = (document.getElementById('sfCode').value || '').trim().toUpperCase();
+  const nom = document.getElementById('sfNom').value.trim();
+  const ville = document.getElementById('sfVille').value.trim();
+  const adresse = document.getElementById('sfAdresse').value.trim();
+  const editing = document.getElementById('sfId').value;
+
+  if(!id){ alert('Merci de saisir un code de site.'); return; }
+  if(!nom){ alert('Merci de saisir un nom de site.'); return; }
+  if(!ville){ alert('Merci de saisir une ville.'); return; }
+
+  if(editing){
+    const s = SITES.find(x => x.id === editing);
+    if(s){ s.nom = nom; s.ville = ville; s.adresse = adresse; }
+  } else {
+    if(SITES.find(x => x.id === id)){
+      alert('Ce code de site existe déjà. Choisissez un autre code.');
+      return;
+    }
+    SITES.push({id, nom, ville, adresse});
+  }
+
+  save();
+  closeSiteForm();
+  renderSites();
+  renderQR();
+  renderFilters();
+  renderPersonnel();
+  renderPlanning();
+  renderDash();
+}
+
+function deleteSite(id){
+  const agents = EMPLOYES.filter(e => e.siteHabituel === id).length;
+  let msg = `Supprimer le site ${id} ?`;
+  if(agents > 0){
+    msg += `\n\n⚠️ ${agents} agent(s) sont affectés à ce site. Ils devront être réaffectés manuellement.`;
+  }
+  if(!confirm(msg)) return;
+
+  SITES = SITES.filter(s => s.id !== id);
+  save();
+  renderSites();
+  renderQR();
+  renderFilters();
 }
 
 /* =========================================================
@@ -1066,7 +1309,6 @@ function renderPlanning(){
     `Semaine du ${fmtShort(dates[0])} au ${fmtShort(dates[6])}`;
 
   const dayNames = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-
   const ordered = [...EMPLOYES].sort((a,b) => (a.role === 'admin' ? -1 : b.role === 'admin' ? 1 : 0));
 
   let html = '<thead><tr><th class="agent-col">Agent</th>';
@@ -1480,6 +1722,7 @@ function renderProfilePointages(){
    ========================================================= */
 function openScan(siteId){
   scanSite = SITES.find(s => s.id === siteId) || SITES[0];
+  if(!scanSite){ alert('Aucun site disponible.'); return; }
   scanAgent = null;
 
   document.getElementById('scanSiteName').textContent = scanSite.nom;
@@ -1567,6 +1810,80 @@ function pointer(type){
 }
 
 /* =========================================================
+   IMPRESSION DES QR CODES (affiche A4, 2 QR par page)
+   ========================================================= */
+function printQRs(){
+  const old = document.getElementById('printContainer');
+  if(old) old.remove();
+
+  if(!SITES.length){
+    alert('Aucun site à imprimer. Ajoutez d\'abord un site dans l\'onglet « Sites ».');
+    return;
+  }
+
+  const container = document.createElement('div');
+  container.id = 'printContainer';
+
+  let html = `
+    <div class="print-header">
+      <h1>K.S.I — QR codes de pointage</h1>
+      <p>Affichage à l'entrée de chaque site pour la prise et la fin de poste.</p>
+      <p class="print-date">Généré le ${fmtDate(new Date())} à ${fmtTime(new Date())}</p>
+    </div>
+    <div class="print-grid">
+  `;
+
+  SITES.forEach(s => {
+    html += `
+      <div class="print-card">
+        <div class="print-code">${s.id}</div>
+        <h2>${s.nom}</h2>
+        <p class="print-ville">${s.ville}${s.adresse ? ' — ' + s.adresse : ''}</p>
+        <div class="print-qr" data-site="${s.id}"></div>
+        <p class="print-url">${checkinURL(s.id)}</p>
+        <p class="print-instructions">
+          Scannez pour pointer<br>
+          <span style="color:#e0a13a">Arrivée / Départ</span>
+        </p>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  container.innerHTML = html;
+  document.body.appendChild(container);
+
+  SITES.forEach(s => {
+    const box = container.querySelector(`.print-qr[data-site="${s.id}"]`);
+    if(!box) return;
+    try{
+      if(typeof QRCode !== 'undefined'){
+        new QRCode(box, {
+          text: checkinURL(s.id),
+          width: 220,
+          height: 220,
+          colorDark: '#0a1a2f',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        box.innerHTML = `<div style="font-size:.6rem;padding:6px;word-break:break-all">${checkinURL(s.id)}</div>`;
+      }
+    }catch(err){
+      console.warn('Erreur QR impression', s.id, err);
+    }
+  });
+
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => {
+      const c = document.getElementById('printContainer');
+      if(c) c.remove();
+    }, 800);
+  }, 400);
+}
+
+/* =========================================================
    EXPORT CSV
    ========================================================= */
 function exportCSV(){
@@ -1589,12 +1906,21 @@ function exportCSV(){
    RESET
    ========================================================= */
 function resetDemo(){
-  if(!confirm('Réinitialiser toute la démo (pointages, planning, rapports) ?')) return;
+  if(!confirm('Réinitialiser toute la démo (pointages, planning, rapports, sites) ?')) return;
   state = {logs:[], planning:[], rapports:[], weekOffset:0};
   localStorage.removeItem(STORE);
+  SITES = [
+    {id:'S001', nom:'Siège — Tour Horizon',  ville:'Paris 15e', adresse:'12 rue des Peupliers, 75015 Paris'},
+    {id:'S002', nom:'Usine Nord',            ville:'Lille',     adresse:'ZAC des Prés, 59000 Lille'},
+    {id:'S003', nom:'Centre Commercial Rive',ville:'Lyon',      adresse:'45 avenue de la Rive, 69007 Lyon'},
+    {id:'S004', nom:'Entrepôt Logistique',   ville:'Marseille', adresse:'Porte 7, 13015 Marseille'}
+  ];
   seedPlanning();
   seedRapports();
   renderAll();
+  renderSites();
+  renderQR();
+  renderFilters();
 }
 
 /* =========================================================
@@ -1605,6 +1931,7 @@ function renderAll(){
   renderRegistre();
   renderPlanning();
   renderPersonnel();
+  renderSites();
 }
 
 /* =========================================================
@@ -1633,8 +1960,8 @@ function route(){
   if(h.indexOf('#/pointage') === 0){
     const q = h.split('?')[1] || '';
     const params = new URLSearchParams(q);
-    const siteId = params.get('site') || SITES[0].id;
-    if(!document.getElementById('scanView').classList.contains('open')){
+    const siteId = params.get('site') || (SITES[0] ? SITES[0].id : null);
+    if(siteId && !document.getElementById('scanView').classList.contains('open')){
       openScan(siteId);
     }
   } else {
@@ -1679,7 +2006,9 @@ document.querySelectorAll('#menu a').forEach(a => {
   document.getElementById('year').textContent = new Date().getFullYear();
   route();
 
-  // Alerte si la librairie QR n'a pas pu se charger
+  const sfCode = document.getElementById('sfCode');
+  if(sfCode) sfCode.addEventListener('input', updateSitePreview);
+
   if(typeof QRCode === 'undefined'){
     console.warn('⚠️ qrcode.js non chargé — les QR codes seront remplacés par les URLs textuelles.');
   }
