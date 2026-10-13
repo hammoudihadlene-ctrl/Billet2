@@ -336,6 +336,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   .modal{padding:16px 8px}
   .pbody,.modal-head{padding:20px}
   .admin-banner{flex-direction:column;text-align:center}
+  .user-bar{top:auto;bottom:88px;right:16px}
 }
 
 /* ============ IMPRESSION ============ */
@@ -418,9 +419,137 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
     line-height:1.4;
   }
 }
+
+/* ============ ÉCRAN DE CONNEXION ============ */
+.login-overlay{
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  display:none;
+  background:linear-gradient(165deg,#0a1a2f,#102a45 60%,#08131f);
+  overflow-y:auto;
+  padding:40px 16px;
+}
+.login-overlay.open{display:block;animation:fade .25s ease}
+.login-box{
+  width:min(420px,100%);
+  margin:60px auto 0;
+}
+.login-form{
+  background:#fff;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 24px 60px rgba(0,0,0,.4);
+}
+.login-msg{
+  display:none;
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:.85rem;
+  font-weight:600;
+  margin-bottom:18px;
+}
+.login-msg.err{display:block;background:#fee2e2;color:#b91c1c}
+.login-msg.ok{display:block;background:#dcfce7;color:#15803d}
+
+/* Barre utilisateur connecté */
+.user-bar{
+  position:fixed;
+  top:88px;
+  right:3%;
+  z-index:850;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 14px;
+  box-shadow:var(--shadow);
+  display:none;
+  align-items:center;
+  gap:12px;
+}
+.user-bar.show{display:flex}
+.user-bar .avatar{width:32px;height:32px;font-size:.72rem}
+.user-bar .who{font-size:.82rem;font-weight:700;color:var(--navy)}
+.user-bar .role{font-size:.7rem;color:var(--muted)}
+.user-bar .logout{
+  background:#fee2e2;
+  color:#b91c1c;
+  border:0;
+  padding:6px 12px;
+  border-radius:8px;
+  font-size:.78rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+.user-bar .logout:hover{background:#fecaca}
+
+/* Bouton admin flottant */
+.admin-fab{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:800;
+  background:var(--navy);
+  color:#fff;
+  border:0;
+  border-radius:50%;
+  width:56px;
+  height:56px;
+  cursor:pointer;
+  box-shadow:0 12px 30px rgba(10,26,47,.35);
+  transition:.25s;
+  display:grid;
+  place-items:center;
+}
+.admin-fab:hover{transform:scale(1.08);background:var(--navy3)}
+.admin-fab svg{width:24px;height:24px;stroke:#e0a13a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Section gestion verrouillée */
+.locked-notice{
+  background:#fff8e8;
+  border:1px solid #f5c063;
+  border-radius:14px;
+  padding:32px 24px;
+  text-align:center;
+  margin-top:22px;
+}
+.locked-notice .ico{
+  font-size:2.4rem;
+  margin-bottom:12px;
+}
+.locked-notice h3{
+  font-size:1.15rem;
+  color:var(--navy);
+  margin-bottom:8px;
+}
+.locked-notice p{
+  color:var(--muted);
+  font-size:.9rem;
+  max-width:520px;
+  margin:0 auto 18px;
+}
 </style>
 </head>
 <body>
+
+<!-- ============ BOUTON ADMIN FLOTTANT ============ -->
+<button class="admin-fab" id="adminFab" onclick="openLogin()" title="Accès administration" aria-label="Accès administration">
+  <svg viewBox="0 0 24 24">
+    <rect x="3" y="11" width="18" height="11" rx="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+</button>
+
+<!-- ============ BARRE UTILISATEUR CONNECTÉ ============ -->
+<div class="user-bar" id="userBar">
+  <div class="avatar" id="userBarAvatar">KS</div>
+  <div>
+    <div class="who" id="userBarWho">—</div>
+    <div class="role" id="userBarRole">—</div>
+  </div>
+  <button class="logout" onclick="logout()">Déconnexion</button>
+</div>
 
 <!-- ================= NAV ================= -->
 <header class="nav">
@@ -543,184 +672,195 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
       </div>
     </div>
 
-    <div class="tabs" id="tabs">
-      <button class="tab active" data-panel="dash">Tableau de bord</button>
-      <button class="tab" data-panel="planning">Planning</button>
-      <button class="tab" data-panel="personnel">Personnel</button>
-      <button class="tab" data-panel="sites">Sites</button>
-      <button class="tab" data-panel="qr">QR des sites</button>
-      <button class="tab" data-panel="reg">Registre</button>
+    <!-- Zone verrouillée affichée si non connecté -->
+    <div class="locked-notice" id="lockedNotice">
+      <div class="ico">🔒</div>
+      <h3>Espace réservé à l'équipe K.S.I</h3>
+      <p>Le tableau de bord, le planning, la gestion du personnel, des sites et des rapports sont accessibles après connexion avec un compte administrateur.</p>
+      <button class="btn btn--gold" onclick="openLogin()">Se connecter</button>
     </div>
 
-    <div class="admin" style="margin-top:20px">
+    <!-- Zone admin (masquée si non connecté) -->
+    <div id="adminZone" style="display:none">
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-panel="dash">Tableau de bord</button>
+        <button class="tab" data-panel="planning">Planning</button>
+        <button class="tab" data-panel="personnel">Personnel</button>
+        <button class="tab" data-panel="sites">Sites</button>
+        <button class="tab" data-panel="qr">QR des sites</button>
+        <button class="tab" data-panel="reg">Registre</button>
+      </div>
 
-      <!-- DASH -->
-      <div class="panel active" id="panel-dash">
-        <div class="toolbar">
-          <h3 style="font-size:1.15rem">Activité du jour — <span id="todayLabel" class="mono"></span></h3>
-          <div class="toolbar-left">
-            <button class="btn btn--outline btn--sm" onclick="resetDemo()">Réinitialiser la démo</button>
-          </div>
-        </div>
-        <div class="kpis">
-          <div class="kpi ok"><span>Agents présents</span><strong id="kPresent">0</strong></div>
-          <div class="kpi info"><span>Pointages du jour</span><strong id="kPointages">0</strong></div>
-          <div class="kpi"><span>Sites couverts</span><strong id="kSites">0</strong></div>
-          <div class="kpi warn"><span>Rapports en attente</span><strong id="kRapports">0</strong></div>
-        </div>
+      <div class="admin" style="margin-top:20px">
 
-        <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:22px" class="dash-split">
-          <div>
-            <h4 style="font-size:.95rem;margin-bottom:4px">Derniers mouvements</h4>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Heure</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
-                <tbody id="dashBody"></tbody>
-              </table>
+        <!-- DASH -->
+        <div class="panel active" id="panel-dash">
+          <div class="toolbar">
+            <h3 style="font-size:1.15rem">Activité du jour — <span id="todayLabel" class="mono"></span></h3>
+            <div class="toolbar-left">
+              <button class="btn btn--outline btn--sm" onclick="resetDemo()">Réinitialiser la démo</button>
             </div>
           </div>
-          <div>
-            <h4 style="font-size:.95rem;margin-bottom:4px">Derniers rapports</h4>
-            <div id="dashRapports" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div>
+          <div class="kpis">
+            <div class="kpi ok"><span>Agents présents</span><strong id="kPresent">0</strong></div>
+            <div class="kpi info"><span>Pointages du jour</span><strong id="kPointages">0</strong></div>
+            <div class="kpi"><span>Sites couverts</span><strong id="kSites">0</strong></div>
+            <div class="kpi warn"><span>Rapports en attente</span><strong id="kRapports">0</strong></div>
           </div>
-        </div>
-      </div>
 
-      <!-- PLANNING -->
-      <div class="panel" id="panel-planning">
-        <div class="plan-head">
-          <div>
-            <h3 style="font-size:1.15rem">Planning hebdomadaire</h3>
-            <p style="font-size:.85rem;color:#64748b">Cliquez sur une case pour modifier la vacation d'un agent. Agnès apparaît en bandeau doré.</p>
-          </div>
-          <div class="week-nav">
-            <button class="btn btn--outline btn--sm" onclick="shiftWeek(-1)">← Précédente</button>
-            <span class="week-label mono" id="weekLabel">—</span>
-            <button class="btn btn--outline btn--sm" onclick="shiftWeek(1)">Suivante →</button>
-            <button class="btn btn--dark btn--sm" onclick="shiftWeek(0)">Cette semaine</button>
-          </div>
-        </div>
-
-        <div class="plan-grid">
-          <table id="planTable"></table>
-        </div>
-
-        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;font-size:.8rem;color:#64748b">
-          <span><span class="shift-chip s-mat" style="min-width:auto;padding:3px 10px">Matin 06–14</span></span>
-          <span><span class="shift-chip s-apm" style="min-width:auto;padding:3px 10px">Après-midi 14–22</span></span>
-          <span><span class="shift-chip s-nui" style="min-width:auto;padding:3px 10px">Nuit 22–06</span></span>
-          <span><span class="shift-chip s-off" style="min-width:auto;padding:3px 10px">Repos</span></span>
-          <span><span class="shift-chip s-admin" style="min-width:auto;padding:3px 10px">Administration</span></span>
-        </div>
-      </div>
-
-      <!-- PERSONNEL -->
-      <div class="panel" id="panel-personnel">
-        <div class="toolbar">
-          <div>
-            <h3 style="font-size:1.15rem">Personnel K.S.I</h3>
-            <p style="font-size:.85rem;color:#64748b">Cliquez sur un membre pour ouvrir sa fiche complète (planning, rapports, pointages).</p>
-          </div>
-          <div class="toolbar-left">
-            <input type="search" id="searchEmp" placeholder="Rechercher un agent…" style="width:220px" oninput="renderPersonnel()">
-          </div>
-        </div>
-
-        <div class="admin-banner" id="adminBanner"></div>
-
-        <div id="personnelGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:22px"></div>
-      </div>
-
-      <!-- SITES -->
-      <div class="panel" id="panel-sites">
-        <div class="toolbar">
-          <div>
-            <h3 style="font-size:1.15rem">Gestion des sites</h3>
-            <p style="font-size:.85rem;color:#64748b">Ajoutez, modifiez ou supprimez vos sites d'intervention. Chaque site reçoit automatiquement son QR code.</p>
-          </div>
-          <div class="toolbar-left">
-            <button class="btn btn--gold btn--sm" onclick="openSiteForm()">+ Nouveau site</button>
-          </div>
-        </div>
-
-        <div id="siteForm" style="display:none;background:#f6f8fb;border:1px solid #e4eaf1;border-radius:12px;padding:20px;margin-top:18px">
-          <h4 style="font-size:.95rem;margin-bottom:16px" id="siteFormTitle">Nouveau site</h4>
-          <input type="hidden" id="sfId">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-            <div class="field">
-              <label for="sfCode">Code du site *</label>
-              <input type="text" id="sfCode" placeholder="Ex. S005" maxlength="6" style="text-transform:uppercase">
+          <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:22px" class="dash-split">
+            <div>
+              <h4 style="font-size:.95rem;margin-bottom:4px">Derniers mouvements</h4>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Heure</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
+                  <tbody id="dashBody"></tbody>
+                </table>
+              </div>
             </div>
-            <div class="field">
-              <label for="sfNom">Nom du site *</label>
-              <input type="text" id="sfNom" placeholder="Ex. Dépôt Sud">
-            </div>
-            <div class="field">
-              <label for="sfVille">Ville *</label>
-              <input type="text" id="sfVille" placeholder="Ex. Bordeaux">
-            </div>
-            <div class="field">
-              <label for="sfAdresse">Adresse complète</label>
-              <input type="text" id="sfAdresse" placeholder="Ex. 12 rue du Port, 33000 Bordeaux">
+            <div>
+              <h4 style="font-size:.95rem;margin-bottom:4px">Derniers rapports</h4>
+              <div id="dashRapports" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"></div>
             </div>
           </div>
-          <div style="display:flex;gap:10px;margin-top:8px">
-            <button class="btn btn--gold btn--sm" onclick="saveSite()">Enregistrer</button>
-            <button class="btn btn--outline btn--sm" onclick="closeSiteForm()">Annuler</button>
-          </div>
-          <p class="note">Le code du site sera utilisé pour l'URL de pointage : <span class="mono" id="siteFormPreview">#/pointage?site=…</span></p>
         </div>
 
-        <div class="table-wrap" style="margin-top:18px">
-          <table>
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Nom du site</th>
-                <th>Ville</th>
-                <th>Adresse</th>
-                <th>Agents affectés</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="sitesBody"></tbody>
-          </table>
+        <!-- PLANNING -->
+        <div class="panel" id="panel-planning">
+          <div class="plan-head">
+            <div>
+              <h3 style="font-size:1.15rem">Planning hebdomadaire</h3>
+              <p style="font-size:.85rem;color:#64748b">Cliquez sur une case pour modifier la vacation d'un agent. Agnès apparaît en bandeau doré.</p>
+            </div>
+            <div class="week-nav">
+              <button class="btn btn--outline btn--sm" onclick="shiftWeek(-1)">← Précédente</button>
+              <span class="week-label mono" id="weekLabel">—</span>
+              <button class="btn btn--outline btn--sm" onclick="shiftWeek(1)">Suivante →</button>
+              <button class="btn btn--dark btn--sm" onclick="shiftWeek(0)">Cette semaine</button>
+            </div>
+          </div>
+
+          <div class="plan-grid">
+            <table id="planTable"></table>
+          </div>
+
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;font-size:.8rem;color:#64748b">
+            <span><span class="shift-chip s-mat" style="min-width:auto;padding:3px 10px">Matin 06–14</span></span>
+            <span><span class="shift-chip s-apm" style="min-width:auto;padding:3px 10px">Après-midi 14–22</span></span>
+            <span><span class="shift-chip s-nui" style="min-width:auto;padding:3px 10px">Nuit 22–06</span></span>
+            <span><span class="shift-chip s-off" style="min-width:auto;padding:3px 10px">Repos</span></span>
+            <span><span class="shift-chip s-admin" style="min-width:auto;padding:3px 10px">Administration</span></span>
+          </div>
         </div>
+
+        <!-- PERSONNEL -->
+        <div class="panel" id="panel-personnel">
+          <div class="toolbar">
+            <div>
+              <h3 style="font-size:1.15rem">Personnel K.S.I</h3>
+              <p style="font-size:.85rem;color:#64748b">Cliquez sur un membre pour ouvrir sa fiche complète (planning, rapports, pointages).</p>
+            </div>
+            <div class="toolbar-left">
+              <input type="search" id="searchEmp" placeholder="Rechercher un agent…" style="width:220px" oninput="renderPersonnel()">
+            </div>
+          </div>
+
+          <div class="admin-banner" id="adminBanner"></div>
+
+          <div id="personnelGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:22px"></div>
+        </div>
+
+        <!-- SITES -->
+        <div class="panel" id="panel-sites">
+          <div class="toolbar">
+            <div>
+              <h3 style="font-size:1.15rem">Gestion des sites</h3>
+              <p style="font-size:.85rem;color:#64748b">Ajoutez, modifiez ou supprimez vos sites d'intervention. Chaque site reçoit automatiquement son QR code.</p>
+            </div>
+            <div class="toolbar-left">
+              <button class="btn btn--gold btn--sm" onclick="openSiteForm()">+ Nouveau site</button>
+            </div>
+          </div>
+
+          <div id="siteForm" style="display:none;background:#f6f8fb;border:1px solid #e4eaf1;border-radius:12px;padding:20px;margin-top:18px">
+            <h4 style="font-size:.95rem;margin-bottom:16px" id="siteFormTitle">Nouveau site</h4>
+            <input type="hidden" id="sfId">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="field">
+                <label for="sfCode">Code du site *</label>
+                <input type="text" id="sfCode" placeholder="Ex. S005" maxlength="6" style="text-transform:uppercase">
+              </div>
+              <div class="field">
+                <label for="sfNom">Nom du site *</label>
+                <input type="text" id="sfNom" placeholder="Ex. Dépôt Sud">
+              </div>
+              <div class="field">
+                <label for="sfVille">Ville *</label>
+                <input type="text" id="sfVille" placeholder="Ex. Bordeaux">
+              </div>
+              <div class="field">
+                <label for="sfAdresse">Adresse complète</label>
+                <input type="text" id="sfAdresse" placeholder="Ex. 12 rue du Port, 33000 Bordeaux">
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:8px">
+              <button class="btn btn--gold btn--sm" onclick="saveSite()">Enregistrer</button>
+              <button class="btn btn--outline btn--sm" onclick="closeSiteForm()">Annuler</button>
+            </div>
+            <p class="note">Le code du site sera utilisé pour l'URL de pointage : <span class="mono" id="siteFormPreview">#/pointage?site=…</span></p>
+          </div>
+
+          <div class="table-wrap" style="margin-top:18px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Nom du site</th>
+                  <th>Ville</th>
+                  <th>Adresse</th>
+                  <th>Agents affectés</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sitesBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- QR -->
+        <div class="panel" id="panel-qr">
+          <div class="toolbar">
+            <div>
+              <h3 style="font-size:1.15rem">QR codes par site</h3>
+              <p style="font-size:.85rem;color:#64748b">Générés localement, aucune connexion externe requise. Imprimez et affichez ces QR à l'entrée de chaque site.</p>
+            </div>
+            <div class="toolbar-left">
+              <button class="btn btn--gold btn--sm" onclick="printQRs()">🖨️ Imprimer les QR</button>
+            </div>
+          </div>
+          <div class="qr-grid" id="qrGrid"></div>
+        </div>
+
+        <!-- REGISTRE -->
+        <div class="panel" id="panel-reg">
+          <div class="toolbar">
+            <h3 style="font-size:1.15rem">Registre des pointages</h3>
+            <div class="toolbar-left">
+              <select id="filterSite" onchange="renderRegistre()">
+                <option value="">Tous les sites</option>
+              </select>
+              <button class="btn btn--outline btn--sm" onclick="exportCSV()">Exporter CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Heure</th><th>Matricule</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
+              <tbody id="regBody"></tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
-
-      <!-- QR -->
-      <div class="panel" id="panel-qr">
-        <div class="toolbar">
-          <div>
-            <h3 style="font-size:1.15rem">QR codes par site</h3>
-            <p style="font-size:.85rem;color:#64748b">Générés localement, aucune connexion externe requise. Imprimez et affichez ces QR à l'entrée de chaque site.</p>
-          </div>
-          <div class="toolbar-left">
-            <button class="btn btn--gold btn--sm" onclick="printQRs()">🖨️ Imprimer les QR</button>
-          </div>
-        </div>
-        <div class="qr-grid" id="qrGrid"></div>
-      </div>
-
-      <!-- REGISTRE -->
-      <div class="panel" id="panel-reg">
-        <div class="toolbar">
-          <h3 style="font-size:1.15rem">Registre des pointages</h3>
-          <div class="toolbar-left">
-            <select id="filterSite" onchange="renderRegistre()">
-              <option value="">Tous les sites</option>
-            </select>
-            <button class="btn btn--outline btn--sm" onclick="exportCSV()">Exporter CSV</button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Date</th><th>Heure</th><th>Matricule</th><th>Agent</th><th>Site</th><th>Type</th></tr></thead>
-            <tbody id="regBody"></tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -892,11 +1032,49 @@ footer{background:var(--navy);color:rgba(255,255,255,.62);padding:60px 0 28px}
   </div>
 </div>
 
+<!-- ================= ÉCRAN DE CONNEXION ================= -->
+<div class="login-overlay" id="loginView">
+  <div class="login-box">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#e0a13a,#f5c063);display:grid;place-items:center;margin:0 auto 14px;box-shadow:0 8px 22px rgba(224,161,58,.4)">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#231a06" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2 4 5.5v6c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5v-6L12 2z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+      <h2 style="font-size:1.4rem;color:#fff;margin-bottom:6px">Accès administration</h2>
+      <p style="font-size:.85rem;color:rgba(255,255,255,.6)">Espace réservé à l'équipe K.S.I</p>
+    </div>
+
+    <div class="login-form">
+      <div class="login-msg" id="loginMsg"></div>
+      <div class="field">
+        <label for="loginMat">Identifiant</label>
+        <input type="text" id="loginMat" placeholder="Ex. ADM1" autocomplete="username" style="text-transform:uppercase">
+      </div>
+      <div class="field">
+        <label for="loginPin">Code d'accès</label>
+        <input type="password" id="loginPin" placeholder="••••" autocomplete="current-password" inputmode="numeric">
+      </div>
+      <button class="btn btn--gold btn--full" onclick="login()" style="margin-top:6px">Se connecter</button>
+      <p class="note" style="text-align:center;color:rgba(255,255,255,.5)">
+        Démo : ADM1 / 0000
+      </p>
+      <p style="text-align:center;margin-top:14px">
+        <a href="#" onclick="closeLogin();return false" style="font-size:.82rem;color:rgba(255,255,255,.6);text-decoration:underline">
+          ← Retour au site public
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
 <script>
 /* =========================================================
    K.S.I — DONNÉES
    ========================================================= */
-const STORE = 'ksi_state_v5';
+const STORE = 'ksi_state_v6';
+const SESSION_KEY = 'ksi_session';
 
 let SITES = [
   {id:'S001', nom:'Siège — Tour Horizon',  ville:'Paris 15e', adresse:'12 rue des Peupliers, 75015 Paris'},
@@ -939,6 +1117,7 @@ let state = { logs: [], planning: [], rapports: [], weekOffset: 0 };
 let currentAgentMat = null;
 let scanSite = null;
 let scanAgent = null;
+let currentAdmin = null;
 
 /* ---------- utilitaires ---------- */
 const pad = n => String(n).padStart(2,'0');
@@ -1030,7 +1209,7 @@ function seedRapports(){
 }
 
 /* =========================================================
-   ZONES, QR, SITES
+   ZONES & QR
    ========================================================= */
 function renderZones(){
   document.getElementById('zones').innerHTML = ZONES.map(z => `
@@ -1093,7 +1272,7 @@ function renderFilters(){
 }
 
 /* =========================================================
-   GESTION DES SITES (CRUD)
+   GESTION DES SITES
    ========================================================= */
 function renderSites(){
   const tbody = document.getElementById('sitesBody');
@@ -1514,7 +1693,6 @@ function renderProfileInfos(){
       <button class="btn btn--dark btn--sm" onclick="switchProfileTab('planning')">Voir son planning</button>
       <button class="btn btn--outline btn--sm" onclick="switchProfileTab('rapports')">Ses rapports</button>
       <button class="btn btn--outline btn--sm" onclick="switchProfileTab('pointages')">Ses pointages</button>
-      ${isAdmin ? `<button class="btn btn--gold btn--sm" onclick="closeProfile();document.querySelector('.tab[data-panel=\\'planning\\']').click()">Gérer le planning global</button>` : ''}
     </div>`;
 }
 function switchProfileTab(name){
@@ -1810,7 +1988,7 @@ function pointer(type){
 }
 
 /* =========================================================
-   IMPRESSION DES QR CODES (affiche A4, 2 QR par page)
+   IMPRESSION QR
    ========================================================= */
 function printQRs(){
   const old = document.getElementById('printContainer');
@@ -1935,6 +2113,91 @@ function renderAll(){
 }
 
 /* =========================================================
+   AUTHENTIFICATION ADMIN
+   ========================================================= */
+function openLogin(){
+  document.getElementById('loginView').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('loginMat').value = '';
+  document.getElementById('loginPin').value = '';
+  setLoginMsg('');
+  setTimeout(() => document.getElementById('loginMat').focus(), 200);
+}
+
+function closeLogin(){
+  document.getElementById('loginView').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function setLoginMsg(txt, type){
+  const el = document.getElementById('loginMsg');
+  if(!txt){ el.className = 'login-msg'; el.textContent = ''; return; }
+  el.className = 'login-msg ' + (type || 'err');
+  el.textContent = txt;
+}
+
+function login(){
+  const mat = document.getElementById('loginMat').value.trim().toUpperCase();
+  const pin = document.getElementById('loginPin').value.trim();
+
+  if(!mat || !pin){ setLoginMsg('Merci de renseigner vos identifiants.'); return; }
+
+  const emp = EMPLOYES.find(e => e.mat.toUpperCase() === mat);
+  if(!emp){ setLoginMsg('Identifiant inconnu.'); return; }
+  if(emp.pin !== pin){ setLoginMsg('Code d\'accès incorrect.'); return; }
+  if(emp.role !== 'admin'){
+    setLoginMsg('Ce compte n\'a pas les droits d\'administration.');
+    return;
+  }
+
+  sessionStorage.setItem(SESSION_KEY, emp.mat);
+  setLoginMsg('Connexion réussie. Redirection…', 'ok');
+
+  setTimeout(() => {
+    closeLogin();
+    applySession(emp);
+    document.getElementById('gestion').scrollIntoView({behavior:'smooth'});
+  }, 600);
+}
+
+function logout(){
+  sessionStorage.removeItem(SESSION_KEY);
+  applySession(null);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function getSession(){
+  const mat = sessionStorage.getItem(SESSION_KEY);
+  if(!mat) return null;
+  return EMPLOYES.find(e => e.mat === mat) || null;
+}
+
+function applySession(emp){
+  const bar = document.getElementById('userBar');
+  const fab = document.getElementById('adminFab');
+  const locked = document.getElementById('lockedNotice');
+  const adminZone = document.getElementById('adminZone');
+
+  currentAdmin = emp;
+
+  if(emp){
+    document.getElementById('userBarAvatar').textContent = initials(emp.nom);
+    document.getElementById('userBarWho').textContent = emp.nom;
+    document.getElementById('userBarRole').textContent = emp.poste;
+    bar.classList.add('show');
+    fab.style.display = 'none';
+    locked.style.display = 'none';
+    adminZone.style.display = 'block';
+    renderAll();
+  } else {
+    bar.classList.remove('show');
+    fab.style.display = 'grid';
+    locked.style.display = 'block';
+    adminZone.style.display = 'none';
+  }
+}
+
+/* =========================================================
    ONGLETS
    ========================================================= */
 document.getElementById('tabs').addEventListener('click', e => {
@@ -1952,67 +2215,14 @@ document.getElementById('profileModal').addEventListener('click', e => {
   if(e.target.id === 'profileModal') closeProfile();
 });
 
+/* Entrée dans les champs de connexion */
+document.getElementById('loginPin').addEventListener('keypress', e => {
+  if(e.key === 'Enter') login();
+});
+document.getElementById('loginMat').addEventListener('keypress', e => {
+  if(e.key === 'Enter') document.getElementById('loginPin').focus();
+});
+
 /* =========================================================
    ROUTAGE
-   ========================================================= */
-function route(){
-  const h = location.hash || '';
-  if(h.indexOf('#/pointage') === 0){
-    const q = h.split('?')[1] || '';
-    const params = new URLSearchParams(q);
-    const siteId = params.get('site') || (SITES[0] ? SITES[0].id : null);
-    if(siteId && !document.getElementById('scanView').classList.contains('open')){
-      openScan(siteId);
-    }
-  } else {
-    if(document.getElementById('scanView').classList.contains('open')) closeScan();
-  }
-}
-window.addEventListener('hashchange', route);
-
-/* =========================================================
-   CONTACT
-   ========================================================= */
-function sendForm(e){
-  e.preventDefault();
-  const nom = document.getElementById('cNom').value.trim();
-  if(!nom) return false;
-  document.getElementById('formOk').style.display = 'block';
-  document.getElementById('contactForm').reset();
-  document.getElementById('formOk').scrollIntoView({behavior:'smooth', block:'center'});
-  setTimeout(() => { document.getElementById('formOk').style.display = 'none'; }, 8000);
-  return false;
-}
-
-/* =========================================================
-   MENU MOBILE
-   ========================================================= */
-document.getElementById('burger').addEventListener('click', () => {
-  document.getElementById('menu').classList.toggle('open');
-});
-document.querySelectorAll('#menu a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('menu').classList.remove('open'));
-});
-
-/* =========================================================
-   INIT
-   ========================================================= */
-(function init(){
-  load();
-  renderZones();
-  renderQR();
-  renderFilters();
-  renderAll();
-  document.getElementById('year').textContent = new Date().getFullYear();
-  route();
-
-  const sfCode = document.getElementById('sfCode');
-  if(sfCode) sfCode.addEventListener('input', updateSitePreview);
-
-  if(typeof QRCode === 'undefined'){
-    console.warn('⚠️ qrcode.js non chargé — les QR codes seront remplacés par les URLs textuelles.');
-  }
-})();
-</script>
-</body>
-</html>
+   =
